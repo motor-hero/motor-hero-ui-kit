@@ -1,0 +1,255 @@
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var index_exports = {};
+__export(index_exports, {
+  ConfirmDialog: () => ConfirmDialog,
+  EmptyState: () => EmptyState,
+  ModeToggle: () => ModeToggle,
+  PageHeader: () => PageHeader,
+  StatusDot: () => StatusDot,
+  ThemeProvider: () => ThemeProvider,
+  cn: () => cn,
+  useDisclosure: () => useDisclosure,
+  useTheme: () => useTheme
+});
+module.exports = __toCommonJS(index_exports);
+
+// src/components/theme-provider.tsx
+var import_react = require("react");
+var import_jsx_runtime = require("react/jsx-runtime");
+var initialState = {
+  theme: "system",
+  setTheme: () => null
+};
+var ThemeProviderContext = (0, import_react.createContext)(initialState);
+function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "ui-theme",
+  ...props
+}) {
+  const [theme, setTheme] = (0, import_react.useState)(
+    () => localStorage.getItem(storageKey) || defaultTheme
+  );
+  (0, import_react.useEffect)(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      root.classList.add(systemTheme);
+      return;
+    }
+    root.classList.add(theme);
+  }, [theme]);
+  const value = {
+    theme,
+    setTheme: (theme2) => {
+      localStorage.setItem(storageKey, theme2);
+      setTheme(theme2);
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeProviderContext.Provider, { ...props, value, children });
+}
+function useTheme() {
+  const context = (0, import_react.useContext)(ThemeProviderContext);
+  if (context === void 0) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+}
+
+// src/components/mode-toggle.tsx
+var DropdownMenu = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
+var import_lucide_react = require("lucide-react");
+var import_jsx_runtime2 = require("react/jsx-runtime");
+function ModeToggle() {
+  const { setTheme } = useTheme();
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(DropdownMenu.Root, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(DropdownMenu.Trigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+      "button",
+      {
+        type: "button",
+        className: "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "aria-label": "Alternar tema",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Sun, { className: "h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Moon, { className: "absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(DropdownMenu.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+      DropdownMenu.Content,
+      {
+        align: "end",
+        className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+            DropdownMenu.Item,
+            {
+              className: "flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent",
+              onClick: () => setTheme("light"),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Sun, { className: "h-4 w-4" }),
+                " Claro"
+              ]
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+            DropdownMenu.Item,
+            {
+              className: "flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent",
+              onClick: () => setTheme("dark"),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Moon, { className: "h-4 w-4" }),
+                " Escuro"
+              ]
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+            DropdownMenu.Item,
+            {
+              className: "flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent",
+              onClick: () => setTheme("system"),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_lucide_react.Monitor, { className: "h-4 w-4" }),
+                " Sistema"
+              ]
+            }
+          )
+        ]
+      }
+    ) })
+  ] });
+}
+
+// src/components/empty-state.tsx
+var import_jsx_runtime3 = require("react/jsx-runtime");
+function EmptyState({ icon, title, description, action, className }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: `flex flex-col items-center justify-center py-16 text-center ${className ?? ""}`, children: [
+    icon && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "mb-4 text-muted-foreground", children: icon }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
+    description && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: description }),
+    action && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "mt-4", children: action })
+  ] });
+}
+
+// src/components/confirm-dialog.tsx
+var AlertDialog = __toESM(require("@radix-ui/react-alert-dialog"), 1);
+var import_jsx_runtime4 = require("react/jsx-runtime");
+function ConfirmDialog({
+  open,
+  onOpenChange,
+  onConfirm,
+  title,
+  description,
+  confirmLabel = "Confirmar",
+  cancelLabel = "Cancelar",
+  loading = false,
+  variant = "default"
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AlertDialog.Root, { open, onOpenChange, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(AlertDialog.Portal, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AlertDialog.Overlay, { className: "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(AlertDialog.Content, { className: "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex flex-col space-y-2 text-center sm:text-left", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AlertDialog.Title, { className: "text-lg font-semibold", children: title }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AlertDialog.Description, { className: "text-sm text-muted-foreground", children: description })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(AlertDialog.Cancel, { className: "inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer", children: cancelLabel }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+          AlertDialog.Action,
+          {
+            onClick: onConfirm,
+            disabled: loading,
+            className: `inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer ${variant === "destructive" ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : "bg-primary text-primary-foreground hover:bg-primary/90"}`,
+            children: loading ? "Aguarde..." : confirmLabel
+          }
+        )
+      ] })
+    ] })
+  ] }) });
+}
+
+// src/components/page-header.tsx
+var import_jsx_runtime5 = require("react/jsx-runtime");
+function PageHeader({ title, description, action, className }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: `flex items-center justify-between ${className ?? ""}`, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h1", { className: "text-2xl font-semibold tracking-tight", children: title }),
+      description && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "text-sm text-muted-foreground", children: description })
+    ] }),
+    action && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { children: action })
+  ] });
+}
+
+// src/components/status-dot.tsx
+var import_jsx_runtime6 = require("react/jsx-runtime");
+function StatusDot({ active, label, className }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { className: `inline-flex items-center gap-2 ${className ?? ""}`, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      "span",
+      {
+        className: `h-2 w-2 rounded-full ${active ? "bg-green-500" : "bg-red-500"}`
+      }
+    ),
+    label && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: label })
+  ] });
+}
+
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn(...inputs) {
+  return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
+
+// src/hooks/use-disclosure.ts
+var import_react2 = require("react");
+function useDisclosure(initial = false) {
+  const [open, setOpen] = (0, import_react2.useState)(initial);
+  const onOpen = (0, import_react2.useCallback)(() => setOpen(true), []);
+  const onClose = (0, import_react2.useCallback)(() => setOpen(false), []);
+  const onToggle = (0, import_react2.useCallback)(() => setOpen((v) => !v), []);
+  return { open, onOpen, onClose, onToggle, setOpen };
+}
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  ConfirmDialog,
+  EmptyState,
+  ModeToggle,
+  PageHeader,
+  StatusDot,
+  ThemeProvider,
+  cn,
+  useDisclosure,
+  useTheme
+});
+//# sourceMappingURL=index.cjs.map
