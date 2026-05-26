@@ -9,9 +9,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "declarationMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": { "@/*": ["./src/*"] }
+    "outDir": "dist"
   },
   "include": ["src"]
 }
