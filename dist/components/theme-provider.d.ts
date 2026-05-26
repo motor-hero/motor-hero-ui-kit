@@ -1,0 +1,14 @@
+type Theme = "dark" | "light" | "system";
+type ThemeProviderProps = {
+    children: React.ReactNode;
+    defaultTheme?: Theme;
+    storageKey?: string;
+};
+type ThemeProviderState = {
+    theme: Theme;
+    setTheme: (theme: Theme) => void;
+};
+export declare function ThemeProvider({ children, defaultTheme, storageKey, ...props }: ThemeProviderProps): import("react/jsx-runtime").JSX.Element;
+export declare function useTheme(): ThemeProviderState;
+export type { Theme, ThemeProviderProps, ThemeProviderState };
+//# sourceMappingURL=theme-provider.d.ts.map

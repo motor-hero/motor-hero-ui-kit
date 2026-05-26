@@ -22,7 +22,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc --emitDeclarationOnly --outDir dist -p tsconfig.build.json",
     "dev": "tsup --watch",
     "lint": "tsc --noEmit",
     "prepublishOnly": "npm run build"
