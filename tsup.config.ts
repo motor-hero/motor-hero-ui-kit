@@ -10,6 +10,7 @@ export default defineConfig({
   clean: true,
   external: ["react", "react-dom", "lucide-react", "clsx", "tailwind-merge"],
   jsx: "automatic",
+  tsconfig: "tsconfig.build.json",
   onSuccess: async () => {
     copyFileSync("src/styles.css", "dist/styles.css")
   },
