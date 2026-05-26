@@ -180,11 +180,240 @@ function StatusDot({ active, label, className }) {
   ] });
 }
 
+// src/components/form-field.tsx
+import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
+function FormField({ label, htmlFor, error, required, children, className }) {
+  return /* @__PURE__ */ jsxs6("div", { className: `space-y-2 ${className ?? ""}`, children: [
+    /* @__PURE__ */ jsxs6(
+      "label",
+      {
+        htmlFor,
+        className: "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        children: [
+          label,
+          required && /* @__PURE__ */ jsx7("span", { className: "ml-1 text-destructive", children: "*" })
+        ]
+      }
+    ),
+    children,
+    error && /* @__PURE__ */ jsx7("p", { className: "text-sm text-destructive", children: error })
+  ] });
+}
+
+// src/components/form-dialog.tsx
+import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
+function FormDialogLayout({
+  title,
+  children,
+  onSubmit,
+  submitLabel = "Salvar",
+  cancelLabel = "Cancelar",
+  onCancel,
+  isSubmitting = false,
+  isDisabled = false
+}) {
+  return /* @__PURE__ */ jsxs7("form", { onSubmit, children: [
+    /* @__PURE__ */ jsx8("div", { className: "flex flex-col space-y-1.5 text-center sm:text-left", children: /* @__PURE__ */ jsx8("h2", { className: "text-lg font-semibold leading-none tracking-tight", children: title }) }),
+    /* @__PURE__ */ jsx8("div", { className: "space-y-4 py-4", children }),
+    /* @__PURE__ */ jsxs7("div", { className: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", children: [
+      /* @__PURE__ */ jsx8(
+        "button",
+        {
+          type: "button",
+          onClick: onCancel,
+          className: "inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+          children: cancelLabel
+        }
+      ),
+      /* @__PURE__ */ jsx8(
+        "button",
+        {
+          type: "submit",
+          disabled: isSubmitting || isDisabled,
+          className: "inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+          children: isSubmitting ? "Salvando..." : submitLabel
+        }
+      )
+    ] })
+  ] });
+}
+
+// src/components/auth-card.tsx
+import { jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
+function AuthCard({ title, description, children, footer }) {
+  return /* @__PURE__ */ jsx9("div", { className: "flex min-h-screen items-center justify-center px-4", children: /* @__PURE__ */ jsxs8("div", { className: "w-full max-w-sm rounded-lg border bg-card p-6 shadow-sm", children: [
+    /* @__PURE__ */ jsxs8("div", { className: "mb-6 text-center", children: [
+      /* @__PURE__ */ jsx9("h1", { className: "text-2xl font-semibold tracking-tight", children: title }),
+      description && /* @__PURE__ */ jsx9("p", { className: "mt-1 text-sm text-muted-foreground", children: description })
+    ] }),
+    /* @__PURE__ */ jsx9("div", { className: "space-y-4", children }),
+    footer && /* @__PURE__ */ jsx9("div", { className: "mt-4", children: footer })
+  ] }) });
+}
+
+// src/components/pagination.tsx
+import { jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
+function Pagination({ page, onPageChange, hasNextPage, hasPreviousPage, className }) {
+  return /* @__PURE__ */ jsxs9("div", { className: `flex items-center justify-end gap-4 ${className ?? ""}`, children: [
+    /* @__PURE__ */ jsx10(
+      "button",
+      {
+        type: "button",
+        onClick: () => onPageChange(page - 1),
+        disabled: !hasPreviousPage,
+        className: "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+        children: "Anterior"
+      }
+    ),
+    /* @__PURE__ */ jsxs9("span", { className: "text-sm text-muted-foreground", children: [
+      "P\xE1gina ",
+      page
+    ] }),
+    /* @__PURE__ */ jsx10(
+      "button",
+      {
+        type: "button",
+        onClick: () => onPageChange(page + 1),
+        disabled: !hasNextPage,
+        className: "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+        children: "Pr\xF3ximo"
+      }
+    )
+  ] });
+}
+
+// src/components/table-skeleton.tsx
+import { Fragment, jsx as jsx11 } from "react/jsx-runtime";
+function TableSkeleton({ rows = 5, columns = 4 }) {
+  return /* @__PURE__ */ jsx11(Fragment, { children: Array.from({ length: rows }).map((_, i) => /* @__PURE__ */ jsx11("tr", { className: "border-b transition-colors", children: Array.from({ length: columns }).map((_2, j) => /* @__PURE__ */ jsx11("td", { className: "p-4 align-middle", children: /* @__PURE__ */ jsx11("div", { className: "h-5 w-full animate-pulse rounded bg-muted" }) }, j)) }, i)) });
+}
+
+// src/components/search-input.tsx
+import * as React from "react";
+import { jsx as jsx12, jsxs as jsxs10 } from "react/jsx-runtime";
+var SearchInput = React.forwardRef(
+  ({ containerClassName, className, ...props }, ref) => {
+    return /* @__PURE__ */ jsxs10("div", { className: `relative flex-1 ${containerClassName ?? ""}`, children: [
+      /* @__PURE__ */ jsxs10(
+        "svg",
+        {
+          xmlns: "http://www.w3.org/2000/svg",
+          width: "16",
+          height: "16",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          className: "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground",
+          children: [
+            /* @__PURE__ */ jsx12("circle", { cx: "11", cy: "11", r: "8" }),
+            /* @__PURE__ */ jsx12("path", { d: "m21 21-4.3-4.3" })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx12(
+        "input",
+        {
+          ref,
+          type: "text",
+          className: `flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-10 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ""}`,
+          ...props
+        }
+      )
+    ] });
+  }
+);
+SearchInput.displayName = "SearchInput";
+
+// src/components/stat-card.tsx
+import { jsx as jsx13, jsxs as jsxs11 } from "react/jsx-runtime";
+function StatCard({ label, value, detail, icon, isLoading }) {
+  if (isLoading) {
+    return /* @__PURE__ */ jsxs11("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
+      /* @__PURE__ */ jsxs11("div", { className: "flex items-center justify-between pb-2", children: [
+        /* @__PURE__ */ jsx13("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx13("div", { className: "h-4 w-4 animate-pulse rounded bg-muted" })
+      ] }),
+      /* @__PURE__ */ jsx13("div", { className: "mt-2 h-7 w-16 animate-pulse rounded bg-muted" }),
+      /* @__PURE__ */ jsx13("div", { className: "mt-1 h-4 w-20 animate-pulse rounded bg-muted" })
+    ] });
+  }
+  return /* @__PURE__ */ jsxs11("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
+    /* @__PURE__ */ jsxs11("div", { className: "flex items-center justify-between pb-2", children: [
+      /* @__PURE__ */ jsx13("span", { className: "text-sm font-medium text-muted-foreground", children: label }),
+      icon && /* @__PURE__ */ jsx13("span", { className: "text-muted-foreground", children: icon })
+    ] }),
+    /* @__PURE__ */ jsx13("div", { className: "text-2xl font-bold", children: value }),
+    detail && /* @__PURE__ */ jsx13("p", { className: "text-xs text-muted-foreground", children: detail })
+  ] });
+}
+
+// src/components/data-table-wrapper.tsx
+import { jsx as jsx14, jsxs as jsxs12 } from "react/jsx-runtime";
+function DataTableWrapper({
+  children,
+  isEmpty,
+  isLoading,
+  emptyIcon,
+  emptyTitle = "Nenhum registro encontrado",
+  emptyDescription,
+  page,
+  onPageChange,
+  hasNextPage = false,
+  hasPreviousPage = false
+}) {
+  return /* @__PURE__ */ jsxs12("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsx14("div", { className: "overflow-x-auto rounded-md border", children }),
+    !isLoading && isEmpty && /* @__PURE__ */ jsxs12("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
+      emptyIcon && /* @__PURE__ */ jsx14("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
+      /* @__PURE__ */ jsx14("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
+      emptyDescription && /* @__PURE__ */ jsx14("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
+    ] }),
+    page !== void 0 && onPageChange && /* @__PURE__ */ jsxs12("div", { className: "flex items-center justify-end gap-4", children: [
+      /* @__PURE__ */ jsx14(
+        "button",
+        {
+          type: "button",
+          onClick: () => onPageChange(page - 1),
+          disabled: !hasPreviousPage,
+          className: "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+          children: "Anterior"
+        }
+      ),
+      /* @__PURE__ */ jsxs12("span", { className: "text-sm text-muted-foreground", children: [
+        "P\xE1gina ",
+        page
+      ] }),
+      /* @__PURE__ */ jsx14(
+        "button",
+        {
+          type: "button",
+          onClick: () => onPageChange(page + 1),
+          disabled: !hasNextPage,
+          className: "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50",
+          children: "Pr\xF3ximo"
+        }
+      )
+    ] })
+  ] });
+}
+
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 function cn(...inputs) {
   return twMerge(clsx(inputs));
+}
+
+// src/lib/api-error.ts
+function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
+  const detail = err?.body?.detail || err?.message;
+  if (Array.isArray(detail) && detail.length > 0) {
+    return detail[0].msg;
+  }
+  return detail || fallbackMessage;
 }
 
 // src/hooks/use-disclosure.ts
@@ -197,13 +426,22 @@ function useDisclosure(initial = false) {
   return { open, onOpen, onClose, onToggle, setOpen };
 }
 export {
+  AuthCard,
   ConfirmDialog,
+  DataTableWrapper,
   EmptyState,
+  FormDialogLayout,
+  FormField,
   ModeToggle,
   PageHeader,
+  Pagination,
+  SearchInput,
+  StatCard,
   StatusDot,
+  TableSkeleton,
   ThemeProvider,
   cn,
+  extractApiError,
   useDisclosure,
   useTheme
 };

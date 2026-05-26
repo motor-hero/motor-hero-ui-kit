@@ -1,5 +1,5 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import * as react from 'react';
+import * as React$1 from 'react';
 import { ReactNode } from 'react';
 import { ClassValue } from 'clsx';
 
@@ -55,14 +55,89 @@ interface StatusDotProps {
 }
 declare function StatusDot({ active, label, className }: StatusDotProps): react_jsx_runtime.JSX.Element;
 
+interface FormFieldProps {
+    label: string;
+    htmlFor?: string;
+    error?: string;
+    required?: boolean;
+    children: ReactNode;
+    className?: string;
+}
+declare function FormField({ label, htmlFor, error, required, children, className }: FormFieldProps): react_jsx_runtime.JSX.Element;
+
+interface FormDialogLayoutProps {
+    title: string;
+    children: ReactNode;
+    onSubmit: (e: React.FormEvent) => void;
+    submitLabel?: string;
+    cancelLabel?: string;
+    onCancel: () => void;
+    isSubmitting?: boolean;
+    isDisabled?: boolean;
+}
+declare function FormDialogLayout({ title, children, onSubmit, submitLabel, cancelLabel, onCancel, isSubmitting, isDisabled, }: FormDialogLayoutProps): react_jsx_runtime.JSX.Element;
+
+interface AuthCardProps {
+    title: string;
+    description?: string;
+    children: ReactNode;
+    footer?: ReactNode;
+}
+declare function AuthCard({ title, description, children, footer }: AuthCardProps): react_jsx_runtime.JSX.Element;
+
+interface PaginationProps {
+    page: number;
+    onPageChange: (page: number) => void;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    className?: string;
+}
+declare function Pagination({ page, onPageChange, hasNextPage, hasPreviousPage, className }: PaginationProps): react_jsx_runtime.JSX.Element;
+
+interface TableSkeletonProps {
+    rows?: number;
+    columns?: number;
+}
+declare function TableSkeleton({ rows, columns }: TableSkeletonProps): react_jsx_runtime.JSX.Element;
+
+interface SearchInputProps extends React$1.InputHTMLAttributes<HTMLInputElement> {
+    containerClassName?: string;
+}
+declare const SearchInput: React$1.ForwardRefExoticComponent<SearchInputProps & React$1.RefAttributes<HTMLInputElement>>;
+
+interface StatCardProps {
+    label: string;
+    value: ReactNode;
+    detail?: string;
+    icon?: ReactNode;
+    isLoading?: boolean;
+}
+declare function StatCard({ label, value, detail, icon, isLoading }: StatCardProps): react_jsx_runtime.JSX.Element;
+
+interface DataTableWrapperProps {
+    children: ReactNode;
+    isEmpty: boolean;
+    isLoading: boolean;
+    emptyIcon?: ReactNode;
+    emptyTitle?: string;
+    emptyDescription?: string;
+    page?: number;
+    onPageChange?: (page: number) => void;
+    hasNextPage?: boolean;
+    hasPreviousPage?: boolean;
+}
+declare function DataTableWrapper({ children, isEmpty, isLoading, emptyIcon, emptyTitle, emptyDescription, page, onPageChange, hasNextPage, hasPreviousPage, }: DataTableWrapperProps): react_jsx_runtime.JSX.Element;
+
 declare function cn(...inputs: ClassValue[]): string;
+
+declare function extractApiError(err: any, fallbackMessage?: string): string;
 
 declare function useDisclosure(initial?: boolean): {
     open: boolean;
     onOpen: () => void;
     onClose: () => void;
     onToggle: () => void;
-    setOpen: react.Dispatch<react.SetStateAction<boolean>>;
+    setOpen: React$1.Dispatch<React$1.SetStateAction<boolean>>;
 };
 
-export { ConfirmDialog, EmptyState, ModeToggle, PageHeader, StatusDot, type Theme, ThemeProvider, type ThemeProviderProps, type ThemeProviderState, cn, useDisclosure, useTheme };
+export { AuthCard, ConfirmDialog, DataTableWrapper, EmptyState, FormDialogLayout, FormField, ModeToggle, PageHeader, Pagination, SearchInput, StatCard, StatusDot, TableSkeleton, type Theme, ThemeProvider, type ThemeProviderProps, type ThemeProviderState, cn, extractApiError, useDisclosure, useTheme };
