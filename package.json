@@ -1,6 +1,6 @@
 {
   "name": "@motor-hero/ui-kit",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -13,17 +13,25 @@
     },
     "./styles": "./dist/styles.css"
   },
-  "files": ["dist", "src", "package.json", "README.md"],
+  "files": ["dist", "src", "README.md"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/motor-hero/motor-hero-ui-kit.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.400.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "lucide-react": "^0.400.0",
-    "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0"
   },
   "dependencies": {
