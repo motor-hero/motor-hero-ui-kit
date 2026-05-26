@@ -4,21 +4,23 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 15
     groups:
-      radix:
+      all-minor:
         patterns:
-          - "@radix-ui/*"
+          - "*"
         update-types:
           - "minor"
           - "patch"
-      dev:
-        dependency-type: "development"
-        update-types:
-          - "minor"
-          - "patch"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
