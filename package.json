@@ -13,7 +13,11 @@
     },
     "./styles": "./dist/styles.css"
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/motor-hero/motor-hero-ui-kit.git"
@@ -25,6 +29,8 @@
     "build": "tsup && tsc --emitDeclarationOnly --outDir dist -p tsconfig.build.json",
     "dev": "tsup --watch",
     "lint": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o docs",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
@@ -41,12 +47,17 @@
     "class-variance-authority": "^0.7.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "clsx": "^2.0.0",
     "lucide-react": "^1.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "storybook": "^8.6.18",
     "tailwind-merge": "^3.6.0",
     "tsup": "^8.0.0",
     "typescript": "~5.7.0"
