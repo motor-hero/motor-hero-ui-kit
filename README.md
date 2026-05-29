@@ -8,8 +8,8 @@ Biblioteca de componentes e utilitários compartilhados para projetos React com 
 # Via GitHub Packages (org motor-hero)
 npm install @motor-hero/ui-kit
 
-# Via Git URL (cross-org)
-npm install github:motor-hero/motor-hero-ui-kit#v0.3.0
+# Via Git URL (cross-org ou sem registry auth)
+npm install github:motor-hero/motor-hero-ui-kit
 ```
 
 ### Configuração do Tailwind
