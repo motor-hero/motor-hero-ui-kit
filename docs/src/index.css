@@ -7,6 +7,8 @@
   --color-foreground: hsl(0 0% 98%);
   --color-card: hsl(240 10% 5.5%);
   --color-card-foreground: hsl(0 0% 98%);
+  --color-popover: hsl(240 10% 5.5%);
+  --color-popover-foreground: hsl(0 0% 98%);
   --color-primary: hsl(0 0% 98%);
   --color-primary-foreground: hsl(240 5.9% 10%);
   --color-secondary: hsl(240 3.7% 15.9%);
@@ -29,3 +31,21 @@
   body { @apply bg-background text-foreground font-sans; }
   button, [role="button"], a { cursor: pointer; }
 }
+
+/* Code blocks */
+.code-block {
+  background: hsl(240 10% 6%);
+  border: 1px solid hsl(240 3.7% 15.9%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: hsl(0 0% 85%);
+}
+.code-block .keyword { color: hsl(280 70% 70%); }
+.code-block .string { color: hsl(120 40% 65%); }
+.code-block .component { color: hsl(200 80% 70%); }
+.code-block .attr { color: hsl(35 80% 65%); }
+.code-block .comment { color: hsl(0 0% 45%); }
