@@ -6,7 +6,8 @@ import { defineConfig } from "vite"
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   root: __dirname,
-  base: "/motor-hero-ui-kit/",
+  base: "/",
+  publicDir: path.resolve(__dirname, "public"),
   resolve: {
     alias: {
       "@motor-hero/ui-kit": path.resolve(__dirname, "../src"),
