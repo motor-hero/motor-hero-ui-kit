@@ -36,9 +36,11 @@ __export(index_exports, {
   EmptyState: () => EmptyState,
   FormDialogLayout: () => FormDialogLayout,
   FormField: () => FormField,
+  MobileCardList: () => MobileCardList,
   ModeToggle: () => ModeToggle,
   PageHeader: () => PageHeader,
   Pagination: () => Pagination,
+  ResponsiveDataView: () => ResponsiveDataView,
   SearchInput: () => SearchInput,
   StatCard: () => StatCard,
   StatusDot: () => StatusDot,
@@ -453,6 +455,63 @@ function DataTableWrapper({
   ] });
 }
 
+// src/components/mobile-card-list.tsx
+var import_jsx_runtime15 = require("react/jsx-runtime");
+function MobileCardList({
+  data,
+  renderCard,
+  keyExtractor,
+  isLoading = false,
+  loadingCount = 5,
+  className
+}) {
+  if (isLoading) {
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "h-5 w-32 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "h-5 w-16 animate-pulse rounded bg-muted" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "h-4 w-48 animate-pulse rounded bg-muted" }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "h-4 w-20 animate-pulse rounded bg-muted" })
+      ] })
+    ] }) }, i)) });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: `space-y-3 ${className ?? ""}`, children: data.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+    "div",
+    {
+      className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
+      children: renderCard(item, index)
+    },
+    keyExtractor(item)
+  )) });
+}
+
+// src/components/responsive-data-view.tsx
+var import_jsx_runtime16 = require("react/jsx-runtime");
+function ResponsiveDataView({
+  table,
+  cards,
+  isEmpty,
+  isLoading,
+  emptyIcon,
+  emptyTitle = "Nenhum registro encontrado",
+  emptyDescription,
+  pagination
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "hidden overflow-x-auto rounded-md border md:block", children: table }),
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "md:hidden", children: cards }),
+    !isLoading && isEmpty && /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
+      emptyIcon && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
+      emptyDescription && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
+    ] }),
+    pagination
+  ] });
+}
+
 // src/lib/utils.ts
 var import_clsx = require("clsx");
 var import_tailwind_merge = require("tailwind-merge");
@@ -486,9 +545,11 @@ function useDisclosure(initial = false) {
   EmptyState,
   FormDialogLayout,
   FormField,
+  MobileCardList,
   ModeToggle,
   PageHeader,
   Pagination,
+  ResponsiveDataView,
   SearchInput,
   StatCard,
   StatusDot,

@@ -400,6 +400,63 @@ function DataTableWrapper({
   ] });
 }
 
+// src/components/mobile-card-list.tsx
+import { jsx as jsx15, jsxs as jsxs13 } from "react/jsx-runtime";
+function MobileCardList({
+  data,
+  renderCard,
+  keyExtractor,
+  isLoading = false,
+  loadingCount = 5,
+  className
+}) {
+  if (isLoading) {
+    return /* @__PURE__ */ jsx15("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ jsx15("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ jsxs13("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ jsxs13("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ jsx15("div", { className: "h-5 w-32 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx15("div", { className: "h-5 w-16 animate-pulse rounded bg-muted" })
+      ] }),
+      /* @__PURE__ */ jsx15("div", { className: "h-4 w-48 animate-pulse rounded bg-muted" }),
+      /* @__PURE__ */ jsxs13("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ jsx15("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx15("div", { className: "h-4 w-20 animate-pulse rounded bg-muted" })
+      ] })
+    ] }) }, i)) });
+  }
+  return /* @__PURE__ */ jsx15("div", { className: `space-y-3 ${className ?? ""}`, children: data.map((item, index) => /* @__PURE__ */ jsx15(
+    "div",
+    {
+      className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
+      children: renderCard(item, index)
+    },
+    keyExtractor(item)
+  )) });
+}
+
+// src/components/responsive-data-view.tsx
+import { jsx as jsx16, jsxs as jsxs14 } from "react/jsx-runtime";
+function ResponsiveDataView({
+  table,
+  cards,
+  isEmpty,
+  isLoading,
+  emptyIcon,
+  emptyTitle = "Nenhum registro encontrado",
+  emptyDescription,
+  pagination
+}) {
+  return /* @__PURE__ */ jsxs14("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsx16("div", { className: "hidden overflow-x-auto rounded-md border md:block", children: table }),
+    /* @__PURE__ */ jsx16("div", { className: "md:hidden", children: cards }),
+    !isLoading && isEmpty && /* @__PURE__ */ jsxs14("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
+      emptyIcon && /* @__PURE__ */ jsx16("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
+      /* @__PURE__ */ jsx16("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
+      emptyDescription && /* @__PURE__ */ jsx16("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
+    ] }),
+    pagination
+  ] });
+}
+
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -432,9 +489,11 @@ export {
   EmptyState,
   FormDialogLayout,
   FormField,
+  MobileCardList,
   ModeToggle,
   PageHeader,
   Pagination,
+  ResponsiveDataView,
   SearchInput,
   StatCard,
   StatusDot,
