@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/public/mh-logo-light.png" alt="Motor Hero" width="80" />
+  <img src="docs/public/mh-logo-dark.png" alt="Motor Hero" width="80" />
 </p>
 
 <h1 align="center">@motor-hero/ui-kit</h1>
