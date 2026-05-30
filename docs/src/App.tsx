@@ -50,7 +50,10 @@ export default function App() {
   const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const onHashChange = () => setCurrentPage(getPageFromHash())
+    const onHashChange = () => {
+      setCurrentPage(getPageFromHash())
+      mainRef.current?.scrollTo({ top: 0 })
+    }
     window.addEventListener("hashchange", onHashChange)
     return () => window.removeEventListener("hashchange", onHashChange)
   }, [])
