@@ -20,8 +20,17 @@ export function Header({ onMenuClick }: HeaderProps) {
               <line x1="4" x2="20" y1="18" y2="18" />
             </svg>
           </button>
-          <span className="text-lg font-bold tracking-tight">Motor Hero UI Kit</span>
-          <span className="hidden rounded-md border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground sm:inline-block">
+          <a href="#introduction" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+            <img
+              src="/mh-logo-dark.png"
+              alt="Motor Hero"
+              className="h-8 w-8 object-contain"
+            />
+            <span className="text-lg font-bold tracking-tight">
+              Motor Hero <span className="font-normal text-muted-foreground">UI Kit</span>
+            </span>
+          </a>
+          <span className="hidden rounded-full bg-brand/15 px-2.5 py-0.5 text-xs font-semibold text-brand sm:inline-block">
             v0.3.0
           </span>
         </div>

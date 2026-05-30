@@ -12,7 +12,7 @@ export function PaginationPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Pagination</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Controles de paginacao com botoes anterior/proximo e indicador de pagina atual.
+          Controles de paginação com botões anterior/próximo e indicador de página atual.
         </p>
       </div>
 
@@ -32,15 +32,15 @@ export function PaginationPage() {
         <h2 className="mb-4 text-xl font-semibold">Estados</h2>
         <div className="rounded-lg border bg-card p-6 space-y-6">
           <div>
-            <p className="mb-2 text-sm text-muted-foreground">Primeira pagina:</p>
+            <p className="mb-2 text-sm text-muted-foreground">Primeira página:</p>
             <Pagination page={1} onPageChange={() => {}} hasNextPage hasPreviousPage={false} />
           </div>
           <div>
-            <p className="mb-2 text-sm text-muted-foreground">Pagina intermediaria:</p>
+            <p className="mb-2 text-sm text-muted-foreground">Página intermediária:</p>
             <Pagination page={3} onPageChange={() => {}} hasNextPage hasPreviousPage />
           </div>
           <div>
-            <p className="mb-2 text-sm text-muted-foreground">Ultima pagina:</p>
+            <p className="mb-2 text-sm text-muted-foreground">Última página:</p>
             <Pagination page={5} onPageChange={() => {}} hasNextPage={false} hasPreviousPage />
           </div>
         </div>
@@ -66,10 +66,10 @@ const [page, setPage] = useState(1)
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "page", type: "number", required: true, description: "Pagina atual" },
-            { name: "onPageChange", type: "(page: number) => void", required: true, description: "Callback ao mudar de pagina" },
-            { name: "hasNextPage", type: "boolean", required: true, description: "Habilita botao proximo" },
-            { name: "hasPreviousPage", type: "boolean", required: true, description: "Habilita botao anterior" },
+            { name: "page", type: "number", required: true, description: "Página atual" },
+            { name: "onPageChange", type: "(page: number) => void", required: true, description: "Callback ao mudar de página" },
+            { name: "hasNextPage", type: "boolean", required: true, description: "Habilita botão próximo" },
+            { name: "hasPreviousPage", type: "boolean", required: true, description: "Habilita botão anterior" },
             { name: "className", type: "string", description: "Classes adicionais" },
           ]}
         />

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
 import { Introduction } from "./pages/Introduction"
@@ -18,48 +18,46 @@ import { ResponsiveDataViewPage } from "./pages/ResponsiveDataViewPage"
 import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
 
-function renderPage(page: string) {
-  switch (page) {
-    case "introduction":
-      return <Introduction />
-    case "form-field":
-      return <FormFieldPage />
-    case "auth-card":
-      return <AuthCardPage />
-    case "stat-card":
-      return <StatCardPage />
-    case "search-input":
-      return <SearchInputPage />
-    case "pagination":
-      return <PaginationPage />
-    case "table-skeleton":
-      return <TableSkeletonPage />
-    case "mobile-card-list":
-      return <MobileCardListPage />
-    case "empty-state":
-      return <EmptyStatePage />
-    case "page-header":
-      return <PageHeaderPage />
-    case "status-dot":
-      return <StatusDotPage />
-    case "confirm-dialog":
-      return <ConfirmDialogPage />
-    case "mode-toggle":
-      return <ModeTogglePage />
-    case "responsive-data-view":
-      return <ResponsiveDataViewPage />
-    case "utilities":
-      return <UtilitiesPage />
-    case "hooks":
-      return <HooksPage />
-    default:
-      return <Introduction />
-  }
+const pages: Record<string, () => JSX.Element> = {
+  introduction: Introduction,
+  "form-field": FormFieldPage,
+  "auth-card": AuthCardPage,
+  "stat-card": StatCardPage,
+  "search-input": SearchInputPage,
+  pagination: PaginationPage,
+  "table-skeleton": TableSkeletonPage,
+  "mobile-card-list": MobileCardListPage,
+  "empty-state": EmptyStatePage,
+  "page-header": PageHeaderPage,
+  "status-dot": StatusDotPage,
+  "confirm-dialog": ConfirmDialogPage,
+  "mode-toggle": ModeTogglePage,
+  "responsive-data-view": ResponsiveDataViewPage,
+  utilities: UtilitiesPage,
+  hooks: HooksPage,
+}
+
+function getPageFromHash() {
+  const hash = window.location.hash.slice(1)
+  return hash && hash in pages ? hash : "introduction"
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("introduction")
+  const [currentPage, setCurrentPage] = useState(getPageFromHash)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const onHashChange = () => setCurrentPage(getPageFromHash())
+    window.addEventListener("hashchange", onHashChange)
+    return () => window.removeEventListener("hashchange", onHashChange)
+  }, [])
+
+  const navigate = (page: string) => {
+    window.location.hash = page
+    setCurrentPage(page)
+  }
+
+  const Page = pages[currentPage] ?? Introduction
 
   return (
     <div className="min-h-screen">
@@ -67,7 +65,7 @@ export default function App() {
       <div className="flex">
         <aside className="hidden w-64 shrink-0 border-r md:block">
           <div className="sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-6">
-            <Sidebar currentPage={currentPage} onNavigate={setCurrentPage} />
+            <Sidebar currentPage={currentPage} onNavigate={navigate} />
           </div>
         </aside>
 
@@ -84,7 +82,7 @@ export default function App() {
               <Sidebar
                 currentPage={currentPage}
                 onNavigate={(p) => {
-                  setCurrentPage(p)
+                  navigate(p)
                   setSidebarOpen(false)
                 }}
               />
@@ -94,7 +92,7 @@ export default function App() {
 
         <main className="flex-1 overflow-auto">
           <div className="mx-auto max-w-4xl px-6 py-8">
-            {renderPage(currentPage)}
+            <Page />
           </div>
         </main>
       </div>

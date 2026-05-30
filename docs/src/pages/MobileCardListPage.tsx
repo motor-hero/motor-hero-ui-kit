@@ -10,7 +10,7 @@ interface User {
 }
 
 const mockUsers: User[] = [
-  { id: "1", name: "Joao Silva", email: "joao@example.com", role: "Admin" },
+  { id: "1", name: "João Silva", email: "joao@example.com", role: "Admin" },
   { id: "2", name: "Maria Santos", email: "maria@example.com", role: "Gestor" },
   { id: "3", name: "Ana Oliveira", email: "ana@example.com", role: "Operador" },
 ]
@@ -21,7 +21,7 @@ export function MobileCardListPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">MobileCardList</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Lista de cards para dispositivos moveis. Substitui tabelas em telas pequenas com suporte a skeleton loading.
+          Lista de cards para dispositivos móveis. Substitui tabelas em telas pequenas com suporte a skeleton loading.
         </p>
       </div>
 
@@ -88,8 +88,8 @@ export function MobileCardListPage() {
         <PropsTable
           props={[
             { name: "data", type: "T[]", required: true, description: "Array de itens a renderizar" },
-            { name: "renderCard", type: "(item: T, index: number) => ReactNode", required: true, description: "Funcao que renderiza cada card" },
-            { name: "keyExtractor", type: "(item: T) => string", required: true, description: "Funcao que retorna key unica do item" },
+            { name: "renderCard", type: "(item: T, index: number) => ReactNode", required: true, description: "Função que renderiza cada card" },
+            { name: "keyExtractor", type: "(item: T) => string", required: true, description: "Função que retorna key única do item" },
             { name: "isLoading", type: "boolean", default: "false", description: "Exibe skeleton loading" },
             { name: "loadingCount", type: "number", default: "5", description: "Quantidade de skeletons no loading" },
             { name: "className", type: "string", description: "Classes adicionais" },

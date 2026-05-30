@@ -7,7 +7,7 @@ export function ResponsiveDataViewPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">ResponsiveDataView</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          View responsiva que exibe uma tabela no desktop e cards no mobile, com empty state e paginacao integrados.
+          View responsiva que exibe uma tabela no desktop e cards no mobile, com empty state e paginação integrados.
         </p>
       </div>
 
@@ -16,15 +16,15 @@ export function ResponsiveDataViewPage() {
         <div className="rounded-lg border p-4 space-y-3">
           <div className="flex items-start gap-3">
             <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono shrink-0">Desktop</span>
-            <p className="text-sm text-muted-foreground">Exibe o conteudo passado em <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">table</code></p>
+            <p className="text-sm text-muted-foreground">Exibe o conteúdo passado em <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">table</code></p>
           </div>
           <div className="flex items-start gap-3">
             <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono shrink-0">Mobile</span>
-            <p className="text-sm text-muted-foreground">Exibe o conteudo passado em <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">cards</code></p>
+            <p className="text-sm text-muted-foreground">Exibe o conteúdo passado em <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">cards</code></p>
           </div>
           <div className="flex items-start gap-3">
             <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono shrink-0">Vazio</span>
-            <p className="text-sm text-muted-foreground">Exibe empty state quando <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">isEmpty</code> e true</p>
+            <p className="text-sm text-muted-foreground">Exibe empty state quando <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">isEmpty</code> é true</p>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@ export function ResponsiveDataViewPage() {
   isEmpty={data.length === 0}
   isLoading={isLoading}
   emptyTitle="Nenhum registro encontrado"
-  emptyDescription="Adicione um novo item para comecar."
+  emptyDescription="Adicione um novo item para começar."
   pagination={
     <Pagination
       page={page}
@@ -71,14 +71,14 @@ export function ResponsiveDataViewPage() {
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "table", type: "ReactNode", required: true, description: "Conteudo da tabela (exibido no desktop)" },
-            { name: "cards", type: "ReactNode", required: true, description: "Conteudo dos cards (exibido no mobile)" },
-            { name: "isEmpty", type: "boolean", required: true, description: "Se a lista esta vazia" },
-            { name: "isLoading", type: "boolean", required: true, description: "Se esta carregando dados" },
-            { name: "emptyIcon", type: "ReactNode", description: "Icone do empty state" },
-            { name: "emptyTitle", type: "string", default: '"Nenhum registro encontrado"', description: "Titulo do empty state" },
-            { name: "emptyDescription", type: "string", description: "Descricao do empty state" },
-            { name: "pagination", type: "ReactNode", description: "Componente de paginacao" },
+            { name: "table", type: "ReactNode", required: true, description: "Conteúdo da tabela (exibido no desktop)" },
+            { name: "cards", type: "ReactNode", required: true, description: "Conteúdo dos cards (exibido no mobile)" },
+            { name: "isEmpty", type: "boolean", required: true, description: "Se a lista está vazia" },
+            { name: "isLoading", type: "boolean", required: true, description: "Se está carregando dados" },
+            { name: "emptyIcon", type: "ReactNode", description: "Ícone do empty state" },
+            { name: "emptyTitle", type: "string", default: '"Nenhum registro encontrado"', description: "Título do empty state" },
+            { name: "emptyDescription", type: "string", description: "Descrição do empty state" },
+            { name: "pagination", type: "ReactNode", description: "Componente de paginação" },
           ]}
         />
       </div>

@@ -5,8 +5,8 @@ interface SidebarProps {
 
 const navigation = [
   {
-    category: "Inicio",
-    items: [{ id: "introduction", label: "Introducao" }],
+    category: "Início",
+    items: [{ id: "introduction", label: "Introdução" }],
   },
   {
     category: "Componentes",
@@ -27,7 +27,7 @@ const navigation = [
     ],
   },
   {
-    category: "Utilitarios",
+    category: "Utilitários",
     items: [{ id: "utilities", label: "cn() / extractApiError()" }],
   },
   {
@@ -41,7 +41,7 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
     <nav className="space-y-6 px-4">
       {navigation.map((group) => (
         <div key={group.category}>
-          <h4 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <h4 className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-brand">
             {group.category}
           </h4>
           <ul className="space-y-0.5">
@@ -49,9 +49,9 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
               <li key={item.id}>
                 <button
                   onClick={() => onNavigate(item.id)}
-                  className={`w-full rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
+                  className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-all ${
                     currentPage === item.id
-                      ? "bg-accent text-accent-foreground font-medium"
+                      ? "sidebar-item-active bg-brand/10 text-brand font-medium"
                       : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                   }`}
                 >

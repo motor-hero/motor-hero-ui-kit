@@ -11,7 +11,7 @@ export function SearchInputPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">SearchInput</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Input de busca com icone de lupa integrado. Aceita todas as props de um input HTML.
+          Input de busca com ícone de lupa integrado. Aceita todas as props de um input HTML.
         </p>
       </div>
 

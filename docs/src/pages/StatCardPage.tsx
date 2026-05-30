@@ -8,7 +8,7 @@ export function StatCardPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">StatCard</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Card de estatistica para dashboards com suporte a skeleton loading.
+          Card de estatística para dashboards com suporte a skeleton loading.
         </p>
       </div>
 
@@ -16,9 +16,9 @@ export function StatCardPage() {
         <h2 className="mb-4 text-xl font-semibold">Exemplo</h2>
         <div className="rounded-lg border bg-card p-6">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <StatCard label="Usuarios" value={42} detail="38 ativos" />
+            <StatCard label="Usuários" value={42} detail="38 ativos" />
             <StatCard label="Empresas" value={8} detail="6 ativas" />
-            <StatCard label="Receita" value="R$ 12.5k" detail="+15% este mes" />
+            <StatCard label="Receita" value="R$ 12.5k" detail="+15% este mês" />
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ export function StatCardPage() {
           code={`import { StatCard } from "@motor-hero/ui-kit"
 
 <div className="grid grid-cols-3 gap-4">
-  <StatCard label="Usuarios" value={42} detail="38 ativos" />
+  <StatCard label="Usuários" value={42} detail="38 ativos" />
   <StatCard label="Empresas" value={8} detail="6 ativas" />
   <StatCard label="Carregando..." value={0} isLoading />
 </div>`}
@@ -51,10 +51,10 @@ export function StatCardPage() {
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "label", type: "string", required: true, description: "Titulo do card" },
+            { name: "label", type: "string", required: true, description: "Título do card" },
             { name: "value", type: "ReactNode", required: true, description: "Valor principal exibido" },
             { name: "detail", type: "string", description: "Texto auxiliar abaixo do valor" },
-            { name: "icon", type: "ReactNode", description: "Icone no canto superior direito" },
+            { name: "icon", type: "ReactNode", description: "Ícone no canto superior direito" },
             { name: "isLoading", type: "boolean", default: "false", description: "Exibe skeleton loading" },
           ]}
         />

@@ -88,7 +88,7 @@ const { open } = useDisclosure(true)`}
         <div className="border-t pt-6">
           <h2 className="mb-4 text-xl font-semibold">useTheme()</h2>
           <p className="mb-4 text-muted-foreground">
-            Hook para acessar e alterar o tema atual. Requer ThemeProvider na arvore de componentes.
+            Hook para acessar e alterar o tema atual. Requer ThemeProvider na árvore de componentes.
           </p>
 
           <div className="mb-4 rounded-lg border bg-card p-6">

@@ -8,14 +8,14 @@ export function AuthCardPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">AuthCard</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Card centralizado full-screen para paginas de autenticacao (login, registro, recuperacao de senha).
+          Card centralizado full-screen para páginas de autenticação (login, registro, recuperação de senha).
         </p>
       </div>
 
       <div>
         <h2 className="mb-4 text-xl font-semibold">Exemplo</h2>
         <p className="mb-4 text-sm text-muted-foreground">
-          Renderizado em escala reduzida para visualizacao. Em producao, ocupa a tela inteira.
+          Renderizado em escala reduzida para visualização. Em produção, ocupa a tela inteira.
         </p>
         <div className="rounded-lg border bg-card">
           <div className="relative h-[420px] overflow-hidden rounded-lg">
@@ -25,7 +25,7 @@ export function AuthCardPage() {
                 description="Insira suas credenciais"
                 footer={
                   <p className="text-center text-sm text-muted-foreground">
-                    Nao tem conta?{" "}
+                    Não tem conta?{" "}
                     <span className="text-primary underline">Cadastre-se</span>
                   </p>
                 }
@@ -80,10 +80,10 @@ export function AuthCardPage() {
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "title", type: "string", required: true, description: "Titulo do card" },
-            { name: "description", type: "string", description: "Subtitulo abaixo do titulo" },
-            { name: "children", type: "ReactNode", required: true, description: "Conteudo do formulario" },
-            { name: "footer", type: "ReactNode", description: "Conteudo no rodape (ex: link de cadastro)" },
+            { name: "title", type: "string", required: true, description: "Título do card" },
+            { name: "description", type: "string", description: "Subtítulo abaixo do título" },
+            { name: "children", type: "ReactNode", required: true, description: "Conteúdo do formulário" },
+            { name: "footer", type: "ReactNode", description: "Conteúdo no rodapé (ex: link de cadastro)" },
           ]}
         />
       </div>

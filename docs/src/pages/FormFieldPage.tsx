@@ -8,7 +8,7 @@ export function FormFieldPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">FormField</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Wrapper para campos de formulario com label, indicador de obrigatorio e mensagem de erro.
+          Wrapper para campos de formulário com label, indicador de obrigatório e mensagem de erro.
         </p>
       </div>
 
@@ -24,7 +24,7 @@ export function FormFieldPage() {
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               />
             </FormField>
-            <FormField label="Senha" error="Senha e obrigatoria" required>
+            <FormField label="Senha" error="Senha é obrigatória" required>
               <input
                 type="password"
                 placeholder="Senha"

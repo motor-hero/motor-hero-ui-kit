@@ -37,7 +37,7 @@ export function StatusDotPage() {
               </thead>
               <tbody>
                 <tr className="border-b">
-                  <td className="px-4 py-3">Joao Silva</td>
+                  <td className="px-4 py-3">João Silva</td>
                   <td className="px-4 py-3"><StatusDot active label="Ativo" /></td>
                 </tr>
                 <tr className="border-b">
@@ -69,7 +69,7 @@ export function StatusDotPage() {
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "active", type: "boolean", required: true, description: "Define se o status e ativo (verde) ou inativo (vermelho)" },
+            { name: "active", type: "boolean", required: true, description: "Define se o status é ativo (verde) ou inativo (vermelho)" },
             { name: "label", type: "string", description: "Texto exibido ao lado do dot" },
             { name: "className", type: "string", description: "Classes adicionais" },
           ]}

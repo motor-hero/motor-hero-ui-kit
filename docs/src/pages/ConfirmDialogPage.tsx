@@ -12,7 +12,7 @@ export function ConfirmDialogPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">ConfirmDialog</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Dialog de confirmacao construido com Radix UI AlertDialog. Suporta variantes default e destructive.
+          Dialog de confirmação construído com Radix UI AlertDialog. Suporta variantes default e destructive.
         </p>
       </div>
 
@@ -24,7 +24,7 @@ export function ConfirmDialogPage() {
               onClick={() => setOpen(true)}
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
             >
-              Confirmar acao
+              Confirmar ação
             </button>
             <button
               onClick={() => setDestructiveOpen(true)}
@@ -38,8 +38,8 @@ export function ConfirmDialogPage() {
             open={open}
             onOpenChange={setOpen}
             onConfirm={() => setOpen(false)}
-            title="Confirmar acao"
-            description="Tem certeza que deseja realizar esta acao?"
+            title="Confirmar ação"
+            description="Tem certeza que deseja realizar esta ação?"
           />
 
           <ConfirmDialog
@@ -47,7 +47,7 @@ export function ConfirmDialogPage() {
             onOpenChange={setDestructiveOpen}
             onConfirm={() => setDestructiveOpen(false)}
             title="Excluir item"
-            description="Esta acao nao pode ser desfeita. O item sera removido permanentemente."
+            description="Esta ação não pode ser desfeita. O item será removido permanentemente."
             confirmLabel="Excluir"
             variant="destructive"
           />
@@ -68,8 +68,8 @@ const { open, onOpen, onClose, setOpen } = useDisclosure()
   open={open}
   onOpenChange={setOpen}
   onConfirm={handleDelete}
-  title="Excluir usuario"
-  description="Esta acao nao pode ser desfeita."
+  title="Excluir usuário"
+  description="Esta ação não pode ser desfeita."
   confirmLabel="Excluir"
   variant="destructive"
   loading={isDeleting}
@@ -84,12 +84,12 @@ const { open, onOpen, onClose, setOpen } = useDisclosure()
             { name: "open", type: "boolean", required: true, description: "Controla visibilidade do dialog" },
             { name: "onOpenChange", type: "(open: boolean) => void", required: true, description: "Callback ao mudar estado" },
             { name: "onConfirm", type: "() => void", required: true, description: "Callback ao confirmar" },
-            { name: "title", type: "string", required: true, description: "Titulo do dialog" },
-            { name: "description", type: "ReactNode", required: true, description: "Descricao/mensagem" },
-            { name: "confirmLabel", type: "string", default: '"Confirmar"', description: "Texto do botao de confirmacao" },
-            { name: "cancelLabel", type: "string", default: '"Cancelar"', description: "Texto do botao de cancelar" },
+            { name: "title", type: "string", required: true, description: "Título do dialog" },
+            { name: "description", type: "ReactNode", required: true, description: "Descrição/mensagem" },
+            { name: "confirmLabel", type: "string", default: '"Confirmar"', description: "Texto do botão de confirmação" },
+            { name: "cancelLabel", type: "string", default: '"Cancelar"', description: "Texto do botão de cancelar" },
             { name: "loading", type: "boolean", default: "false", description: "Exibe estado de carregamento" },
-            { name: "variant", type: '"default" | "destructive"', default: '"default"', description: "Estilo visual do botao de confirmacao" },
+            { name: "variant", type: '"default" | "destructive"', default: '"default"', description: "Estilo visual do botão de confirmação" },
           ]}
         />
       </div>

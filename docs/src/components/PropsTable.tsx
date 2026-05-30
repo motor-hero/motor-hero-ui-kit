@@ -14,8 +14,8 @@ export function PropsTable({ props }: { props: Prop[] }) {
           <tr className="border-b bg-muted/50">
             <th className="px-4 py-3 text-left font-medium">Prop</th>
             <th className="px-4 py-3 text-left font-medium">Tipo</th>
-            <th className="px-4 py-3 text-left font-medium">Padrao</th>
-            <th className="px-4 py-3 text-left font-medium">Descricao</th>
+            <th className="px-4 py-3 text-left font-medium">Padrão</th>
+            <th className="px-4 py-3 text-left font-medium">Descrição</th>
           </tr>
         </thead>
         <tbody>

@@ -4,9 +4,9 @@ export function UtilitiesPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Utilitarios</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Utilitários</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Funcoes utilitarias exportadas pelo ui-kit.
+          Funções utilitárias exportadas pelo ui-kit.
         </p>
       </div>
 
@@ -16,7 +16,7 @@ export function UtilitiesPage() {
           <p className="mb-4 text-muted-foreground">
             Combina classes CSS usando <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">clsx</code> e
             resolve conflitos com <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">tailwind-merge</code>.
-            Padrao do shadcn/ui para composicao de classes.
+            Padrão do shadcn/ui para composição de classes.
           </p>
           <CodeBlock
             code={`import { cn } from "@motor-hero/ui-kit"
@@ -38,7 +38,7 @@ cn("text-red-500", "text-blue-500")  // => "text-blue-500"`}
           <h2 className="mb-4 text-xl font-semibold">extractApiError()</h2>
           <p className="mb-4 text-muted-foreground">
             Extrai a mensagem de erro de respostas da API. Suporta o formato do FastAPI
-            (com <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">body.detail</code>) e fallback generico.
+            (com <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">body.detail</code>) e fallback genérico.
           </p>
           <CodeBlock
             code={`import { extractApiError } from "@motor-hero/ui-kit"
@@ -46,7 +46,7 @@ cn("text-red-500", "text-blue-500")  // => "text-blue-500"`}
 try {
   await api.createUser(data)
 } catch (err) {
-  const message = extractApiError(err, "Erro ao criar usuario")
+  const message = extractApiError(err, "Erro ao criar usuário")
   toast.error(message)
 }
 
@@ -70,8 +70,8 @@ try {
                 extractApiError(err: any, fallbackMessage?: string): string
               </code>
               <p className="mt-2 text-sm text-muted-foreground">
-                O <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">fallbackMessage</code> padrao
-                e <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">"Ocorreu um erro inesperado."</code>
+                O <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">fallbackMessage</code> padrão
+                é <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">"Ocorreu um erro inesperado."</code>
               </p>
             </div>
           </div>

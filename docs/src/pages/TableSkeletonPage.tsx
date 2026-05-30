@@ -21,7 +21,7 @@ export function TableSkeletonPage() {
                 <tr className="border-b">
                   <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Nome</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Email</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Funcao</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Função</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Status</th>
                 </tr>
               </thead>
