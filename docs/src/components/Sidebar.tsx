@@ -24,6 +24,7 @@ const navigation = [
       { id: "confirm-dialog", label: "ConfirmDialog" },
       { id: "mode-toggle", label: "ModeToggle" },
       { id: "responsive-data-view", label: "ResponsiveDataView" },
+      { id: "toaster", label: "Toaster" },
     ],
   },
   {
@@ -32,7 +33,7 @@ const navigation = [
   },
   {
     category: "Hooks",
-    items: [{ id: "hooks", label: "useDisclosure() / useTheme()" }],
+    items: [{ id: "hooks", label: "useDisclosure() / useTheme() / useCustomToast()" }],
   },
 ]
 
@@ -49,10 +50,10 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
               <li key={item.id}>
                 <button
                   onClick={() => onNavigate(item.id)}
-                  className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-all ${
+                  className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-all duration-200 ${
                     currentPage === item.id
                       ? "sidebar-item-active bg-brand/10 text-brand font-medium"
-                      : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+                      : "text-muted-foreground hover:bg-accent/50 hover:text-foreground hover:translate-x-0.5"
                   }`}
                 >
                   {item.label}

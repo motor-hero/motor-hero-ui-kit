@@ -1,11 +1,10 @@
-import { useState } from "react"
-import { useDisclosure, useTheme } from "@motor-hero/ui-kit"
+import { useDisclosure, useTheme, useCustomToast } from "@motor-hero/ui-kit"
 import { CodeBlock } from "../components/CodeBlock"
 
 export function HooksPage() {
   const disclosure = useDisclosure()
   const { theme } = useTheme()
-  const [count, setCount] = useState(0)
+  const showToast = useCustomToast()
 
   return (
     <div className="space-y-8">
@@ -119,6 +118,56 @@ function MyComponent() {
             <div className="space-y-1 text-sm">
               <p><code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">theme: "dark" | "light" | "system"</code> — Tema atual</p>
               <p><code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">setTheme: (theme: Theme) =&gt; void</code> — Altera o tema</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t pt-6">
+          <h2 className="mb-4 text-xl font-semibold">useCustomToast()</h2>
+          <p className="mb-4 text-muted-foreground">
+            Hook que retorna uma função para disparar notificações toast. Requer o componente Toaster na árvore.
+          </p>
+
+          <div className="mb-4 rounded-lg border bg-card p-6">
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => showToast("Sucesso!", "Operação realizada.", "success")}
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+              >
+                Toast de sucesso
+              </button>
+              <button
+                onClick={() => showToast("Erro!", "Algo deu errado.", "error")}
+                className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground shadow hover:bg-destructive/90"
+              >
+                Toast de erro
+              </button>
+            </div>
+          </div>
+
+          <CodeBlock
+            code={`import { useCustomToast } from "@motor-hero/ui-kit"
+
+function MyComponent() {
+  const showToast = useCustomToast()
+
+  const handleSave = async () => {
+    try {
+      await api.save(data)
+      showToast("Salvo", "Alterações aplicadas.", "success")
+    } catch (err) {
+      showToast("Erro", extractApiError(err), "error")
+    }
+  }
+}`}
+          />
+
+          <div className="mt-4 rounded-lg border p-4">
+            <h3 className="mb-2 text-sm font-semibold">Assinatura</h3>
+            <div className="text-sm">
+              <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">
+                showToast(title: string, description?: string, status?: "success" | "error" | "info" | "warning"): void
+              </code>
             </div>
           </div>
         </div>

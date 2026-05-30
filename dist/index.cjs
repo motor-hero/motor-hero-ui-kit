@@ -46,8 +46,11 @@ __export(index_exports, {
   StatusDot: () => StatusDot,
   TableSkeleton: () => TableSkeleton,
   ThemeProvider: () => ThemeProvider,
+  Toaster: () => Toaster,
   cn: () => cn,
   extractApiError: () => extractApiError,
+  toast: () => import_sonner2.toast,
+  useCustomToast: () => useCustomToast,
   useDisclosure: () => useDisclosure,
   useTheme: () => useTheme
 });
@@ -512,6 +515,31 @@ function ResponsiveDataView({
   ] });
 }
 
+// src/components/toaster.tsx
+var import_sonner = require("sonner");
+var import_jsx_runtime17 = require("react/jsx-runtime");
+function Toaster(props) {
+  const { theme = "system" } = useTheme();
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+    import_sonner.Toaster,
+    {
+      theme,
+      className: "toaster group",
+      toastOptions: {
+        classNames: {
+          toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-md",
+          description: "group-[.toast]:text-muted-foreground",
+          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+          cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+          success: "group-[.toaster]:!bg-background group-[.toaster]:!text-foreground group-[.toaster]:!border-success/40",
+          error: "group-[.toaster]:!bg-background group-[.toaster]:!text-foreground group-[.toaster]:!border-destructive/40"
+        }
+      },
+      ...props
+    }
+  );
+}
+
 // src/lib/utils.ts
 var import_clsx = require("clsx");
 var import_tailwind_merge = require("tailwind-merge");
@@ -537,6 +565,32 @@ function useDisclosure(initial = false) {
   const onToggle = (0, import_react2.useCallback)(() => setOpen((v) => !v), []);
   return { open, onOpen, onClose, onToggle, setOpen };
 }
+
+// src/hooks/use-toast.ts
+var import_sonner2 = require("sonner");
+var import_react3 = require("react");
+function useCustomToast() {
+  const showToast = (0, import_react3.useCallback)(
+    (title, description, status = "success") => {
+      switch (status) {
+        case "success":
+          import_sonner2.toast.success(title, { description });
+          break;
+        case "error":
+          import_sonner2.toast.error(title, { description });
+          break;
+        case "info":
+          import_sonner2.toast.info(title, { description });
+          break;
+        case "warning":
+          import_sonner2.toast.warning(title, { description });
+          break;
+      }
+    },
+    []
+  );
+  return showToast;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AuthCard,
@@ -555,8 +609,11 @@ function useDisclosure(initial = false) {
   StatusDot,
   TableSkeleton,
   ThemeProvider,
+  Toaster,
   cn,
   extractApiError,
+  toast,
+  useCustomToast,
   useDisclosure,
   useTheme
 });

@@ -17,6 +17,7 @@ import { ModeTogglePage } from "./pages/ModeTogglePage"
 import { ResponsiveDataViewPage } from "./pages/ResponsiveDataViewPage"
 import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
+import { ToasterPage } from "./pages/ToasterPage"
 
 const pages: Record<string, () => JSX.Element> = {
   introduction: Introduction,
@@ -35,6 +36,7 @@ const pages: Record<string, () => JSX.Element> = {
   "responsive-data-view": ResponsiveDataViewPage,
   utilities: UtilitiesPage,
   hooks: HooksPage,
+  toaster: ToasterPage,
 }
 
 function getPageFromHash() {
@@ -55,6 +57,7 @@ export default function App() {
   const navigate = (page: string) => {
     window.location.hash = page
     setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   const Page = pages[currentPage] ?? Introduction
@@ -69,26 +72,29 @@ export default function App() {
           </div>
         </aside>
 
-        {sidebarOpen && (
+        {/* Mobile sidebar overlay */}
+        <div
+          className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+            sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        >
+          <div className="absolute inset-0 bg-black/50" />
           <div
-            className="fixed inset-0 z-50 md:hidden"
-            onClick={() => setSidebarOpen(false)}
+            className={`absolute left-0 top-0 h-full w-64 border-r bg-background p-6 transition-transform duration-300 ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="absolute inset-0 bg-black/50" />
-            <div
-              className="absolute left-0 top-0 h-full w-64 border-r bg-background p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Sidebar
-                currentPage={currentPage}
-                onNavigate={(p) => {
-                  navigate(p)
-                  setSidebarOpen(false)
-                }}
-              />
-            </div>
+            <Sidebar
+              currentPage={currentPage}
+              onNavigate={(p) => {
+                navigate(p)
+                setSidebarOpen(false)
+              }}
+            />
           </div>
-        )}
+        </div>
 
         <main className="flex-1 overflow-auto">
           <div className="mx-auto max-w-4xl px-6 py-8">

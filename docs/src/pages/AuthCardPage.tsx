@@ -15,43 +15,39 @@ export function AuthCardPage() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Exemplo</h2>
         <p className="mb-4 text-sm text-muted-foreground">
-          Renderizado em escala reduzida para visualização. Em produção, ocupa a tela inteira.
+          Em produção, o AuthCard ocupa a tela inteira. Abaixo está em container limitado para visualização.
         </p>
-        <div className="rounded-lg border bg-card">
-          <div className="relative h-[420px] overflow-hidden rounded-lg">
-            <div className="absolute inset-0 scale-75 origin-top">
-              <AuthCard
-                title="Entrar"
-                description="Insira suas credenciais"
-                footer={
-                  <p className="text-center text-sm text-muted-foreground">
-                    Não tem conta?{" "}
-                    <span className="text-primary underline">Cadastre-se</span>
-                  </p>
-                }
-              >
-                <FormField label="Email" htmlFor="auth-email" required>
-                  <input
-                    id="auth-email"
-                    type="email"
-                    placeholder="nome@exemplo.com"
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  />
-                </FormField>
-                <FormField label="Senha" htmlFor="auth-password" required>
-                  <input
-                    id="auth-password"
-                    type="password"
-                    placeholder="Senha"
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  />
-                </FormField>
-                <button className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90">
-                  Entrar
-                </button>
-              </AuthCard>
-            </div>
-          </div>
+        <div className="auth-card-preview rounded-lg border bg-card">
+          <AuthCard
+            title="Entrar"
+            description="Insira suas credenciais"
+            footer={
+              <p className="text-center text-sm text-muted-foreground">
+                Não tem conta?{" "}
+                <span className="text-primary underline">Cadastre-se</span>
+              </p>
+            }
+          >
+            <FormField label="Email" htmlFor="auth-email" required>
+              <input
+                id="auth-email"
+                type="email"
+                placeholder="nome@exemplo.com"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              />
+            </FormField>
+            <FormField label="Senha" htmlFor="auth-password" required>
+              <input
+                id="auth-password"
+                type="password"
+                placeholder="Senha"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              />
+            </FormField>
+            <button className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90">
+              Entrar
+            </button>
+          </AuthCard>
         </div>
       </div>
 

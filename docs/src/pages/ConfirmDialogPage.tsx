@@ -6,6 +6,7 @@ import { PropsTable } from "../components/PropsTable"
 export function ConfirmDialogPage() {
   const [open, setOpen] = useState(false)
   const [destructiveOpen, setDestructiveOpen] = useState(false)
+  const [confirmed, setConfirmed] = useState<string | null>(null)
 
   return (
     <div className="space-y-8">
@@ -19,7 +20,7 @@ export function ConfirmDialogPage() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Exemplo</h2>
         <div className="rounded-lg border bg-card p-6">
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setOpen(true)}
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
@@ -32,12 +33,20 @@ export function ConfirmDialogPage() {
             >
               Excluir item
             </button>
+            {confirmed && (
+              <span className="text-sm text-muted-foreground">
+                Último: <span className="text-foreground font-medium">{confirmed}</span>
+              </span>
+            )}
           </div>
 
           <ConfirmDialog
             open={open}
             onOpenChange={setOpen}
-            onConfirm={() => setOpen(false)}
+            onConfirm={() => {
+              setConfirmed("Ação confirmada")
+              setOpen(false)
+            }}
             title="Confirmar ação"
             description="Tem certeza que deseja realizar esta ação?"
           />
@@ -45,7 +54,10 @@ export function ConfirmDialogPage() {
           <ConfirmDialog
             open={destructiveOpen}
             onOpenChange={setDestructiveOpen}
-            onConfirm={() => setDestructiveOpen(false)}
+            onConfirm={() => {
+              setConfirmed("Item excluído")
+              setDestructiveOpen(false)
+            }}
             title="Excluir item"
             description="Esta ação não pode ser desfeita. O item será removido permanentemente."
             confirmLabel="Excluir"

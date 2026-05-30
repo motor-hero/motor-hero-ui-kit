@@ -457,6 +457,31 @@ function ResponsiveDataView({
   ] });
 }
 
+// src/components/toaster.tsx
+import { Toaster as Sonner } from "sonner";
+import { jsx as jsx17 } from "react/jsx-runtime";
+function Toaster(props) {
+  const { theme = "system" } = useTheme();
+  return /* @__PURE__ */ jsx17(
+    Sonner,
+    {
+      theme,
+      className: "toaster group",
+      toastOptions: {
+        classNames: {
+          toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-md",
+          description: "group-[.toast]:text-muted-foreground",
+          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+          cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+          success: "group-[.toaster]:!bg-background group-[.toaster]:!text-foreground group-[.toaster]:!border-success/40",
+          error: "group-[.toaster]:!bg-background group-[.toaster]:!text-foreground group-[.toaster]:!border-destructive/40"
+        }
+      },
+      ...props
+    }
+  );
+}
+
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -482,6 +507,32 @@ function useDisclosure(initial = false) {
   const onToggle = useCallback(() => setOpen((v) => !v), []);
   return { open, onOpen, onClose, onToggle, setOpen };
 }
+
+// src/hooks/use-toast.ts
+import { toast } from "sonner";
+import { useCallback as useCallback2 } from "react";
+function useCustomToast() {
+  const showToast = useCallback2(
+    (title, description, status = "success") => {
+      switch (status) {
+        case "success":
+          toast.success(title, { description });
+          break;
+        case "error":
+          toast.error(title, { description });
+          break;
+        case "info":
+          toast.info(title, { description });
+          break;
+        case "warning":
+          toast.warning(title, { description });
+          break;
+      }
+    },
+    []
+  );
+  return showToast;
+}
 export {
   AuthCard,
   ConfirmDialog,
@@ -499,8 +550,11 @@ export {
   StatusDot,
   TableSkeleton,
   ThemeProvider,
+  Toaster,
   cn,
   extractApiError,
+  toast,
+  useCustomToast,
   useDisclosure,
   useTheme
 };

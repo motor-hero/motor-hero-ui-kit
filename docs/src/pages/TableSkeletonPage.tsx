@@ -13,7 +13,7 @@ export function TableSkeletonPage() {
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-semibold">Exemplo</h2>
+        <h2 className="mb-4 text-xl font-semibold">Exemplo com header</h2>
         <div className="rounded-lg border bg-card p-6">
           <div className="overflow-x-auto rounded-md border">
             <table className="w-full">
@@ -34,7 +34,10 @@ export function TableSkeletonPage() {
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-semibold">Exemplo compacto</h2>
+        <h2 className="mb-4 text-xl font-semibold">Sem header</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          O TableSkeleton renderiza apenas as linhas do <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">tbody</code>. O header é responsabilidade da sua tabela.
+        </p>
         <div className="rounded-lg border bg-card p-6">
           <div className="overflow-x-auto rounded-md border">
             <table className="w-full">

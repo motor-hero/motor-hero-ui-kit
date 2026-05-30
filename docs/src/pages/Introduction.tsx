@@ -1,5 +1,30 @@
 import { CodeBlock } from "../components/CodeBlock"
 
+const componentItems = [
+  { id: "form-field", name: "FormField", desc: "Wrapper para campos de formulário com label e erro" },
+  { id: "auth-card", name: "AuthCard", desc: "Card centralizado para páginas de autenticação" },
+  { id: "stat-card", name: "StatCard", desc: "Card de estatística para dashboards" },
+  { id: "search-input", name: "SearchInput", desc: "Input de busca com ícone de lupa" },
+  { id: "pagination", name: "Pagination", desc: "Controles de paginação" },
+  { id: "table-skeleton", name: "TableSkeleton", desc: "Skeleton loading para tabelas" },
+  { id: "mobile-card-list", name: "MobileCardList", desc: "Lista de cards responsiva para mobile" },
+  { id: "empty-state", name: "EmptyState", desc: "Estado vazio com ícone e ação" },
+  { id: "page-header", name: "PageHeader", desc: "Cabeçalho de página com título e ação" },
+  { id: "status-dot", name: "StatusDot", desc: "Indicador de status ativo/inativo" },
+  { id: "confirm-dialog", name: "ConfirmDialog", desc: "Dialog de confirmação com Radix UI" },
+  { id: "mode-toggle", name: "ModeToggle", desc: "Alternador de tema claro/escuro" },
+  { id: "responsive-data-view", name: "ResponsiveDataView", desc: "View responsiva tabela/cards" },
+  { id: "toaster", name: "Toaster", desc: "Notificações toast com Sonner" },
+]
+
+const utilItems = [
+  { id: "utilities", name: "cn()", desc: "Merge de classes CSS com clsx + tailwind-merge" },
+  { id: "utilities", name: "extractApiError()", desc: "Extrai mensagem de erro de respostas da API" },
+  { id: "hooks", name: "useDisclosure()", desc: "Hook para controlar estado open/close de modais" },
+  { id: "hooks", name: "useTheme()", desc: "Hook para acessar e alterar o tema atual" },
+  { id: "hooks", name: "useCustomToast()", desc: "Hook para disparar notificações toast" },
+]
+
 export function Introduction() {
   return (
     <div className="space-y-8">
@@ -17,7 +42,7 @@ export function Introduction() {
           code={`npm install @motor-hero/ui-kit
 
 # Peer dependencies
-npm install react react-dom clsx tailwind-merge lucide-react`}
+npm install react react-dom clsx tailwind-merge lucide-react sonner`}
         />
       </div>
 
@@ -37,12 +62,13 @@ npm install react react-dom clsx tailwind-merge lucide-react`}
         <p className="mb-4 text-muted-foreground">
           Envolva sua aplicação com o ThemeProvider para habilitar o suporte a temas:
         </p>
-        <CodeBlock code={`import { ThemeProvider } from "@motor-hero/ui-kit"
+        <CodeBlock code={`import { ThemeProvider, Toaster } from "@motor-hero/ui-kit"
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark">
       <MyApp />
+      <Toaster />
     </ThemeProvider>
   )
 }`} />
@@ -51,27 +77,15 @@ function App() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Componentes disponíveis</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {[
-            { name: "FormField", desc: "Wrapper para campos de formulário com label e erro" },
-            { name: "AuthCard", desc: "Card centralizado para páginas de autenticação" },
-            { name: "StatCard", desc: "Card de estatística para dashboards" },
-            { name: "SearchInput", desc: "Input de busca com ícone de lupa" },
-            { name: "Pagination", desc: "Controles de paginação" },
-            { name: "TableSkeleton", desc: "Skeleton loading para tabelas" },
-            { name: "MobileCardList", desc: "Lista de cards responsiva para mobile" },
-            { name: "EmptyState", desc: "Estado vazio com ícone e ação" },
-            { name: "PageHeader", desc: "Cabeçalho de página com título e ação" },
-            { name: "StatusDot", desc: "Indicador de status ativo/inativo" },
-            { name: "ConfirmDialog", desc: "Dialog de confirmação com Radix UI" },
-            { name: "ModeToggle", desc: "Alternador de tema claro/escuro" },
-            { name: "ResponsiveDataView", desc: "View responsiva tabela/cards" },
-            { name: "DataTableWrapper", desc: "Wrapper para tabelas com empty state e paginação" },
-            { name: "FormDialogLayout", desc: "Layout padrão para formulários em dialogs" },
-          ].map((item) => (
-            <div key={item.name} className="rounded-lg border p-4 transition-colors hover:border-brand/30 hover:bg-brand/5">
-              <p className="font-medium">{item.name}</p>
+          {componentItems.map((item) => (
+            <a
+              key={item.name}
+              href={`#${item.id}`}
+              className="group rounded-lg border p-4 transition-all hover:border-brand/40 hover:bg-brand/5 hover:shadow-sm"
+            >
+              <p className="font-medium group-hover:text-brand transition-colors">{item.name}</p>
               <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -79,22 +93,16 @@ function App() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Utilitários e Hooks</h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="rounded-lg border p-4 transition-colors hover:border-brand/30 hover:bg-brand/5">
-            <p className="font-medium font-mono text-sm">cn()</p>
-            <p className="mt-1 text-sm text-muted-foreground">Merge de classes CSS com clsx + tailwind-merge</p>
-          </div>
-          <div className="rounded-lg border p-4 transition-colors hover:border-brand/30 hover:bg-brand/5">
-            <p className="font-medium font-mono text-sm">extractApiError()</p>
-            <p className="mt-1 text-sm text-muted-foreground">Extrai mensagem de erro de respostas da API</p>
-          </div>
-          <div className="rounded-lg border p-4 transition-colors hover:border-brand/30 hover:bg-brand/5">
-            <p className="font-medium font-mono text-sm">useDisclosure()</p>
-            <p className="mt-1 text-sm text-muted-foreground">Hook para controlar estado open/close de modais</p>
-          </div>
-          <div className="rounded-lg border p-4 transition-colors hover:border-brand/30 hover:bg-brand/5">
-            <p className="font-medium font-mono text-sm">useTheme()</p>
-            <p className="mt-1 text-sm text-muted-foreground">Hook para acessar e alterar o tema atual</p>
-          </div>
+          {utilItems.map((item) => (
+            <a
+              key={item.name}
+              href={`#${item.id}`}
+              className="group rounded-lg border p-4 transition-all hover:border-brand/40 hover:bg-brand/5 hover:shadow-sm"
+            >
+              <p className="font-medium font-mono text-sm group-hover:text-brand transition-colors">{item.name}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+            </a>
+          ))}
         </div>
       </div>
     </div>
