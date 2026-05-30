@@ -1,6 +1,11 @@
 {
   "name": "@motor-hero/ui-kit",
   "version": "0.3.0",
+  "description": "Componentes React reutilizáveis para o ecossistema MotorHero — shadcn/ui + Tailwind CSS v4",
+  "author": "MotorHero",
+  "license": "UNLICENSED",
+  "keywords": ["react", "ui-kit", "shadcn-ui", "tailwindcss", "components", "motorhero"],
+  "homepage": "https://ui.motorhero.com.br",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
