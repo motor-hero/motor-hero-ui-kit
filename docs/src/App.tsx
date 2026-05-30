@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
 import { Introduction } from "./pages/Introduction"
@@ -47,6 +47,7 @@ function getPageFromHash() {
 export default function App() {
   const [currentPage, setCurrentPage] = useState(getPageFromHash)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const onHashChange = () => setCurrentPage(getPageFromHash())
@@ -57,7 +58,7 @@ export default function App() {
   const navigate = (page: string) => {
     window.location.hash = page
     setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    mainRef.current?.scrollTo({ top: 0 })
   }
 
   const Page = pages[currentPage] ?? Introduction
@@ -96,7 +97,7 @@ export default function App() {
           </div>
         </div>
 
-        <main className="flex-1 overflow-auto">
+        <main ref={mainRef} className="flex-1 overflow-auto h-[calc(100vh-3.5rem)]">
           <div className="mx-auto max-w-4xl px-6 py-8">
             <Page />
           </div>

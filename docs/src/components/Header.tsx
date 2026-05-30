@@ -1,10 +1,13 @@
-import { ModeToggle } from "@motor-hero/ui-kit"
+import { ModeToggle, useTheme } from "@motor-hero/ui-kit"
 
 interface HeaderProps {
   onMenuClick: () => void
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { theme } = useTheme()
+  const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
+
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
@@ -22,7 +25,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           </button>
           <a href="#introduction" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
             <img
-              src="/mh-logo-dark.png"
+              src={isDark ? "/mh-logo-dark.png" : "/mh-logo-light.png"}
               alt="Motor Hero"
               className="h-8 w-8 object-contain"
             />

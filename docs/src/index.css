@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "highlight.js/styles/github-dark.min.css";
+@import "highlight.js/styles/github-dark-dimmed.min.css";
 
 @source "../../src";
 
@@ -92,29 +92,22 @@
   padding: 0 !important;
 }
 
-/* Code blocks */
+/* Code blocks — always dark regardless of theme */
 .code-block {
-  background: hsl(240 10% 6%);
-  border: 1px solid hsl(var(--border));
+  background: #22272e;
+  border: 1px solid #373e47;
   border-radius: 0.5rem;
   padding: 1rem;
   overflow-x: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.8125rem;
   line-height: 1.7;
-  color: hsl(0 0% 85%);
+  color: #adbac7;
 }
 
 .code-block::-webkit-scrollbar { height: 6px; }
 .code-block::-webkit-scrollbar-track { background: transparent; }
-.code-block::-webkit-scrollbar-thumb { background: hsl(240 3.7% 25%); border-radius: 3px; }
-
-/* Light mode code block */
-:root .code-block {
-  background: hsl(240 5% 96%);
-  color: hsl(240 10% 20%);
-}
-:root .code-block::-webkit-scrollbar-thumb { background: hsl(240 3.7% 80%); }
+.code-block::-webkit-scrollbar-thumb { background: #444c56; border-radius: 3px; }
 
 /* Sidebar active indicator */
 .sidebar-item-active {
