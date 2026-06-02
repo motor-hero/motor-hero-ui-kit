@@ -35,6 +35,10 @@ const navigation = [
     category: "Hooks",
     items: [{ id: "hooks", label: "useDisclosure() / useTheme() / useCustomToast()" }],
   },
+  {
+    category: "Contribuindo",
+    items: [{ id: "contributing", label: "Versionamento & Releases" }],
+  },
 ]
 
 export function Sidebar({ currentPage, onNavigate }: SidebarProps) {

@@ -18,6 +18,7 @@ import { ResponsiveDataViewPage } from "./pages/ResponsiveDataViewPage"
 import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
 import { ToasterPage } from "./pages/ToasterPage"
+import { ContributingPage } from "./pages/ContributingPage"
 
 const pages: Record<string, () => JSX.Element> = {
   introduction: Introduction,
@@ -37,6 +38,7 @@ const pages: Record<string, () => JSX.Element> = {
   utilities: UtilitiesPage,
   hooks: HooksPage,
   toaster: ToasterPage,
+  contributing: ContributingPage,
 }
 
 function getPageFromHash() {
