@@ -35,8 +35,12 @@ jobs:
           LOG=$(git log $RANGE --no-merges --pretty='%s (%h)')
           emit() {
             local items
-            items=$(echo "$LOG" | grep -E "$2" | sed -E 's/^[a-z]+(\(.+\))?!?: //')
-            [ -n "$items" ] && { echo "### $1"; echo "$items" | sed 's/^/- /'; echo; }
+            items=$(printf '%s\n' "$LOG" | grep -E "$2" | sed -E 's/^[a-z]+(\(.+\))?!?: //' || true)
+            if [ -n "$items" ]; then
+              echo "### $1"
+              printf '%s\n' "$items" | sed 's/^/- /'
+              echo
+            fi
           }
           {
             emit "🚀 Features" '^feat'
