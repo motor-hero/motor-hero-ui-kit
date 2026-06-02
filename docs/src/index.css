@@ -109,6 +109,33 @@
 .code-block::-webkit-scrollbar-track { background: transparent; }
 .code-block::-webkit-scrollbar-thumb { background: #444c56; border-radius: 3px; }
 
+/* Sidebar custom scrollbar — clean, minimal, reveals on hover */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+.sidebar-scroll:hover {
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
 /* Sidebar active indicator */
 .sidebar-item-active {
   position: relative;

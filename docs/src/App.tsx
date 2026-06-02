@@ -73,7 +73,7 @@ export default function App() {
       <Header onMenuClick={() => setSidebarOpen(true)} />
       <div className="flex">
         <aside className="hidden w-64 shrink-0 border-r md:block">
-          <div className="sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-6">
+          <div className="sidebar-scroll sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-6">
             <Sidebar currentPage={currentPage} onNavigate={navigate} />
           </div>
         </aside>
