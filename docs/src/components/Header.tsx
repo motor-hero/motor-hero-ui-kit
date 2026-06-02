@@ -34,7 +34,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             </span>
           </a>
           <span className="hidden rounded-full bg-brand/15 px-2.5 py-0.5 text-xs font-semibold text-brand sm:inline-block">
-            v0.4.0
+            v{__APP_VERSION__}
           </span>
         </div>
         <div className="flex items-center gap-2">
