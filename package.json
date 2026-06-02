@@ -1,6 +1,6 @@
 {
   "name": "@motor-hero/ui-kit",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Componentes React reutilizáveis para o ecossistema MotorHero — shadcn/ui + Tailwind CSS v4",
   "author": "MotorHero",
   "license": "UNLICENSED",
@@ -35,7 +35,8 @@
     "url": "https://github.com/motor-hero/motor-hero-ui-kit.git"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "tsup && tsc --emitDeclarationOnly --outDir dist -p tsconfig.build.json",
