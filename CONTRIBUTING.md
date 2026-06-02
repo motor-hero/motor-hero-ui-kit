@@ -1,27 +1,30 @@
 # Contribuindo com o @motor-hero/ui-kit
 
-Este guia explica como desenvolver, testar e publicar componentes. As versões e o
-publish no npm são **totalmente automatizados** a partir das suas mensagens de commit —
-você não edita a versão à mão, não cria tags e não cria releases manualmente.
+Este guia explica como desenvolver, testar e publicar componentes. O publish no npm é
+disparado por **tags**: você trabalha na `main` e, quando quiser lançar, escolhe o bump com
+`npm version` e dá push da tag — o resto (build, publish e GitHub Release) é automático.
 
 ## Sumário
 
 - [Fluxo de trabalho](#fluxo-de-trabalho)
 - [Mensagens de commit (Conventional Commits)](#mensagens-de-commit-conventional-commits)
-- [Como a versão é calculada](#como-a-versão-é-calculada)
+- [Como escolher a versão](#como-escolher-a-versão)
 - [Como uma release acontece](#como-uma-release-acontece)
 - [Desenvolvimento e teste local](#desenvolvimento-e-teste-local)
 
 ## Fluxo de trabalho
 
-1. Crie uma branch a partir da `main`.
-2. Desenvolva e teste localmente (veja [Desenvolvimento e teste local](#desenvolvimento-e-teste-local)).
-3. Abra um Pull Request. **O título do PR precisa seguir o padrão de commit** (ex.: `feat: adiciona Tooltip`),
-   porque ele vira a mensagem do commit ao fazer *Squash and merge*.
-4. Após o merge na `main`, o bot **release-please** abre/atualiza um PR de release com a próxima
-   versão e o `CHANGELOG.md` já preenchidos.
-5. Quando quiser publicar, **faça merge do PR de release** — isso cria a tag, a GitHub Release e
-   publica no npm automaticamente.
+1. Desenvolva e teste localmente (veja [Desenvolvimento e teste local](#desenvolvimento-e-teste-local)).
+2. Commite na `main` usando o padrão de commit (ex.: `feat: adiciona Tooltip`) — a descrição vira a
+   linha do changelog da release.
+3. Quando quiser publicar, escolha o bump e dê push da tag:
+
+   ```bash
+   npm version minor      # bump no package.json + commit + cria a tag v0.7.0
+   git push --follow-tags # a tag dispara o publish no npm + GitHub Release
+   ```
+
+Pushes na `main` sem tag apenas rodam o CI e atualizam a documentação — não publicam no npm.
 
 ## Mensagens de commit (Conventional Commits)
 
@@ -48,39 +51,30 @@ BREAKING CHANGE: a prop `variant` foi removida; use `intent` no lugar.
 ```
 
 > As mensagens são validadas localmente por **commitlint + husky** (um commit fora do padrão é
-> bloqueado antes de ser criado) e o título do PR é validado no CI. Rodar `npm install` instala o
-> hook automaticamente.
+> bloqueado antes de ser criado). Rodar `npm install` instala o hook automaticamente. O changelog da
+> release é montado a partir dessas mensagens, agrupado por tipo.
 
-## Como a versão é calculada
+## Como escolher a versão
 
-O número da versão **não é escolhido à mão** — ele é derivado dos tipos de commit desde a última
-release. Vale sempre o maior bump encontrado. O projeto ainda está em `0.x`, então mantemos a
-faixa `0.x` por enquanto (config `bump-minor-pre-major: true`):
+O bump é decisão sua, feita com `npm version`, que atualiza o `package.json`, cria o commit e a tag
+de uma vez. Use o critério dos Conventional Commits para escolher:
 
-| Commit | Bump | A partir de `0.5.1` → |
+| Comando | Quando usar | A partir de `0.6.0` → |
 |---|---|---|
-| `fix:` | patch | `0.5.2` |
-| `feat:` | minor | `0.6.0` |
-| `feat!:` / `BREAKING CHANGE:` | minor (permanece em `0.x`) | `0.6.0` |
-| `docs:` / `chore:` / `build:` / `refactor:` / `test:` | nenhum | sem release |
+| `npm version patch` | só correções (`fix:`) | `0.6.1` |
+| `npm version minor` | novas funcionalidades (`feat:`) | `0.7.0` |
+| `npm version major` | mudança que quebra a API | `1.0.0` |
 
-### Quando ir para `1.0.0`
-
-`1.0.0` é uma decisão deliberada (API estável / pronta para produção), não automática. Para cortar
-a `1.0.0`, faça um commit com o rodapé:
-
-```
-Release-As: 1.0.0
-```
+> Em `0.x` é comum tratar `feat!` / breaking change ainda como `minor` (`npm version minor`).
+> Ir para `1.0.0` é uma decisão deliberada (API estável / pronta para produção).
 
 ## Como uma release acontece
 
-Tudo é orquestrado por `.github/workflows/release-please.yml`:
+Tudo é orquestrado por `.github/workflows/release.yml`, disparado ao receber uma tag `v*`:
 
-1. A cada push na `main`, o release-please mantém um PR de release atualizado (`chore(main): release X.Y.Z`)
-   contendo o bump em `package.json`, o `.release-please-manifest.json` e o `CHANGELOG.md` gerado.
-2. Ao **fazer merge desse PR**, o mesmo workflow cria a tag `vX.Y.Z`, a GitHub Release e roda
-   `npm publish --provenance` (com proveniência verificável no npm).
+1. `npm ci` → `npm run build` → `npm publish --provenance` (com proveniência verificável no npm).
+2. Gera o changelog a partir dos commits desde a tag anterior, agrupado por tipo, e cria a GitHub
+   Release com essas notas.
 
 ## Desenvolvimento e teste local
 

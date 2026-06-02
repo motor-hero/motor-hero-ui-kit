@@ -75,15 +75,23 @@ Detalhes (peerDeps do React, unlink etc.) em [CONTRIBUTING.md](./CONTRIBUTING.md
 
 ## Versionamento e Releases
 
-As versões e o publish no npm são **automatizados** — você não edita a versão à mão nem cria tags.
-A versão é derivada das mensagens de commit ([Conventional Commits](https://www.conventionalcommits.org)):
+O publish no npm é disparado por **tags**. Você trabalha normalmente na `main` e, quando quiser
+lançar uma versão, basta um comando:
 
-| Commit | Bump | A partir de `0.5.1` → |
+```bash
+npm version minor      # bump no package.json + commit + cria a tag v0.7.0
+git push --follow-tags # a tag dispara o publish no npm + GitHub Release
+```
+
+Use [Conventional Commits](https://www.conventionalcommits.org) (`feat:`, `fix:`, `docs:`,
+`chore:`…) — o changelog da GitHub Release é gerado a partir deles, agrupado por categoria.
+Escolha o bump conforme o que mudou:
+
+| Comando | Bump | A partir de `0.6.0` → |
 |---|---|---|
-| `fix:` | patch | `0.5.2` |
-| `feat:` | minor | `0.6.0` |
-| `feat!:` / `BREAKING CHANGE:` | minor (permanece em `0.x`) | `0.6.0` |
+| `npm version patch` | patch | `0.6.1` |
+| `npm version minor` | minor | `0.7.0` |
+| `npm version major` | major | `1.0.0` |
 
-Ao fazer merge na `main`, o **release-please** abre um PR de release com a versão e o `CHANGELOG`
-prontos; ao **fazer merge desse PR**, a tag, a GitHub Release e o `npm publish` acontecem
-automaticamente. Guia completo em [CONTRIBUTING.md](./CONTRIBUTING.md).
+Ao receber a tag `v*`, o workflow `release.yml` faz `build` → `npm publish --provenance` → cria a
+GitHub Release com as notas. Guia completo em [CONTRIBUTING.md](./CONTRIBUTING.md).
