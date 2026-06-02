@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/motor-hero/motor-hero-ui-kit/compare/ui-kit-v0.6.0...ui-kit-v0.7.0) (2026-06-02)
+
+
+### Features
+
+* **docs:** enhance sidebar scrollbar ([ca17d7b](https://github.com/motor-hero/motor-hero-ui-kit/commit/ca17d7b1f343ba92982007046d1b2421155fba3a))
+
 ## [0.6.0](https://github.com/motor-hero/motor-hero-ui-kit/compare/ui-kit-v0.5.1...ui-kit-v0.6.0) (2026-06-02)
 
 
