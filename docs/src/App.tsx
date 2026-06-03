@@ -18,6 +18,7 @@ import { ResponsiveDataViewPage } from "./pages/ResponsiveDataViewPage"
 import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
 import { ToasterPage } from "./pages/ToasterPage"
+import { AppShellPage } from "./pages/AppShellPage"
 import { ContributingPage } from "./pages/ContributingPage"
 
 const pages: Record<string, () => JSX.Element> = {
@@ -38,6 +39,7 @@ const pages: Record<string, () => JSX.Element> = {
   utilities: UtilitiesPage,
   hooks: HooksPage,
   toaster: ToasterPage,
+  "app-shell": AppShellPage,
   contributing: ContributingPage,
 }
 

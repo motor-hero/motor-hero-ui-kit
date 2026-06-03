@@ -9,6 +9,10 @@ const navigation = [
     items: [{ id: "introduction", label: "Introdução" }],
   },
   {
+    category: "Layout",
+    items: [{ id: "app-shell", label: "AppShell" }],
+  },
+  {
     category: "Componentes",
     items: [
       { id: "form-field", label: "FormField" },
