@@ -482,11 +482,232 @@ function Toaster(props) {
   );
 }
 
+// src/components/app-shell.tsx
+import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
+import { useState as useState2 } from "react";
+
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 function cn(...inputs) {
   return twMerge(clsx(inputs));
+}
+
+// src/components/sidebar-nav.tsx
+import { Fragment as Fragment2 } from "react";
+
+// src/components/types.tsx
+import { jsx as jsx18 } from "react/jsx-runtime";
+var defaultRenderLink = ({ children, ...props }) => /* @__PURE__ */ jsx18("a", { ...props, children });
+
+// src/components/sidebar-nav.tsx
+import { Fragment as Fragment3, jsx as jsx19, jsxs as jsxs15 } from "react/jsx-runtime";
+function defaultIsActive(item, activePath) {
+  if (item.href === "/") return activePath === "/";
+  return activePath === item.href || activePath.startsWith(item.href + "/");
+}
+function SidebarNav({
+  items,
+  activePath,
+  isActive = defaultIsActive,
+  isAdmin = false,
+  isCollapsed = false,
+  renderLink = defaultRenderLink,
+  onNavigate
+}) {
+  const visible = items.filter((item) => !item.adminOnly || isAdmin);
+  return /* @__PURE__ */ jsx19("nav", { className: "flex flex-col gap-1", children: visible.map((item) => {
+    const active = isActive(item, activePath);
+    const link = renderLink({
+      href: item.href,
+      onClick: onNavigate,
+      title: isCollapsed ? item.label : void 0,
+      "aria-current": active ? "page" : void 0,
+      className: cn(
+        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        active ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+        isCollapsed && "justify-center px-2"
+      ),
+      children: /* @__PURE__ */ jsxs15(Fragment3, { children: [
+        item.icon && /* @__PURE__ */ jsx19("span", { className: "shrink-0", children: item.icon }),
+        !isCollapsed && /* @__PURE__ */ jsx19("span", { className: "truncate", children: item.label })
+      ] })
+    });
+    return /* @__PURE__ */ jsx19(Fragment2, { children: link }, item.href);
+  }) });
+}
+
+// src/components/user-menu.tsx
+import * as DropdownMenu2 from "@radix-ui/react-dropdown-menu";
+import { LogOut, User } from "lucide-react";
+import { Fragment as Fragment4, jsx as jsx20, jsxs as jsxs16 } from "react/jsx-runtime";
+function initials(user) {
+  const source = user?.name?.trim() || user?.email?.trim();
+  if (!source) return "";
+  const parts = source.split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return source.slice(0, 2).toUpperCase();
+}
+var itemClass = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent";
+function UserMenu({
+  user,
+  items = [],
+  onLogout,
+  logoutLabel = "Sair",
+  renderLink = defaultRenderLink,
+  align = "end"
+}) {
+  const label = initials(user);
+  return /* @__PURE__ */ jsxs16(DropdownMenu2.Root, { children: [
+    /* @__PURE__ */ jsx20(DropdownMenu2.Trigger, { asChild: true, children: /* @__PURE__ */ jsx20(
+      "button",
+      {
+        type: "button",
+        className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "aria-label": "Menu do usu\xE1rio",
+        "data-testid": "user-menu",
+        children: user?.avatarUrl ? /* @__PURE__ */ jsx20("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ jsx20("span", { children: label }) : /* @__PURE__ */ jsx20(User, { className: "h-4 w-4" })
+      }
+    ) }),
+    /* @__PURE__ */ jsx20(DropdownMenu2.Portal, { children: /* @__PURE__ */ jsxs16(
+      DropdownMenu2.Content,
+      {
+        align,
+        sideOffset: 6,
+        className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+        children: [
+          (user?.name || user?.email) && /* @__PURE__ */ jsxs16(Fragment4, { children: [
+            /* @__PURE__ */ jsxs16("div", { className: "px-2 py-1.5", children: [
+              user.name && /* @__PURE__ */ jsx20("p", { className: "truncate text-sm font-medium", children: user.name }),
+              user.email && /* @__PURE__ */ jsx20("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+            ] }),
+            /* @__PURE__ */ jsx20(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
+          ] }),
+          items.map(
+            (item) => item.href ? /* @__PURE__ */ jsx20(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs16(Fragment4, { children: [
+              item.icon,
+              item.label
+            ] }) }) }, item.label) : /* @__PURE__ */ jsxs16(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
+              item.icon,
+              item.label
+            ] }, item.label)
+          ),
+          onLogout && /* @__PURE__ */ jsxs16(Fragment4, { children: [
+            items.length > 0 && /* @__PURE__ */ jsx20(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
+            /* @__PURE__ */ jsxs16(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
+              /* @__PURE__ */ jsx20(LogOut, { className: "h-4 w-4" }),
+              logoutLabel
+            ] })
+          ] })
+        ]
+      }
+    ) })
+  ] });
+}
+
+// src/components/app-shell.tsx
+import { jsx as jsx21, jsxs as jsxs17 } from "react/jsx-runtime";
+function AppShell({
+  brand,
+  brandCollapsed,
+  navItems,
+  activePath,
+  isActive,
+  isAdmin = false,
+  user,
+  userMenuItems,
+  onLogout,
+  renderLink = defaultRenderLink,
+  headerActions,
+  collapsible = true,
+  defaultCollapsed = false,
+  children
+}) {
+  const [collapsed, setCollapsed] = useState2(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = useState2(false);
+  const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ jsx21(
+    SidebarNav,
+    {
+      items: navItems,
+      activePath,
+      isActive,
+      isAdmin,
+      isCollapsed,
+      renderLink,
+      onNavigate
+    }
+  );
+  return /* @__PURE__ */ jsxs17("div", { className: "flex h-screen overflow-hidden bg-background", children: [
+    /* @__PURE__ */ jsxs17(
+      "aside",
+      {
+        className: cn(
+          "hidden shrink-0 flex-col border-r bg-card transition-all duration-300 md:flex",
+          collapsed ? "w-16" : "w-60"
+        ),
+        children: [
+          /* @__PURE__ */ jsx21("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: collapsed ? brandCollapsed ?? brand : brand }),
+          /* @__PURE__ */ jsx21("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(collapsed) }),
+          collapsible && /* @__PURE__ */ jsx21("div", { className: "border-t p-2", children: /* @__PURE__ */ jsx21(
+            "button",
+            {
+              type: "button",
+              onClick: () => setCollapsed((v) => !v),
+              className: "flex w-full items-center justify-center rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+              "aria-label": collapsed ? "Expandir menu" : "Recolher menu",
+              children: collapsed ? /* @__PURE__ */ jsx21(ChevronRight, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx21(ChevronLeft, { className: "h-4 w-4" })
+            }
+          ) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs17(
+      "div",
+      {
+        className: cn(
+          "fixed inset-0 z-50 transition-opacity duration-300 md:hidden",
+          mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        ),
+        onClick: () => setMobileOpen(false),
+        children: [
+          /* @__PURE__ */ jsx21("div", { className: "absolute inset-0 bg-black/50" }),
+          /* @__PURE__ */ jsxs17(
+            "div",
+            {
+              className: cn(
+                "absolute left-0 top-0 flex h-full w-64 flex-col border-r bg-card transition-transform duration-300",
+                mobileOpen ? "translate-x-0" : "-translate-x-full"
+              ),
+              onClick: (e) => e.stopPropagation(),
+              children: [
+                /* @__PURE__ */ jsx21("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: brand }),
+                /* @__PURE__ */ jsx21("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(false, () => setMobileOpen(false)) })
+              ]
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs17("div", { className: "flex flex-1 flex-col overflow-hidden", children: [
+      /* @__PURE__ */ jsxs17("header", { className: "flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4", children: [
+        /* @__PURE__ */ jsx21(
+          "button",
+          {
+            type: "button",
+            onClick: () => setMobileOpen(true),
+            className: "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground md:hidden",
+            "aria-label": "Abrir menu",
+            children: /* @__PURE__ */ jsx21(Menu, { className: "h-4 w-4" })
+          }
+        ),
+        /* @__PURE__ */ jsxs17("div", { className: "ml-auto flex items-center gap-2", children: [
+          headerActions,
+          (user || onLogout) && /* @__PURE__ */ jsx21(UserMenu, { user, items: userMenuItems, onLogout, renderLink })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx21("main", { className: "flex-1 overflow-y-auto", children })
+    ] })
+  ] });
 }
 
 // src/lib/api-error.ts
@@ -499,9 +720,9 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-import { useCallback, useState as useState2 } from "react";
+import { useCallback, useState as useState3 } from "react";
 function useDisclosure(initial = false) {
-  const [open, setOpen] = useState2(initial);
+  const [open, setOpen] = useState3(initial);
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
   const onToggle = useCallback(() => setOpen((v) => !v), []);
@@ -534,6 +755,7 @@ function useCustomToast() {
   return showToast;
 }
 export {
+  AppShell,
   AuthCard,
   ConfirmDialog,
   DataTableWrapper,
@@ -546,12 +768,15 @@ export {
   Pagination,
   ResponsiveDataView,
   SearchInput,
+  SidebarNav,
   StatCard,
   StatusDot,
   TableSkeleton,
   ThemeProvider,
   Toaster,
+  UserMenu,
   cn,
+  defaultRenderLink,
   extractApiError,
   toast,
   useCustomToast,
