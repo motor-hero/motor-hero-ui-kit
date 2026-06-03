@@ -22,6 +22,8 @@ export { SidebarNav } from "./components/sidebar-nav";
 export type { NavItem, SidebarNavProps } from "./components/sidebar-nav";
 export { UserMenu } from "./components/user-menu";
 export type { AppUser, UserMenuItem, UserMenuProps } from "./components/user-menu";
+export { RowActionsMenu } from "./components/row-actions-menu";
+export type { RowAction, RowActionsMenuProps } from "./components/row-actions-menu";
 export { defaultRenderLink } from "./components/types";
 export type { RenderLink, RenderLinkProps } from "./components/types";
 export { cn } from "./lib/utils";

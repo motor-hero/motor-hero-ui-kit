@@ -825,6 +825,7 @@ export {
   PageHeader,
   Pagination,
   ResponsiveDataView,
+  RowActionsMenu,
   SearchInput,
   SidebarNav,
   StatCard,
