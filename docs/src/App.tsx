@@ -91,7 +91,7 @@ export default function App() {
         >
           <div className="absolute inset-0 bg-black/50" />
           <div
-            className={`absolute left-0 top-0 h-full w-64 border-r bg-background p-6 transition-transform duration-300 ${
+            className={`sidebar-scroll absolute left-0 top-0 h-full w-64 overflow-y-auto border-r bg-background p-6 transition-transform duration-300 ${
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             onClick={(e) => e.stopPropagation()}
