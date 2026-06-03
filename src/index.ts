@@ -20,6 +20,16 @@ export { MobileCardList } from "./components/mobile-card-list"
 export { ResponsiveDataView } from "./components/responsive-data-view"
 export { Toaster } from "./components/toaster"
 
+// App shell
+export { AppShell } from "./components/app-shell"
+export type { AppShellProps } from "./components/app-shell"
+export { SidebarNav } from "./components/sidebar-nav"
+export type { NavItem, SidebarNavProps } from "./components/sidebar-nav"
+export { UserMenu } from "./components/user-menu"
+export type { AppUser, UserMenuItem, UserMenuProps } from "./components/user-menu"
+export { defaultRenderLink } from "./components/types"
+export type { RenderLink, RenderLinkProps } from "./components/types"
+
 // Utilities
 export { cn } from "./lib/utils"
 export { extractApiError } from "./lib/api-error"
