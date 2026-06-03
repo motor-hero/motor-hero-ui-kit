@@ -1,5 +1,6 @@
 import { ModeToggle, SidebarNav, UserMenu, type NavItem, type RenderLink } from "@motor-hero/ui-kit"
 import { Building2, Home, Settings, Users } from "lucide-react"
+import { useState } from "react"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
 
@@ -28,6 +29,24 @@ const demoRenderLink: RenderLink = ({ href, children, className, title, onClick 
 )
 
 export function AppShellPage() {
+  const [active, setActive] = useState("/companies")
+
+  // Preview only — simulates navigation by moving the active item without leaving the page.
+  const previewRenderLink: RenderLink = ({ href, children, className, title, onClick }) => (
+    <a
+      href={href}
+      title={title}
+      className={className}
+      onClick={(e) => {
+        e.preventDefault()
+        setActive(href)
+        onClick?.()
+      }}
+    >
+      {children}
+    </a>
+  )
+
   return (
     <div className="space-y-8">
       <div>
@@ -52,7 +71,7 @@ export function AppShellPage() {
                 Motor Hero
               </div>
               <div className="flex-1 overflow-y-auto px-2 py-4">
-                <SidebarNav items={demoItems} activePath="/companies" isAdmin renderLink={demoRenderLink} />
+                <SidebarNav items={demoItems} activePath={active} isAdmin renderLink={previewRenderLink} />
               </div>
             </div>
             <div className="flex flex-1 flex-col">
@@ -152,10 +171,10 @@ renderLink={({ href, children, ...p }) => <Link href={href} {...p}>{children}</L
         <p className="mb-4 text-muted-foreground">A navegação também é exportada separadamente. Expandida e recolhida:</p>
         <div className="flex gap-4">
           <div className="w-56 rounded-lg border bg-card p-2">
-            <SidebarNav items={demoItems} activePath="/companies" isAdmin renderLink={demoRenderLink} />
+            <SidebarNav items={demoItems} activePath={active} isAdmin renderLink={previewRenderLink} />
           </div>
           <div className="w-16 rounded-lg border bg-card p-2">
-            <SidebarNav items={demoItems} activePath="/companies" isAdmin isCollapsed renderLink={demoRenderLink} />
+            <SidebarNav items={demoItems} activePath={active} isAdmin isCollapsed renderLink={previewRenderLink} />
           </div>
         </div>
         <div className="mt-4">
