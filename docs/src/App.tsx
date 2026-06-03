@@ -19,6 +19,7 @@ import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
 import { ToasterPage } from "./pages/ToasterPage"
 import { AppShellPage } from "./pages/AppShellPage"
+import { RowActionsMenuPage } from "./pages/RowActionsMenuPage"
 import { ContributingPage } from "./pages/ContributingPage"
 
 const pages: Record<string, () => JSX.Element> = {
@@ -40,6 +41,7 @@ const pages: Record<string, () => JSX.Element> = {
   hooks: HooksPage,
   toaster: ToasterPage,
   "app-shell": AppShellPage,
+  "row-actions-menu": RowActionsMenuPage,
   contributing: ContributingPage,
 }
 

@@ -15,6 +15,7 @@ const navigation = [
   {
     category: "Componentes",
     items: [
+      { id: "row-actions-menu", label: "RowActionsMenu" },
       { id: "form-field", label: "FormField" },
       { id: "auth-card", label: "AuthCard" },
       { id: "stat-card", label: "StatCard" },
