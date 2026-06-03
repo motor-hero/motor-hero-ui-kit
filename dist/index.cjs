@@ -772,6 +772,64 @@ function AppShell({
   ] });
 }
 
+// src/components/row-actions-menu.tsx
+var DropdownMenu3 = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
+var import_lucide_react4 = require("lucide-react");
+var import_jsx_runtime22 = require("react/jsx-runtime");
+var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+function RowActionsMenu({
+  actions,
+  disabled = false,
+  align = "end",
+  label = "A\xE7\xF5es",
+  renderLink = defaultRenderLink
+}) {
+  if (actions.length === 0) return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(DropdownMenu3.Root, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenu3.Trigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+      "button",
+      {
+        type: "button",
+        disabled,
+        "aria-label": label,
+        className: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+        children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react4.MoreVertical, { className: "h-4 w-4" })
+      }
+    ) }),
+    /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenu3.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+      DropdownMenu3.Content,
+      {
+        align,
+        sideOffset: 6,
+        className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+        children: actions.map((action) => {
+          const cls = cn(itemClass2, action.destructive && "text-destructive focus:bg-destructive/10");
+          return action.href ? /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
+            href: action.href,
+            className: cls,
+            children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_jsx_runtime22.Fragment, { children: [
+              action.icon,
+              action.label
+            ] })
+          }) }, action.label) : /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+            DropdownMenu3.Item,
+            {
+              className: cls,
+              disabled: action.disabled,
+              onClick: action.onClick,
+              children: [
+                action.icon,
+                action.label
+              ]
+            },
+            action.label
+          );
+        })
+      }
+    ) })
+  ] });
+}
+
 // src/lib/api-error.ts
 function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
   const detail = err?.body?.detail || err?.message;
