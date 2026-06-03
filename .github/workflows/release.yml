@@ -52,3 +52,19 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           body_path: notes.md
+
+      - name: Notificar Slack
+        if: success()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_URL não configurado — pulando notificação."
+            exit 0
+          fi
+          VERSION="${GITHUB_REF_NAME#v}"
+          RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}"
+          TEXT="📦 *@motor-hero/ui-kit* \`${VERSION}\` publicado no npm — <${RELEASE_URL}|release notes>"
+          curl -fsS -X POST --data-urlencode \
+            "payload={\"channel\": \"#deploy\", \"username\": \"motor-hero-ui-kit\", \"text\": \"${TEXT}\", \"icon_emoji\": \":package:\"}" \
+            "$SLACK_WEBHOOK_URL"
