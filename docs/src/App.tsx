@@ -69,11 +69,11 @@ export default function App() {
   const Page = pages[currentPage] ?? Introduction
 
   return (
-    <div className="min-h-screen">
+    <div className="flex h-screen flex-col overflow-hidden">
       <Header onMenuClick={() => setSidebarOpen(true)} />
-      <div className="flex">
+      <div className="flex flex-1 overflow-hidden">
         <aside className="hidden w-64 shrink-0 border-r md:block">
-          <div className="sidebar-scroll sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto py-6">
+          <div className="sidebar-scroll h-full overflow-y-auto py-6">
             <Sidebar currentPage={currentPage} onNavigate={navigate} />
           </div>
         </aside>
@@ -102,7 +102,7 @@ export default function App() {
           </div>
         </div>
 
-        <main ref={mainRef} className="flex-1 overflow-auto h-[calc(100vh-3.5rem)]">
+        <main ref={mainRef} className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-4xl px-6 py-8">
             <Page />
           </div>
