@@ -1,4 +1,4 @@
-import { ModeToggle, SidebarNav, UserMenu, type NavItem } from "@motor-hero/ui-kit"
+import { ModeToggle, SidebarNav, UserMenu, type NavItem, type RenderLink } from "@motor-hero/ui-kit"
 import { Building2, Home, Settings, Users } from "lucide-react"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
@@ -11,6 +11,21 @@ const demoItems: NavItem[] = [
 ]
 
 const demoUser = { name: "Leonardo Florentino", email: "leo@motorhero.com.br" }
+
+// Preview only — keeps clicks from navigating to routes that don't exist in the docs site.
+const demoRenderLink: RenderLink = ({ href, children, className, title, onClick }) => (
+  <a
+    href={href}
+    title={title}
+    className={className}
+    onClick={(e) => {
+      e.preventDefault()
+      onClick?.()
+    }}
+  >
+    {children}
+  </a>
+)
 
 export function AppShellPage() {
   return (
@@ -37,14 +52,14 @@ export function AppShellPage() {
                 Motor Hero
               </div>
               <div className="flex-1 overflow-y-auto px-2 py-4">
-                <SidebarNav items={demoItems} activePath="/companies" isAdmin />
+                <SidebarNav items={demoItems} activePath="/companies" isAdmin renderLink={demoRenderLink} />
               </div>
             </div>
             <div className="flex flex-1 flex-col">
               <div className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
                 <div className="ml-auto flex items-center gap-2">
                   <ModeToggle />
-                  <UserMenu user={demoUser} onLogout={() => {}} items={[{ label: "Meu perfil", href: "/settings" }]} />
+                  <UserMenu user={demoUser} onLogout={() => {}} items={[{ label: "Meu perfil", href: "/settings" }]} renderLink={demoRenderLink} />
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-6 text-sm text-muted-foreground">
@@ -137,10 +152,10 @@ renderLink={({ href, children, ...p }) => <Link href={href} {...p}>{children}</L
         <p className="mb-4 text-muted-foreground">A navegação também é exportada separadamente. Expandida e recolhida:</p>
         <div className="flex gap-4">
           <div className="w-56 rounded-lg border bg-card p-2">
-            <SidebarNav items={demoItems} activePath="/companies" isAdmin />
+            <SidebarNav items={demoItems} activePath="/companies" isAdmin renderLink={demoRenderLink} />
           </div>
           <div className="w-16 rounded-lg border bg-card p-2">
-            <SidebarNav items={demoItems} activePath="/companies" isAdmin isCollapsed />
+            <SidebarNav items={demoItems} activePath="/companies" isAdmin isCollapsed renderLink={demoRenderLink} />
           </div>
         </div>
         <div className="mt-4">
@@ -162,7 +177,7 @@ renderLink={({ href, children, ...p }) => <Link href={href} {...p}>{children}</L
         <h2 className="mb-4 text-xl font-semibold">UserMenu — isolado</h2>
         <p className="mb-4 text-muted-foreground">Avatar com iniciais (ou imagem) e dropdown de conta:</p>
         <div className="flex items-center gap-4 rounded-lg border bg-card p-6">
-          <UserMenu user={demoUser} onLogout={() => {}} items={[{ label: "Meu perfil", href: "/settings" }]} />
+          <UserMenu user={demoUser} onLogout={() => {}} items={[{ label: "Meu perfil", href: "/settings" }]} renderLink={demoRenderLink} />
           <span className="text-sm text-muted-foreground">← clique para abrir</span>
         </div>
         <div className="mt-4">

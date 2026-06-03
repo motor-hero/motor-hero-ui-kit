@@ -28,44 +28,31 @@ const utilItems = [
 export function Introduction() {
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-brand/10 via-background to-background p-8 sm:p-10">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brand/10 blur-3xl" />
-        <div className="relative">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-            v{__APP_VERSION__} · shadcn/ui + Tailwind CSS v4
-          </span>
-          <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Motor Hero UI Kit</h1>
-          <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
-            Biblioteca de componentes React reutilizáveis do ecossistema MotorHero — acessíveis, tipados e prontos para produção.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              href="#form-field"
-              className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand/90"
-            >
-              Explorar componentes
-            </a>
-            <a
-              href="https://github.com/motor-hero/motor-hero-ui-kit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-            >
-              GitHub
-            </a>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted-foreground">
-            <span>
-              <span className="font-semibold text-foreground">{componentItems.length}</span> componentes
-            </span>
-            <span>
-              <span className="font-semibold text-foreground">3</span> hooks
-            </span>
-            <span>
-              <span className="font-semibold text-foreground">2</span> utilitários
-            </span>
-          </div>
+      <div className="space-y-4 border-b pb-10">
+        <p className="font-mono text-sm text-muted-foreground">
+          v{__APP_VERSION__} · shadcn/ui + Tailwind CSS v4
+        </p>
+        <h1 className="text-4xl font-bold tracking-tight">Motor Hero UI Kit</h1>
+        <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          O conjunto de componentes React compartilhado entre os frontends da MotorHero — a
+          navegação, os formulários, as tabelas e os estados que antes eram copiados de projeto
+          em projeto, agora num só lugar.
+        </p>
+        <div className="flex flex-wrap gap-3 pt-1">
+          <a
+            href="#app-shell"
+            className="inline-flex items-center rounded-md bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand/90"
+          >
+            Começar
+          </a>
+          <a
+            href="https://github.com/motor-hero/motor-hero-ui-kit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+          >
+            GitHub
+          </a>
         </div>
       </div>
 
