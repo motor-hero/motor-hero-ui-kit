@@ -11,6 +11,8 @@ import { TableSkeletonPage } from "./pages/TableSkeletonPage"
 import { MobileCardListPage } from "./pages/MobileCardListPage"
 import { EmptyStatePage } from "./pages/EmptyStatePage"
 import { PageHeaderPage } from "./pages/PageHeaderPage"
+import { ProgressBarPage } from "./pages/ProgressBarPage"
+import { StatusBadgePage } from "./pages/StatusBadgePage"
 import { StatusDotPage } from "./pages/StatusDotPage"
 import { ConfirmDialogPage } from "./pages/ConfirmDialogPage"
 import { ModeTogglePage } from "./pages/ModeTogglePage"
@@ -33,6 +35,8 @@ const pages: Record<string, () => JSX.Element> = {
   "mobile-card-list": MobileCardListPage,
   "empty-state": EmptyStatePage,
   "page-header": PageHeaderPage,
+  "progress-bar": ProgressBarPage,
+  "status-badge": StatusBadgePage,
   "status-dot": StatusDotPage,
   "confirm-dialog": ConfirmDialogPage,
   "mode-toggle": ModeTogglePage,

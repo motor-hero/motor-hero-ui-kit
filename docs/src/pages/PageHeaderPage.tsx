@@ -9,6 +9,7 @@ export function PageHeaderPage() {
         <h1 className="text-3xl font-bold tracking-tight">PageHeader</h1>
         <p className="mt-2 text-lg text-muted-foreground">
           Cabeçalho de página com título, descrição e área para ação (botão de adicionar, por exemplo).
+          Responsivo: empilha verticalmente no mobile e mantém título e ação lado a lado a partir de <code>sm</code>.
         </p>
       </div>
 

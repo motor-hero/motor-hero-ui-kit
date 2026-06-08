@@ -10,6 +10,8 @@ const componentItems = [
   { id: "mobile-card-list", name: "MobileCardList", desc: "Lista de cards responsiva para mobile" },
   { id: "empty-state", name: "EmptyState", desc: "Estado vazio com ícone e ação" },
   { id: "page-header", name: "PageHeader", desc: "Cabeçalho de página com título e ação" },
+  { id: "progress-bar", name: "ProgressBar", desc: "Barra de progresso de 0 a 100% com rótulo" },
+  { id: "status-badge", name: "StatusBadge", desc: "Badge de status com dot e variantes semânticas" },
   { id: "status-dot", name: "StatusDot", desc: "Indicador de status ativo/inativo" },
   { id: "confirm-dialog", name: "ConfirmDialog", desc: "Dialog de confirmação com Radix UI" },
   { id: "mode-toggle", name: "ModeToggle", desc: "Alternador de tema claro/escuro" },
