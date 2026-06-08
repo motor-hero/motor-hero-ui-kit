@@ -18,6 +18,7 @@ const navigation = [
       { id: "auth-card", label: "AuthCard" },
       { id: "confirm-dialog", label: "ConfirmDialog" },
       { id: "empty-state", label: "EmptyState" },
+      { id: "form-dialog", label: "FormDialog" },
       { id: "form-field", label: "FormField" },
       { id: "mobile-card-list", label: "MobileCardList" },
       { id: "mode-toggle", label: "ModeToggle" },

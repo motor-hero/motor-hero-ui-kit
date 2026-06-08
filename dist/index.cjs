@@ -35,6 +35,7 @@ __export(index_exports, {
   ConfirmDialog: () => ConfirmDialog,
   DataTableWrapper: () => DataTableWrapper,
   EmptyState: () => EmptyState,
+  FormDialog: () => FormDialog,
   FormDialogLayout: () => FormDialogLayout,
   FormField: () => FormField,
   MobileCardList: () => MobileCardList,
@@ -356,6 +357,18 @@ function FormField({ label, htmlFor, error, required, children, className }) {
 }
 
 // src/components/form-dialog.tsx
+var Dialog = __toESM(require("@radix-ui/react-dialog"), 1);
+var import_lucide_react2 = require("lucide-react");
+var React = __toESM(require("react"), 1);
+
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn(...inputs) {
+  return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
+
+// src/components/form-dialog.tsx
 var import_jsx_runtime10 = require("react/jsx-runtime");
 function FormDialogLayout({
   title,
@@ -391,6 +404,79 @@ function FormDialogLayout({
       )
     ] })
   ] });
+}
+var sizeClasses2 = {
+  sm: "sm:max-w-sm",
+  md: "sm:max-w-md",
+  lg: "sm:max-w-lg",
+  xl: "sm:max-w-xl",
+  "2xl": "sm:max-w-2xl"
+};
+function FormDialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  children,
+  footer,
+  onSubmit,
+  size = "lg",
+  className
+}) {
+  React.useEffect(() => {
+    if (open) return;
+    const id = window.setTimeout(() => {
+      if (document.body.style.pointerEvents === "none") {
+        document.body.style.pointerEvents = "";
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [open]);
+  const body = /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "flex shrink-0 items-start justify-between gap-4 border-b px-6 py-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "min-w-0 space-y-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Dialog.Title, { className: "text-lg font-semibold leading-none tracking-tight", children: title }),
+        description && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Dialog.Description, { className: "text-sm text-muted-foreground", children: description })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+        Dialog.Close,
+        {
+          className: "-mr-1 shrink-0 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "aria-label": "Fechar",
+          children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(import_lucide_react2.X, { className: "h-5 w-5" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "min-h-0 flex-1 overflow-y-auto px-6 py-4", children }),
+    footer && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-4 sm:flex-row sm:justify-end", children: footer })
+  ] });
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Dialog.Root, { open, onOpenChange, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(Dialog.Portal, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Dialog.Overlay, { className: "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
+    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+      Dialog.Content,
+      {
+        onCloseAutoFocus: () => {
+          document.body.style.pointerEvents = "";
+        },
+        className: cn(
+          "fixed z-50 flex max-h-[92vh] flex-col bg-background shadow-lg outline-none",
+          "inset-x-0 bottom-0 rounded-t-2xl",
+          "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[90vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          sizeClasses2[size],
+          className
+        ),
+        children: onSubmit ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+          "form",
+          {
+            onSubmit,
+            className: "flex min-h-0 flex-1 flex-col",
+            children: body
+          }
+        ) : body
+      }
+    )
+  ] }) });
 }
 
 // src/components/auth-card.tsx
@@ -444,9 +530,9 @@ function TableSkeleton({ rows = 5, columns = 4 }) {
 }
 
 // src/components/search-input.tsx
-var React = __toESM(require("react"), 1);
+var React2 = __toESM(require("react"), 1);
 var import_jsx_runtime14 = require("react/jsx-runtime");
-var SearchInput = React.forwardRef(
+var SearchInput = React2.forwardRef(
   ({ containerClassName, className, ...props }, ref) => {
     return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: `relative flex-1 ${containerClassName ?? ""}`, children: [
       /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
@@ -638,15 +724,8 @@ function Toaster(props) {
 }
 
 // src/components/app-shell.tsx
-var import_lucide_react3 = require("lucide-react");
+var import_lucide_react4 = require("lucide-react");
 var import_react3 = require("react");
-
-// src/lib/utils.ts
-var import_clsx = require("clsx");
-var import_tailwind_merge = require("tailwind-merge");
-function cn(...inputs) {
-  return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
-}
 
 // src/components/sidebar-nav.tsx
 var import_react2 = require("react");
@@ -694,7 +773,7 @@ function SidebarNav({
 
 // src/components/user-menu.tsx
 var DropdownMenu2 = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
-var import_lucide_react2 = require("lucide-react");
+var import_lucide_react3 = require("lucide-react");
 var import_jsx_runtime22 = require("react/jsx-runtime");
 function initials(user) {
   const source = user?.name?.trim() || user?.email?.trim();
@@ -721,7 +800,7 @@ function UserMenu({
         className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
         "aria-label": "Menu do usu\xE1rio",
         "data-testid": "user-menu",
-        children: user?.avatarUrl ? /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { children: label }) : /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react2.User, { className: "h-4 w-4" })
+        children: user?.avatarUrl ? /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { children: label }) : /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react3.User, { className: "h-4 w-4" })
       }
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenu2.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
@@ -750,7 +829,7 @@ function UserMenu({
           onLogout && /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_jsx_runtime22.Fragment, { children: [
             items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
             /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react2.LogOut, { className: "h-4 w-4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react3.LogOut, { className: "h-4 w-4" }),
               logoutLabel
             ] })
           ] })
@@ -810,7 +889,7 @@ function AppShell({
               onClick: () => setCollapsed((v) => !v),
               className: "flex w-full items-center justify-center rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
               "aria-label": collapsed ? "Expandir menu" : "Recolher menu",
-              children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react3.ChevronRight, { className: "h-4 w-4" }) : /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react3.ChevronLeft, { className: "h-4 w-4" })
+              children: collapsed ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react4.ChevronRight, { className: "h-4 w-4" }) : /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react4.ChevronLeft, { className: "h-4 w-4" })
             }
           ) })
         ]
@@ -852,7 +931,7 @@ function AppShell({
             onClick: () => setMobileOpen(true),
             className: "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground md:hidden",
             "aria-label": "Abrir menu",
-            children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react3.Menu, { className: "h-4 w-4" })
+            children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(import_lucide_react4.Menu, { className: "h-4 w-4" })
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "ml-auto flex items-center gap-2", children: [
@@ -867,7 +946,7 @@ function AppShell({
 
 // src/components/row-actions-menu.tsx
 var DropdownMenu3 = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
-var import_lucide_react4 = require("lucide-react");
+var import_lucide_react5 = require("lucide-react");
 var import_jsx_runtime24 = require("react/jsx-runtime");
 var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 function RowActionsMenu({
@@ -886,7 +965,7 @@ function RowActionsMenu({
         disabled,
         "aria-label": label,
         className: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-        children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react4.MoreVertical, { className: "h-4 w-4" })
+        children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.MoreVertical, { className: "h-4 w-4" })
       }
     ) }),
     /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu3.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
@@ -974,6 +1053,7 @@ function useCustomToast() {
   ConfirmDialog,
   DataTableWrapper,
   EmptyState,
+  FormDialog,
   FormDialogLayout,
   FormField,
   MobileCardList,

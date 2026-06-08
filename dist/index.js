@@ -291,7 +291,19 @@ function FormField({ label, htmlFor, error, required, children, className }) {
 }
 
 // src/components/form-dialog.tsx
-import { jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
+import * as Dialog from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
+import * as React from "react";
+
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+
+// src/components/form-dialog.tsx
+import { Fragment, jsx as jsx10, jsxs as jsxs9 } from "react/jsx-runtime";
 function FormDialogLayout({
   title,
   children,
@@ -326,6 +338,79 @@ function FormDialogLayout({
       )
     ] })
   ] });
+}
+var sizeClasses2 = {
+  sm: "sm:max-w-sm",
+  md: "sm:max-w-md",
+  lg: "sm:max-w-lg",
+  xl: "sm:max-w-xl",
+  "2xl": "sm:max-w-2xl"
+};
+function FormDialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  children,
+  footer,
+  onSubmit,
+  size = "lg",
+  className
+}) {
+  React.useEffect(() => {
+    if (open) return;
+    const id = window.setTimeout(() => {
+      if (document.body.style.pointerEvents === "none") {
+        document.body.style.pointerEvents = "";
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [open]);
+  const body = /* @__PURE__ */ jsxs9(Fragment, { children: [
+    /* @__PURE__ */ jsxs9("div", { className: "flex shrink-0 items-start justify-between gap-4 border-b px-6 py-4", children: [
+      /* @__PURE__ */ jsxs9("div", { className: "min-w-0 space-y-1", children: [
+        /* @__PURE__ */ jsx10(Dialog.Title, { className: "text-lg font-semibold leading-none tracking-tight", children: title }),
+        description && /* @__PURE__ */ jsx10(Dialog.Description, { className: "text-sm text-muted-foreground", children: description })
+      ] }),
+      /* @__PURE__ */ jsx10(
+        Dialog.Close,
+        {
+          className: "-mr-1 shrink-0 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "aria-label": "Fechar",
+          children: /* @__PURE__ */ jsx10(X, { className: "h-5 w-5" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx10("div", { className: "min-h-0 flex-1 overflow-y-auto px-6 py-4", children }),
+    footer && /* @__PURE__ */ jsx10("div", { className: "flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-4 sm:flex-row sm:justify-end", children: footer })
+  ] });
+  return /* @__PURE__ */ jsx10(Dialog.Root, { open, onOpenChange, children: /* @__PURE__ */ jsxs9(Dialog.Portal, { children: [
+    /* @__PURE__ */ jsx10(Dialog.Overlay, { className: "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
+    /* @__PURE__ */ jsx10(
+      Dialog.Content,
+      {
+        onCloseAutoFocus: () => {
+          document.body.style.pointerEvents = "";
+        },
+        className: cn(
+          "fixed z-50 flex max-h-[92vh] flex-col bg-background shadow-lg outline-none",
+          "inset-x-0 bottom-0 rounded-t-2xl",
+          "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[90vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          sizeClasses2[size],
+          className
+        ),
+        children: onSubmit ? /* @__PURE__ */ jsx10(
+          "form",
+          {
+            onSubmit,
+            className: "flex min-h-0 flex-1 flex-col",
+            children: body
+          }
+        ) : body
+      }
+    )
+  ] }) });
 }
 
 // src/components/auth-card.tsx
@@ -373,15 +458,15 @@ function Pagination({ page, onPageChange, hasNextPage, hasPreviousPage, classNam
 }
 
 // src/components/table-skeleton.tsx
-import { Fragment, jsx as jsx13 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx13 } from "react/jsx-runtime";
 function TableSkeleton({ rows = 5, columns = 4 }) {
-  return /* @__PURE__ */ jsx13(Fragment, { children: Array.from({ length: rows }).map((_, i) => /* @__PURE__ */ jsx13("tr", { className: "border-b transition-colors", children: Array.from({ length: columns }).map((_2, j) => /* @__PURE__ */ jsx13("td", { className: "p-4 align-middle", children: /* @__PURE__ */ jsx13("div", { className: "h-5 w-full animate-pulse rounded bg-muted" }) }, j)) }, i)) });
+  return /* @__PURE__ */ jsx13(Fragment2, { children: Array.from({ length: rows }).map((_, i) => /* @__PURE__ */ jsx13("tr", { className: "border-b transition-colors", children: Array.from({ length: columns }).map((_2, j) => /* @__PURE__ */ jsx13("td", { className: "p-4 align-middle", children: /* @__PURE__ */ jsx13("div", { className: "h-5 w-full animate-pulse rounded bg-muted" }) }, j)) }, i)) });
 }
 
 // src/components/search-input.tsx
-import * as React from "react";
+import * as React2 from "react";
 import { jsx as jsx14, jsxs as jsxs12 } from "react/jsx-runtime";
-var SearchInput = React.forwardRef(
+var SearchInput = React2.forwardRef(
   ({ containerClassName, className, ...props }, ref) => {
     return /* @__PURE__ */ jsxs12("div", { className: `relative flex-1 ${containerClassName ?? ""}`, children: [
       /* @__PURE__ */ jsxs12(
@@ -576,22 +661,15 @@ function Toaster(props) {
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { useState as useState2 } from "react";
 
-// src/lib/utils.ts
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
-
 // src/components/sidebar-nav.tsx
-import { Fragment as Fragment2 } from "react";
+import { Fragment as Fragment3 } from "react";
 
 // src/components/types.tsx
 import { jsx as jsx20 } from "react/jsx-runtime";
 var defaultRenderLink = ({ children, ...props }) => /* @__PURE__ */ jsx20("a", { ...props, children });
 
 // src/components/sidebar-nav.tsx
-import { Fragment as Fragment3, jsx as jsx21, jsxs as jsxs17 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx21, jsxs as jsxs17 } from "react/jsx-runtime";
 function defaultIsActive(item, activePath) {
   if (item.href === "/") return activePath === "/";
   return activePath === item.href || activePath.startsWith(item.href + "/");
@@ -618,19 +696,19 @@ function SidebarNav({
         active ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
         isCollapsed && "justify-center px-2"
       ),
-      children: /* @__PURE__ */ jsxs17(Fragment3, { children: [
+      children: /* @__PURE__ */ jsxs17(Fragment4, { children: [
         item.icon && /* @__PURE__ */ jsx21("span", { className: "shrink-0", children: item.icon }),
         !isCollapsed && /* @__PURE__ */ jsx21("span", { className: "truncate", children: item.label })
       ] })
     });
-    return /* @__PURE__ */ jsx21(Fragment2, { children: link }, item.href);
+    return /* @__PURE__ */ jsx21(Fragment3, { children: link }, item.href);
   }) });
 }
 
 // src/components/user-menu.tsx
 import * as DropdownMenu2 from "@radix-ui/react-dropdown-menu";
 import { LogOut, User } from "lucide-react";
-import { Fragment as Fragment4, jsx as jsx22, jsxs as jsxs18 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx22, jsxs as jsxs18 } from "react/jsx-runtime";
 function initials(user) {
   const source = user?.name?.trim() || user?.email?.trim();
   if (!source) return "";
@@ -666,7 +744,7 @@ function UserMenu({
         sideOffset: 6,
         className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
         children: [
-          (user?.name || user?.email) && /* @__PURE__ */ jsxs18(Fragment4, { children: [
+          (user?.name || user?.email) && /* @__PURE__ */ jsxs18(Fragment5, { children: [
             /* @__PURE__ */ jsxs18("div", { className: "px-2 py-1.5", children: [
               user.name && /* @__PURE__ */ jsx22("p", { className: "truncate text-sm font-medium", children: user.name }),
               user.email && /* @__PURE__ */ jsx22("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
@@ -674,7 +752,7 @@ function UserMenu({
             /* @__PURE__ */ jsx22(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
           ] }),
           items.map(
-            (item) => item.href ? /* @__PURE__ */ jsx22(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs18(Fragment4, { children: [
+            (item) => item.href ? /* @__PURE__ */ jsx22(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs18(Fragment5, { children: [
               item.icon,
               item.label
             ] }) }) }, item.label) : /* @__PURE__ */ jsxs18(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
@@ -682,7 +760,7 @@ function UserMenu({
               item.label
             ] }, item.label)
           ),
-          onLogout && /* @__PURE__ */ jsxs18(Fragment4, { children: [
+          onLogout && /* @__PURE__ */ jsxs18(Fragment5, { children: [
             items.length > 0 && /* @__PURE__ */ jsx22(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
             /* @__PURE__ */ jsxs18(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
               /* @__PURE__ */ jsx22(LogOut, { className: "h-4 w-4" }),
@@ -803,7 +881,7 @@ function AppShell({
 // src/components/row-actions-menu.tsx
 import * as DropdownMenu3 from "@radix-ui/react-dropdown-menu";
 import { MoreVertical } from "lucide-react";
-import { Fragment as Fragment5, jsx as jsx24, jsxs as jsxs20 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx24, jsxs as jsxs20 } from "react/jsx-runtime";
 var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 function RowActionsMenu({
   actions,
@@ -835,7 +913,7 @@ function RowActionsMenu({
           return action.href ? /* @__PURE__ */ jsx24(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
             href: action.href,
             className: cls,
-            children: /* @__PURE__ */ jsxs20(Fragment5, { children: [
+            children: /* @__PURE__ */ jsxs20(Fragment6, { children: [
               action.icon,
               action.label
             ] })
@@ -908,6 +986,7 @@ export {
   ConfirmDialog,
   DataTableWrapper,
   EmptyState,
+  FormDialog,
   FormDialogLayout,
   FormField,
   MobileCardList,

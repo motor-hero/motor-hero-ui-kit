@@ -9,6 +9,7 @@ const componentItems = [
   { id: "table-skeleton", name: "TableSkeleton", desc: "Skeleton loading para tabelas" },
   { id: "mobile-card-list", name: "MobileCardList", desc: "Lista de cards responsiva para mobile" },
   { id: "empty-state", name: "EmptyState", desc: "Estado vazio com ícone e ação" },
+  { id: "form-dialog", name: "FormDialog", desc: "Modal responsivo padronizado (bottom sheet/desktop)" },
   { id: "page-header", name: "PageHeader", desc: "Cabeçalho de página com título e ação" },
   { id: "progress-bar", name: "ProgressBar", desc: "Barra de progresso de 0 a 100% com rótulo" },
   { id: "status-badge", name: "StatusBadge", desc: "Badge de status com dot e variantes semânticas" },

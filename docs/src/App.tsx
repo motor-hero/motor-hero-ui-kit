@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type JSX } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
 import { Introduction } from "./pages/Introduction"
+import { FormDialogPage } from "./pages/FormDialogPage"
 import { FormFieldPage } from "./pages/FormFieldPage"
 import { AuthCardPage } from "./pages/AuthCardPage"
 import { StatCardPage } from "./pages/StatCardPage"
@@ -27,6 +28,7 @@ import { ContributingPage } from "./pages/ContributingPage"
 const pages: Record<string, () => JSX.Element> = {
   introduction: Introduction,
   "form-field": FormFieldPage,
+  "form-dialog": FormDialogPage,
   "auth-card": AuthCardPage,
   "stat-card": StatCardPage,
   "search-input": SearchInputPage,
