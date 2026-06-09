@@ -692,7 +692,7 @@ function SidebarNav({
       title: isCollapsed ? item.label : void 0,
       "aria-current": active ? "page" : void 0,
       className: cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
         active ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
         isCollapsed && "justify-center px-2"
       ),
