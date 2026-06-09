@@ -367,7 +367,7 @@ function FormDialog({
     return () => window.clearTimeout(id);
   }, [open]);
   const body = /* @__PURE__ */ jsxs9(Fragment, { children: [
-    /* @__PURE__ */ jsxs9("div", { className: "flex shrink-0 items-start justify-between gap-4 border-b px-6 py-4", children: [
+    /* @__PURE__ */ jsxs9("div", { className: "flex shrink-0 items-start justify-between gap-4 border-b px-6 py-3", children: [
       /* @__PURE__ */ jsxs9("div", { className: "min-w-0 space-y-1", children: [
         /* @__PURE__ */ jsx10(Dialog.Title, { className: "text-lg font-semibold leading-none tracking-tight", children: title }),
         description && /* @__PURE__ */ jsx10(Dialog.Description, { className: "text-sm text-muted-foreground", children: description })
@@ -382,7 +382,7 @@ function FormDialog({
       )
     ] }),
     /* @__PURE__ */ jsx10("div", { className: "min-h-0 flex-1 overflow-y-auto px-6 py-4", children }),
-    footer && /* @__PURE__ */ jsx10("div", { className: "flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-4 sm:flex-row sm:justify-end", children: footer })
+    footer && /* @__PURE__ */ jsx10("div", { className: "flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-3 sm:flex-row sm:justify-end", children: footer })
   ] });
   return /* @__PURE__ */ jsx10(Dialog.Root, { open, onOpenChange, children: /* @__PURE__ */ jsxs9(Dialog.Portal, { children: [
     /* @__PURE__ */ jsx10(Dialog.Overlay, { className: "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
@@ -395,7 +395,7 @@ function FormDialog({
         className: cn(
           "fixed z-50 flex max-h-[92vh] flex-col bg-background shadow-lg outline-none",
           "inset-x-0 bottom-0 rounded-t-2xl",
-          "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[90vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+          "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
           "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           sizeClasses2[size],
           className

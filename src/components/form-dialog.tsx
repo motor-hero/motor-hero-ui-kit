@@ -108,7 +108,7 @@ export function FormDialog({
 
   const body = (
     <>
-      <div className="flex shrink-0 items-start justify-between gap-4 border-b px-6 py-4">
+      <div className="flex shrink-0 items-start justify-between gap-4 border-b px-6 py-3">
         <div className="min-w-0 space-y-1">
           <Dialog.Title className="text-lg font-semibold leading-none tracking-tight">
             {title}
@@ -128,7 +128,7 @@ export function FormDialog({
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">{children}</div>
       {footer && (
-        <div className="flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-4 sm:flex-row sm:justify-end">
+        <div className="flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-3 sm:flex-row sm:justify-end">
           {footer}
         </div>
       )}
@@ -146,7 +146,7 @@ export function FormDialog({
           className={cn(
             "fixed z-50 flex max-h-[92vh] flex-col bg-background shadow-lg outline-none",
             "inset-x-0 bottom-0 rounded-t-2xl",
-            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[90vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             sizeClasses[size],
             className,
