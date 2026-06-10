@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { type ReactElement, type ReactNode, cloneElement, isValidElement, useId } from "react"
 
 interface FormFieldProps {
   label: string
@@ -10,6 +10,23 @@ interface FormFieldProps {
 }
 
 export function FormField({ label, htmlFor, error, required, children, className }: FormFieldProps) {
+  const errorId = useId()
+
+  // Wire accessibility onto the control: mark it invalid and point it at the
+  // error message so screen readers announce both.
+  const field =
+    error && isValidElement(children)
+      ? cloneElement(children as ReactElement<Record<string, unknown>>, {
+          "aria-invalid": true,
+          "aria-describedby": [
+            (children.props as Record<string, unknown>)["aria-describedby"],
+            errorId,
+          ]
+            .filter(Boolean)
+            .join(" "),
+        })
+      : children
+
   return (
     <div className={`space-y-2 ${className ?? ""}`}>
       <label
@@ -19,8 +36,12 @@ export function FormField({ label, htmlFor, error, required, children, className
         {label}
         {required && <span className="ml-1 text-destructive">*</span>}
       </label>
-      {children}
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {field}
+      {error && (
+        <p id={errorId} className="text-sm text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   )
 }
