@@ -337,8 +337,17 @@ function ProgressBar({
 }
 
 // src/components/form-field.tsx
+var import_react2 = require("react");
 var import_jsx_runtime9 = require("react/jsx-runtime");
 function FormField({ label, htmlFor, error, required, children, className }) {
+  const errorId = (0, import_react2.useId)();
+  const field = error && (0, import_react2.isValidElement)(children) ? (0, import_react2.cloneElement)(children, {
+    "aria-invalid": true,
+    "aria-describedby": [
+      children.props["aria-describedby"],
+      errorId
+    ].filter(Boolean).join(" ")
+  }) : children;
   return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: `space-y-2 ${className ?? ""}`, children: [
     /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
       "label",
@@ -351,8 +360,8 @@ function FormField({ label, htmlFor, error, required, children, className }) {
         ]
       }
     ),
-    children,
-    error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "text-sm text-destructive", children: error })
+    field,
+    error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { id: errorId, className: "text-sm text-destructive", children: error })
   ] });
 }
 
@@ -725,10 +734,10 @@ function Toaster(props) {
 
 // src/components/app-shell.tsx
 var import_lucide_react4 = require("lucide-react");
-var import_react3 = require("react");
+var import_react4 = require("react");
 
 // src/components/sidebar-nav.tsx
-var import_react2 = require("react");
+var import_react3 = require("react");
 
 // src/components/types.tsx
 var import_jsx_runtime20 = require("react/jsx-runtime");
@@ -767,7 +776,7 @@ function SidebarNav({
         !isCollapsed && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "truncate", children: item.label })
       ] })
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_react2.Fragment, { children: link }, item.href);
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_react3.Fragment, { children: link }, item.href);
   }) });
 }
 
@@ -857,8 +866,8 @@ function AppShell({
   defaultCollapsed = false,
   children
 }) {
-  const [collapsed, setCollapsed] = (0, import_react3.useState)(defaultCollapsed);
-  const [mobileOpen, setMobileOpen] = (0, import_react3.useState)(false);
+  const [collapsed, setCollapsed] = (0, import_react4.useState)(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = (0, import_react4.useState)(false);
   const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
     SidebarNav,
     {
@@ -1012,20 +1021,20 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-var import_react4 = require("react");
+var import_react5 = require("react");
 function useDisclosure(initial = false) {
-  const [open, setOpen] = (0, import_react4.useState)(initial);
-  const onOpen = (0, import_react4.useCallback)(() => setOpen(true), []);
-  const onClose = (0, import_react4.useCallback)(() => setOpen(false), []);
-  const onToggle = (0, import_react4.useCallback)(() => setOpen((v) => !v), []);
+  const [open, setOpen] = (0, import_react5.useState)(initial);
+  const onOpen = (0, import_react5.useCallback)(() => setOpen(true), []);
+  const onClose = (0, import_react5.useCallback)(() => setOpen(false), []);
+  const onToggle = (0, import_react5.useCallback)(() => setOpen((v) => !v), []);
   return { open, onOpen, onClose, onToggle, setOpen };
 }
 
 // src/hooks/use-toast.ts
 var import_sonner2 = require("sonner");
-var import_react5 = require("react");
+var import_react6 = require("react");
 function useCustomToast() {
-  const showToast = (0, import_react5.useCallback)(
+  const showToast = (0, import_react6.useCallback)(
     (title, description, status = "success") => {
       switch (status) {
         case "success":

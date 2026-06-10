@@ -271,8 +271,17 @@ function ProgressBar({
 }
 
 // src/components/form-field.tsx
+import { cloneElement, isValidElement, useId } from "react";
 import { jsx as jsx9, jsxs as jsxs8 } from "react/jsx-runtime";
 function FormField({ label, htmlFor, error, required, children, className }) {
+  const errorId = useId();
+  const field = error && isValidElement(children) ? cloneElement(children, {
+    "aria-invalid": true,
+    "aria-describedby": [
+      children.props["aria-describedby"],
+      errorId
+    ].filter(Boolean).join(" ")
+  }) : children;
   return /* @__PURE__ */ jsxs8("div", { className: `space-y-2 ${className ?? ""}`, children: [
     /* @__PURE__ */ jsxs8(
       "label",
@@ -285,8 +294,8 @@ function FormField({ label, htmlFor, error, required, children, className }) {
         ]
       }
     ),
-    children,
-    error && /* @__PURE__ */ jsx9("p", { className: "text-sm text-destructive", children: error })
+    field,
+    error && /* @__PURE__ */ jsx9("p", { id: errorId, className: "text-sm text-destructive", children: error })
   ] });
 }
 
