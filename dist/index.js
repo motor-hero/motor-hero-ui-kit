@@ -585,7 +585,9 @@ function DataTableWrapper({
 }
 
 // src/components/mobile-card-list.tsx
+import { useRef } from "react";
 import { jsx as jsx17, jsxs as jsxs15 } from "react/jsx-runtime";
+var SCROLL_THRESHOLD = 8;
 function MobileCardList({
   data,
   renderCard,
@@ -594,6 +596,26 @@ function MobileCardList({
   loadingCount = 5,
   className
 }) {
+  const start = useRef(null);
+  const scrolled = useRef(false);
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    start.current = { x: t.clientX, y: t.clientY };
+    scrolled.current = false;
+  };
+  const onTouchMove = (e) => {
+    if (!start.current) return;
+    const t = e.touches[0];
+    if (Math.abs(t.clientX - start.current.x) > SCROLL_THRESHOLD || Math.abs(t.clientY - start.current.y) > SCROLL_THRESHOLD) {
+      scrolled.current = true;
+    }
+  };
+  const onClickCapture = (e) => {
+    if (scrolled.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
   if (isLoading) {
     return /* @__PURE__ */ jsx17("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ jsx17("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ jsxs15("div", { className: "space-y-3", children: [
       /* @__PURE__ */ jsxs15("div", { className: "flex justify-between", children: [
@@ -607,14 +629,23 @@ function MobileCardList({
       ] })
     ] }) }, i)) });
   }
-  return /* @__PURE__ */ jsx17("div", { className: `space-y-3 ${className ?? ""}`, children: data.map((item, index) => /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx17(
     "div",
     {
-      className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
-      children: renderCard(item, index)
-    },
-    keyExtractor(item)
-  )) });
+      className: `space-y-3 ${className ?? ""}`,
+      onTouchStart,
+      onTouchMove,
+      onClickCapture,
+      children: data.map((item, index) => /* @__PURE__ */ jsx17(
+        "div",
+        {
+          className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
+          children: renderCard(item, index)
+        },
+        keyExtractor(item)
+      ))
+    }
+  );
 }
 
 // src/components/responsive-data-view.tsx

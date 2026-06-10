@@ -651,7 +651,9 @@ function DataTableWrapper({
 }
 
 // src/components/mobile-card-list.tsx
+var import_react3 = require("react");
 var import_jsx_runtime17 = require("react/jsx-runtime");
+var SCROLL_THRESHOLD = 8;
 function MobileCardList({
   data,
   renderCard,
@@ -660,6 +662,26 @@ function MobileCardList({
   loadingCount = 5,
   className
 }) {
+  const start = (0, import_react3.useRef)(null);
+  const scrolled = (0, import_react3.useRef)(false);
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    start.current = { x: t.clientX, y: t.clientY };
+    scrolled.current = false;
+  };
+  const onTouchMove = (e) => {
+    if (!start.current) return;
+    const t = e.touches[0];
+    if (Math.abs(t.clientX - start.current.x) > SCROLL_THRESHOLD || Math.abs(t.clientY - start.current.y) > SCROLL_THRESHOLD) {
+      scrolled.current = true;
+    }
+  };
+  const onClickCapture = (e) => {
+    if (scrolled.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
   if (isLoading) {
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "space-y-3", children: [
       /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "flex justify-between", children: [
@@ -673,14 +695,23 @@ function MobileCardList({
       ] })
     ] }) }, i)) });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: `space-y-3 ${className ?? ""}`, children: data.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
     "div",
     {
-      className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
-      children: renderCard(item, index)
-    },
-    keyExtractor(item)
-  )) });
+      className: `space-y-3 ${className ?? ""}`,
+      onTouchStart,
+      onTouchMove,
+      onClickCapture,
+      children: data.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+        "div",
+        {
+          className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
+          children: renderCard(item, index)
+        },
+        keyExtractor(item)
+      ))
+    }
+  );
 }
 
 // src/components/responsive-data-view.tsx
@@ -734,10 +765,10 @@ function Toaster(props) {
 
 // src/components/app-shell.tsx
 var import_lucide_react4 = require("lucide-react");
-var import_react4 = require("react");
+var import_react5 = require("react");
 
 // src/components/sidebar-nav.tsx
-var import_react3 = require("react");
+var import_react4 = require("react");
 
 // src/components/types.tsx
 var import_jsx_runtime20 = require("react/jsx-runtime");
@@ -776,7 +807,7 @@ function SidebarNav({
         !isCollapsed && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "truncate", children: item.label })
       ] })
     });
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_react3.Fragment, { children: link }, item.href);
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_react4.Fragment, { children: link }, item.href);
   }) });
 }
 
@@ -866,8 +897,8 @@ function AppShell({
   defaultCollapsed = false,
   children
 }) {
-  const [collapsed, setCollapsed] = (0, import_react4.useState)(defaultCollapsed);
-  const [mobileOpen, setMobileOpen] = (0, import_react4.useState)(false);
+  const [collapsed, setCollapsed] = (0, import_react5.useState)(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = (0, import_react5.useState)(false);
   const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
     SidebarNav,
     {
@@ -1021,20 +1052,20 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-var import_react5 = require("react");
+var import_react6 = require("react");
 function useDisclosure(initial = false) {
-  const [open, setOpen] = (0, import_react5.useState)(initial);
-  const onOpen = (0, import_react5.useCallback)(() => setOpen(true), []);
-  const onClose = (0, import_react5.useCallback)(() => setOpen(false), []);
-  const onToggle = (0, import_react5.useCallback)(() => setOpen((v) => !v), []);
+  const [open, setOpen] = (0, import_react6.useState)(initial);
+  const onOpen = (0, import_react6.useCallback)(() => setOpen(true), []);
+  const onClose = (0, import_react6.useCallback)(() => setOpen(false), []);
+  const onToggle = (0, import_react6.useCallback)(() => setOpen((v) => !v), []);
   return { open, onOpen, onClose, onToggle, setOpen };
 }
 
 // src/hooks/use-toast.ts
 var import_sonner2 = require("sonner");
-var import_react6 = require("react");
+var import_react7 = require("react");
 function useCustomToast() {
-  const showToast = (0, import_react6.useCallback)(
+  const showToast = (0, import_react7.useCallback)(
     (title, description, status = "success") => {
       switch (status) {
         case "success":

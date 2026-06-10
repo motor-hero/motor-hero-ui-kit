@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { type MouseEvent, type ReactNode, type TouchEvent, useRef } from "react"
 
 interface MobileCardListProps<T> {
   data: T[]
@@ -9,6 +9,9 @@ interface MobileCardListProps<T> {
   className?: string
 }
 
+// Movimento (px) acima do qual o gesto é tratado como scroll, não tap.
+const SCROLL_THRESHOLD = 8
+
 export function MobileCardList<T>({
   data,
   renderCard,
@@ -17,6 +20,36 @@ export function MobileCardList<T>({
   loadingCount = 5,
   className,
 }: MobileCardListProps<T>) {
+  // Guard contra tap acidental durante o scroll: se o dedo se moveu além do
+  // threshold, o clique seguinte (ex.: botão de ações dentro do card) é
+  // cancelado na fase de captura, antes de chegar no elemento interativo.
+  const start = useRef<{ x: number; y: number } | null>(null)
+  const scrolled = useRef(false)
+
+  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0]
+    start.current = { x: t.clientX, y: t.clientY }
+    scrolled.current = false
+  }
+
+  const onTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    if (!start.current) return
+    const t = e.touches[0]
+    if (
+      Math.abs(t.clientX - start.current.x) > SCROLL_THRESHOLD ||
+      Math.abs(t.clientY - start.current.y) > SCROLL_THRESHOLD
+    ) {
+      scrolled.current = true
+    }
+  }
+
+  const onClickCapture = (e: MouseEvent<HTMLDivElement>) => {
+    if (scrolled.current) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+  }
+
   if (isLoading) {
     return (
       <div className={`space-y-3 ${className ?? ""}`}>
@@ -40,7 +73,12 @@ export function MobileCardList<T>({
   }
 
   return (
-    <div className={`space-y-3 ${className ?? ""}`}>
+    <div
+      className={`space-y-3 ${className ?? ""}`}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onClickCapture={onClickCapture}
+    >
       {data.map((item, index) => (
         <div
           key={keyExtractor(item)}

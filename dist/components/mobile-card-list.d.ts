@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 interface MobileCardListProps<T> {
     data: T[];
     renderCard: (item: T, index: number) => ReactNode;
