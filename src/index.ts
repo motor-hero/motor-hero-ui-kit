@@ -45,4 +45,5 @@ export { extractApiError } from "./lib/api-error"
 
 // Hooks
 export { useDisclosure } from "./hooks/use-disclosure"
+export { useIsDesktop } from "./hooks/use-is-desktop"
 export { useCustomToast, toast } from "./hooks/use-toast"

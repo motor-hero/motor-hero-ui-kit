@@ -3,6 +3,7 @@ import { Command as CommandPrimitive } from "cmdk"
 import { Check, ChevronsUpDown, Search } from "lucide-react"
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
+import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
 
 export interface ComboboxOption {
@@ -26,26 +27,6 @@ export interface ComboboxProps {
   className?: string
   "aria-invalid"?: boolean | "true" | "false"
   "aria-describedby"?: string
-}
-
-const DESKTOP_QUERY = "(min-width: 640px)"
-
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = React.useState(() =>
-    typeof window !== "undefined"
-      ? window.matchMedia(DESKTOP_QUERY).matches
-      : true,
-  )
-
-  React.useEffect(() => {
-    const mql = window.matchMedia(DESKTOP_QUERY)
-    const onChange = () => setIsDesktop(mql.matches)
-    onChange()
-    mql.addEventListener("change", onChange)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
-
-  return isDesktop
 }
 
 /**

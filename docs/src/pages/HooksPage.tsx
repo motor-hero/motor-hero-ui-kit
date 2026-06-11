@@ -171,6 +171,31 @@ function MyComponent() {
             </div>
           </div>
         </div>
+
+        <div className="border-t pt-6">
+          <h2 className="mb-4 text-xl font-semibold">useIsDesktop()</h2>
+          <p className="mb-4 text-muted-foreground">
+            Retorna <code>true</code> no desktop (&ge; 640px) e <code>false</code> no mobile, reagindo a mudanças de viewport. É o que permite componentes responsivos (Combobox, RowActionsMenu, UserMenu) trocarem Popover/DropdownMenu por Drawer/bottom sheet no mobile.
+          </p>
+          <CodeBlock
+            code={`import { useIsDesktop } from "@motor-hero/ui-kit"
+
+function MyComponent() {
+  const isDesktop = useIsDesktop()
+
+  return isDesktop ? <Popover>...</Popover> : <Drawer>...</Drawer>
+}`}
+          />
+
+          <div className="mt-4 rounded-lg border p-4">
+            <h3 className="mb-2 text-sm font-semibold">Assinatura</h3>
+            <div className="text-sm">
+              <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">
+                useIsDesktop(): boolean
+              </code>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

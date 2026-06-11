@@ -546,9 +546,11 @@ PasswordInput.displayName = "PasswordInput";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check, ChevronsUpDown, Search } from "lucide-react";
-import * as React4 from "react";
+import * as React5 from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
-import { jsx as jsx16, jsxs as jsxs14 } from "react/jsx-runtime";
+
+// src/hooks/use-is-desktop.ts
+import * as React4 from "react";
 var DESKTOP_QUERY = "(min-width: 640px)";
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = React4.useState(
@@ -563,6 +565,9 @@ function useIsDesktop() {
   }, []);
   return isDesktop;
 }
+
+// src/components/combobox.tsx
+import { jsx as jsx16, jsxs as jsxs14 } from "react/jsx-runtime";
 function Combobox({
   options,
   value,
@@ -576,7 +581,7 @@ function Combobox({
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby
 }) {
-  const [open, setOpen] = React4.useState(false);
+  const [open, setOpen] = React5.useState(false);
   const isDesktop = useIsDesktop();
   const selected = options.find((option) => option.value === value);
   const trigger = /* @__PURE__ */ jsxs14(
@@ -855,7 +860,7 @@ function Toaster(props) {
 
 // src/components/app-shell.tsx
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
-import { useState as useState4 } from "react";
+import { useState as useState6 } from "react";
 
 // src/components/sidebar-nav.tsx
 import { Fragment as Fragment3 } from "react";
@@ -904,6 +909,8 @@ function SidebarNav({
 // src/components/user-menu.tsx
 import * as DropdownMenu2 from "@radix-ui/react-dropdown-menu";
 import { LogOut, User } from "lucide-react";
+import { useState as useState5 } from "react";
+import { Drawer as DrawerPrimitive2 } from "vaul";
 import { Fragment as Fragment5, jsx as jsx24, jsxs as jsxs20 } from "react/jsx-runtime";
 function initials(user) {
   const source = user?.name?.trim() || user?.email?.trim();
@@ -913,6 +920,7 @@ function initials(user) {
   return source.slice(0, 2).toUpperCase();
 }
 var itemClass = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent";
+var sheetItemClass = "flex w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 py-3 text-base outline-none transition-colors hover:bg-accent active:bg-accent";
 function UserMenu({
   user,
   items = [],
@@ -921,51 +929,151 @@ function UserMenu({
   renderLink = defaultRenderLink,
   align = "end"
 }) {
+  const isDesktop = useIsDesktop();
+  const [open, setOpen] = useState5(false);
   const label = initials(user);
-  return /* @__PURE__ */ jsxs20(DropdownMenu2.Root, { children: [
-    /* @__PURE__ */ jsx24(DropdownMenu2.Trigger, { asChild: true, children: /* @__PURE__ */ jsx24(
-      "button",
-      {
-        type: "button",
-        className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-        "aria-label": "Menu do usu\xE1rio",
-        "data-testid": "user-menu",
-        children: user?.avatarUrl ? /* @__PURE__ */ jsx24("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ jsx24("span", { children: label }) : /* @__PURE__ */ jsx24(User, { className: "h-4 w-4" })
-      }
-    ) }),
-    /* @__PURE__ */ jsx24(DropdownMenu2.Portal, { children: /* @__PURE__ */ jsxs20(
-      DropdownMenu2.Content,
-      {
-        align,
-        sideOffset: 6,
-        className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        children: [
-          (user?.name || user?.email) && /* @__PURE__ */ jsxs20(Fragment5, { children: [
-            /* @__PURE__ */ jsxs20("div", { className: "px-2 py-1.5", children: [
-              user.name && /* @__PURE__ */ jsx24("p", { className: "truncate text-sm font-medium", children: user.name }),
-              user.email && /* @__PURE__ */ jsx24("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+  const trigger = /* @__PURE__ */ jsx24(
+    "button",
+    {
+      type: "button",
+      className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "aria-label": "Menu do usu\xE1rio",
+      "data-testid": "user-menu",
+      children: user?.avatarUrl ? /* @__PURE__ */ jsx24(
+        "img",
+        {
+          src: user.avatarUrl,
+          alt: user.name ?? user.email ?? "Avatar",
+          className: "h-full w-full object-cover"
+        }
+      ) : label ? /* @__PURE__ */ jsx24("span", { children: label }) : /* @__PURE__ */ jsx24(User, { className: "h-4 w-4" })
+    }
+  );
+  const userInfo = (user?.name || user?.email) && /* @__PURE__ */ jsxs20("div", { className: "px-2 py-1.5", children: [
+    user.name && /* @__PURE__ */ jsx24("p", { className: "truncate text-sm font-medium", children: user.name }),
+    user.email && /* @__PURE__ */ jsx24("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+  ] });
+  if (isDesktop) {
+    return /* @__PURE__ */ jsxs20(DropdownMenu2.Root, { open, onOpenChange: setOpen, children: [
+      /* @__PURE__ */ jsx24(DropdownMenu2.Trigger, { asChild: true, children: trigger }),
+      /* @__PURE__ */ jsx24(DropdownMenu2.Portal, { children: /* @__PURE__ */ jsxs20(
+        DropdownMenu2.Content,
+        {
+          align,
+          sideOffset: 6,
+          className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+          children: [
+            userInfo && /* @__PURE__ */ jsxs20(Fragment5, { children: [
+              userInfo,
+              /* @__PURE__ */ jsx24(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
             ] }),
-            /* @__PURE__ */ jsx24(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
-          ] }),
-          items.map(
-            (item) => item.href ? /* @__PURE__ */ jsx24(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs20(Fragment5, { children: [
-              item.icon,
-              item.label
-            ] }) }) }, item.label) : /* @__PURE__ */ jsxs20(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
-              item.icon,
-              item.label
-            ] }, item.label)
-          ),
-          onLogout && /* @__PURE__ */ jsxs20(Fragment5, { children: [
-            items.length > 0 && /* @__PURE__ */ jsx24(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
-            /* @__PURE__ */ jsxs20(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
-              /* @__PURE__ */ jsx24(LogOut, { className: "h-4 w-4" }),
-              logoutLabel
+            items.map(
+              (item) => item.href ? /* @__PURE__ */ jsx24(DropdownMenu2.Item, { asChild: true, children: renderLink({
+                href: item.href,
+                className: itemClass,
+                children: /* @__PURE__ */ jsxs20(Fragment5, { children: [
+                  item.icon,
+                  item.label
+                ] })
+              }) }, item.label) : /* @__PURE__ */ jsxs20(
+                DropdownMenu2.Item,
+                {
+                  className: itemClass,
+                  onClick: item.onClick,
+                  children: [
+                    item.icon,
+                    item.label
+                  ]
+                },
+                item.label
+              )
+            ),
+            onLogout && /* @__PURE__ */ jsxs20(Fragment5, { children: [
+              items.length > 0 && /* @__PURE__ */ jsx24(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
+              /* @__PURE__ */ jsxs20(
+                DropdownMenu2.Item,
+                {
+                  className: cn(
+                    itemClass,
+                    "text-destructive focus:bg-destructive/10"
+                  ),
+                  onClick: onLogout,
+                  children: [
+                    /* @__PURE__ */ jsx24(LogOut, { className: "h-4 w-4" }),
+                    logoutLabel
+                  ]
+                }
+              )
             ] })
-          ] })
-        ]
-      }
-    ) })
+          ]
+        }
+      ) })
+    ] });
+  }
+  return /* @__PURE__ */ jsxs20(DrawerPrimitive2.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx24(DrawerPrimitive2.Trigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ jsxs20(DrawerPrimitive2.Portal, { children: [
+      /* @__PURE__ */ jsx24(DrawerPrimitive2.Overlay, { className: "fixed inset-0 z-50 bg-black/80" }),
+      /* @__PURE__ */ jsxs20(DrawerPrimitive2.Content, { className: "fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border bg-popover p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-popover-foreground outline-none", children: [
+        /* @__PURE__ */ jsx24(DrawerPrimitive2.Title, { className: "sr-only", children: "Menu do usu\xE1rio" }),
+        /* @__PURE__ */ jsx24("div", { className: "mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" }),
+        userInfo && /* @__PURE__ */ jsxs20(Fragment5, { children: [
+          userInfo,
+          /* @__PURE__ */ jsx24("div", { className: "-mx-1 my-1 h-px bg-border" })
+        ] }),
+        items.map(
+          (item) => item.href ? /* @__PURE__ */ jsx24(
+            "span",
+            {
+              onClick: () => setOpen(false),
+              onKeyDown: () => setOpen(false),
+              children: renderLink({
+                href: item.href,
+                className: sheetItemClass,
+                children: /* @__PURE__ */ jsxs20(Fragment5, { children: [
+                  item.icon,
+                  item.label
+                ] })
+              })
+            },
+            item.label
+          ) : /* @__PURE__ */ jsxs20(
+            "button",
+            {
+              type: "button",
+              className: sheetItemClass,
+              onClick: () => {
+                item.onClick?.();
+                setOpen(false);
+              },
+              children: [
+                item.icon,
+                item.label
+              ]
+            },
+            item.label
+          )
+        ),
+        onLogout && /* @__PURE__ */ jsxs20(Fragment5, { children: [
+          items.length > 0 && /* @__PURE__ */ jsx24("div", { className: "-mx-1 my-1 h-px bg-border" }),
+          /* @__PURE__ */ jsxs20(
+            "button",
+            {
+              type: "button",
+              className: cn(sheetItemClass, "text-destructive"),
+              onClick: () => {
+                onLogout();
+                setOpen(false);
+              },
+              children: [
+                /* @__PURE__ */ jsx24(LogOut, { className: "h-4 w-4" }),
+                logoutLabel
+              ]
+            }
+          )
+        ] })
+      ] })
+    ] })
   ] });
 }
 
@@ -987,8 +1095,8 @@ function AppShell({
   defaultCollapsed = false,
   children
 }) {
-  const [collapsed, setCollapsed] = useState4(defaultCollapsed);
-  const [mobileOpen, setMobileOpen] = useState4(false);
+  const [collapsed, setCollapsed] = useState6(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = useState6(false);
   const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ jsx25(
     SidebarNav,
     {
@@ -1077,8 +1185,12 @@ function AppShell({
 // src/components/row-actions-menu.tsx
 import * as DropdownMenu3 from "@radix-ui/react-dropdown-menu";
 import { MoreVertical } from "lucide-react";
+import { useState as useState7 } from "react";
+import { Drawer as DrawerPrimitive3 } from "vaul";
 import { Fragment as Fragment6, jsx as jsx26, jsxs as jsxs22 } from "react/jsx-runtime";
+var triggerClass = "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
 var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+var sheetItemClass2 = "flex w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 py-3 text-base outline-none transition-colors hover:bg-accent active:bg-accent disabled:pointer-events-none disabled:opacity-50";
 function RowActionsMenu({
   actions,
   disabled = false,
@@ -1086,49 +1198,111 @@ function RowActionsMenu({
   label = "A\xE7\xF5es",
   renderLink = defaultRenderLink
 }) {
+  const isDesktop = useIsDesktop();
+  const [open, setOpen] = useState7(false);
   if (actions.length === 0) return null;
-  return /* @__PURE__ */ jsxs22(DropdownMenu3.Root, { children: [
-    /* @__PURE__ */ jsx26(DropdownMenu3.Trigger, { asChild: true, children: /* @__PURE__ */ jsx26(
-      "button",
-      {
-        type: "button",
-        disabled,
-        "aria-label": label,
-        className: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-        children: /* @__PURE__ */ jsx26(MoreVertical, { className: "h-4 w-4" })
-      }
-    ) }),
-    /* @__PURE__ */ jsx26(DropdownMenu3.Portal, { children: /* @__PURE__ */ jsx26(
-      DropdownMenu3.Content,
-      {
-        align,
-        sideOffset: 6,
-        className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        children: actions.map((action) => {
-          const cls = cn(itemClass2, action.destructive && "text-destructive focus:bg-destructive/10");
-          return action.href ? /* @__PURE__ */ jsx26(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
-            href: action.href,
-            className: cls,
-            children: /* @__PURE__ */ jsxs22(Fragment6, { children: [
-              action.icon,
+  const trigger = /* @__PURE__ */ jsx26(
+    "button",
+    {
+      type: "button",
+      disabled,
+      "aria-label": label,
+      className: triggerClass,
+      children: /* @__PURE__ */ jsx26(MoreVertical, { className: "h-4 w-4" })
+    }
+  );
+  if (isDesktop) {
+    return /* @__PURE__ */ jsxs22(DropdownMenu3.Root, { open, onOpenChange: setOpen, children: [
+      /* @__PURE__ */ jsx26(DropdownMenu3.Trigger, { asChild: true, children: trigger }),
+      /* @__PURE__ */ jsx26(DropdownMenu3.Portal, { children: /* @__PURE__ */ jsx26(
+        DropdownMenu3.Content,
+        {
+          align,
+          sideOffset: 6,
+          className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+          children: actions.map((action) => {
+            const cls = cn(
+              itemClass2,
+              action.destructive && "text-destructive focus:bg-destructive/10"
+            );
+            return action.href ? /* @__PURE__ */ jsx26(
+              DropdownMenu3.Item,
+              {
+                asChild: true,
+                disabled: action.disabled,
+                children: renderLink({
+                  href: action.href,
+                  className: cls,
+                  children: /* @__PURE__ */ jsxs22(Fragment6, { children: [
+                    action.icon,
+                    action.label
+                  ] })
+                })
+              },
               action.label
-            ] })
-          }) }, action.label) : /* @__PURE__ */ jsxs22(
-            DropdownMenu3.Item,
+            ) : /* @__PURE__ */ jsxs22(
+              DropdownMenu3.Item,
+              {
+                className: cls,
+                disabled: action.disabled,
+                onClick: action.onClick,
+                children: [
+                  action.icon,
+                  action.label
+                ]
+              },
+              action.label
+            );
+          })
+        }
+      ) })
+    ] });
+  }
+  return /* @__PURE__ */ jsxs22(DrawerPrimitive3.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx26(DrawerPrimitive3.Trigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ jsxs22(DrawerPrimitive3.Portal, { children: [
+      /* @__PURE__ */ jsx26(DrawerPrimitive3.Overlay, { className: "fixed inset-0 z-50 bg-black/80" }),
+      /* @__PURE__ */ jsxs22(DrawerPrimitive3.Content, { className: "fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border bg-popover p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-popover-foreground outline-none", children: [
+        /* @__PURE__ */ jsx26(DrawerPrimitive3.Title, { className: "sr-only", children: label }),
+        /* @__PURE__ */ jsx26("div", { className: "mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" }),
+        actions.map((action) => {
+          const cls = cn(
+            sheetItemClass2,
+            action.destructive && "text-destructive"
+          );
+          const inner = /* @__PURE__ */ jsxs22(Fragment6, { children: [
+            action.icon,
+            action.label
+          ] });
+          return action.href ? /* @__PURE__ */ jsx26(
+            "span",
             {
-              className: cls,
+              onClick: () => setOpen(false),
+              onKeyDown: () => setOpen(false),
+              children: renderLink({
+                href: action.href,
+                className: cls,
+                children: inner
+              })
+            },
+            action.label
+          ) : /* @__PURE__ */ jsx26(
+            "button",
+            {
+              type: "button",
               disabled: action.disabled,
-              onClick: action.onClick,
-              children: [
-                action.icon,
-                action.label
-              ]
+              className: cls,
+              onClick: () => {
+                action.onClick?.();
+                setOpen(false);
+              },
+              children: inner
             },
             action.label
           );
         })
-      }
-    ) })
+      ] })
+    ] })
   ] });
 }
 
@@ -1142,9 +1316,9 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-import { useCallback, useState as useState5 } from "react";
+import { useCallback, useState as useState8 } from "react";
 function useDisclosure(initial = false) {
-  const [open, setOpen] = useState5(initial);
+  const [open, setOpen] = useState8(initial);
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
   const onToggle = useCallback(() => setOpen((v) => !v), []);
@@ -1209,6 +1383,7 @@ export {
   toast,
   useCustomToast,
   useDisclosure,
+  useIsDesktop,
   useTheme
 };
 //# sourceMappingURL=index.js.map

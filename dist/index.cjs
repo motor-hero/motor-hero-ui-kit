@@ -62,6 +62,7 @@ __export(index_exports, {
   toast: () => import_sonner2.toast,
   useCustomToast: () => useCustomToast,
   useDisclosure: () => useDisclosure,
+  useIsDesktop: () => useIsDesktop,
   useTheme: () => useTheme
 });
 module.exports = __toCommonJS(index_exports);
@@ -614,9 +615,11 @@ PasswordInput.displayName = "PasswordInput";
 var PopoverPrimitive = __toESM(require("@radix-ui/react-popover"), 1);
 var import_cmdk = require("cmdk");
 var import_lucide_react4 = require("lucide-react");
-var React4 = __toESM(require("react"), 1);
+var React5 = __toESM(require("react"), 1);
 var import_vaul = require("vaul");
-var import_jsx_runtime16 = require("react/jsx-runtime");
+
+// src/hooks/use-is-desktop.ts
+var React4 = __toESM(require("react"), 1);
 var DESKTOP_QUERY = "(min-width: 640px)";
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = React4.useState(
@@ -631,6 +634,9 @@ function useIsDesktop() {
   }, []);
   return isDesktop;
 }
+
+// src/components/combobox.tsx
+var import_jsx_runtime16 = require("react/jsx-runtime");
 function Combobox({
   options,
   value,
@@ -644,7 +650,7 @@ function Combobox({
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby
 }) {
-  const [open, setOpen] = React4.useState(false);
+  const [open, setOpen] = React5.useState(false);
   const isDesktop = useIsDesktop();
   const selected = options.find((option) => option.value === value);
   const trigger = /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
@@ -923,7 +929,7 @@ function Toaster(props) {
 
 // src/components/app-shell.tsx
 var import_lucide_react6 = require("lucide-react");
-var import_react5 = require("react");
+var import_react6 = require("react");
 
 // src/components/sidebar-nav.tsx
 var import_react4 = require("react");
@@ -972,6 +978,8 @@ function SidebarNav({
 // src/components/user-menu.tsx
 var DropdownMenu2 = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
 var import_lucide_react5 = require("lucide-react");
+var import_react5 = require("react");
+var import_vaul2 = require("vaul");
 var import_jsx_runtime24 = require("react/jsx-runtime");
 function initials(user) {
   const source = user?.name?.trim() || user?.email?.trim();
@@ -981,6 +989,7 @@ function initials(user) {
   return source.slice(0, 2).toUpperCase();
 }
 var itemClass = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent";
+var sheetItemClass = "flex w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 py-3 text-base outline-none transition-colors hover:bg-accent active:bg-accent";
 function UserMenu({
   user,
   items = [],
@@ -989,51 +998,151 @@ function UserMenu({
   renderLink = defaultRenderLink,
   align = "end"
 }) {
+  const isDesktop = useIsDesktop();
+  const [open, setOpen] = (0, import_react5.useState)(false);
   const label = initials(user);
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(DropdownMenu2.Root, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Trigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
-      "button",
-      {
-        type: "button",
-        className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-        "aria-label": "Menu do usu\xE1rio",
-        "data-testid": "user-menu",
-        children: user?.avatarUrl ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { children: label }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.User, { className: "h-4 w-4" })
-      }
-    ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
-      DropdownMenu2.Content,
-      {
-        align,
-        sideOffset: 6,
-        className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        children: [
-          (user?.name || user?.email) && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "px-2 py-1.5", children: [
-              user.name && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("p", { className: "truncate text-sm font-medium", children: user.name }),
-              user.email && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+  const trigger = /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+    "button",
+    {
+      type: "button",
+      className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "aria-label": "Menu do usu\xE1rio",
+      "data-testid": "user-menu",
+      children: user?.avatarUrl ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+        "img",
+        {
+          src: user.avatarUrl,
+          alt: user.name ?? user.email ?? "Avatar",
+          className: "h-full w-full object-cover"
+        }
+      ) : label ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("span", { children: label }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.User, { className: "h-4 w-4" })
+    }
+  );
+  const userInfo = (user?.name || user?.email) && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("div", { className: "px-2 py-1.5", children: [
+    user.name && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("p", { className: "truncate text-sm font-medium", children: user.name }),
+    user.email && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+  ] });
+  if (isDesktop) {
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(DropdownMenu2.Root, { open, onOpenChange: setOpen, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Trigger, { asChild: true, children: trigger }),
+      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+        DropdownMenu2.Content,
+        {
+          align,
+          sideOffset: 6,
+          className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+          children: [
+            userInfo && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+              userInfo,
+              /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
-          ] }),
-          items.map(
-            (item) => item.href ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
-              item.icon,
-              item.label
-            ] }) }) }, item.label) : /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
-              item.icon,
-              item.label
-            ] }, item.label)
-          ),
-          onLogout && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
-            items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
-            /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.LogOut, { className: "h-4 w-4" }),
-              logoutLabel
+            items.map(
+              (item) => item.href ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Item, { asChild: true, children: renderLink({
+                href: item.href,
+                className: itemClass,
+                children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+                  item.icon,
+                  item.label
+                ] })
+              }) }, item.label) : /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+                DropdownMenu2.Item,
+                {
+                  className: itemClass,
+                  onClick: item.onClick,
+                  children: [
+                    item.icon,
+                    item.label
+                  ]
+                },
+                item.label
+              )
+            ),
+            onLogout && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+              items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
+              /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+                DropdownMenu2.Item,
+                {
+                  className: cn(
+                    itemClass,
+                    "text-destructive focus:bg-destructive/10"
+                  ),
+                  onClick: onLogout,
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.LogOut, { className: "h-4 w-4" }),
+                    logoutLabel
+                  ]
+                }
+              )
             ] })
-          ] })
-        ]
-      }
-    ) })
+          ]
+        }
+      ) })
+    ] });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_vaul2.Drawer.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_vaul2.Drawer.Trigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_vaul2.Drawer.Portal, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_vaul2.Drawer.Overlay, { className: "fixed inset-0 z-50 bg-black/80" }),
+      /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_vaul2.Drawer.Content, { className: "fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border bg-popover p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-popover-foreground outline-none", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_vaul2.Drawer.Title, { className: "sr-only", children: "Menu do usu\xE1rio" }),
+        /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" }),
+        userInfo && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+          userInfo,
+          /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "-mx-1 my-1 h-px bg-border" })
+        ] }),
+        items.map(
+          (item) => item.href ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+            "span",
+            {
+              onClick: () => setOpen(false),
+              onKeyDown: () => setOpen(false),
+              children: renderLink({
+                href: item.href,
+                className: sheetItemClass,
+                children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+                  item.icon,
+                  item.label
+                ] })
+              })
+            },
+            item.label
+          ) : /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+            "button",
+            {
+              type: "button",
+              className: sheetItemClass,
+              onClick: () => {
+                item.onClick?.();
+                setOpen(false);
+              },
+              children: [
+                item.icon,
+                item.label
+              ]
+            },
+            item.label
+          )
+        ),
+        onLogout && /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(import_jsx_runtime24.Fragment, { children: [
+          items.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: "-mx-1 my-1 h-px bg-border" }),
+          /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+            "button",
+            {
+              type: "button",
+              className: cn(sheetItemClass, "text-destructive"),
+              onClick: () => {
+                onLogout();
+                setOpen(false);
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_lucide_react5.LogOut, { className: "h-4 w-4" }),
+                logoutLabel
+              ]
+            }
+          )
+        ] })
+      ] })
+    ] })
   ] });
 }
 
@@ -1055,8 +1164,8 @@ function AppShell({
   defaultCollapsed = false,
   children
 }) {
-  const [collapsed, setCollapsed] = (0, import_react5.useState)(defaultCollapsed);
-  const [mobileOpen, setMobileOpen] = (0, import_react5.useState)(false);
+  const [collapsed, setCollapsed] = (0, import_react6.useState)(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = (0, import_react6.useState)(false);
   const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
     SidebarNav,
     {
@@ -1145,8 +1254,12 @@ function AppShell({
 // src/components/row-actions-menu.tsx
 var DropdownMenu3 = __toESM(require("@radix-ui/react-dropdown-menu"), 1);
 var import_lucide_react7 = require("lucide-react");
+var import_react7 = require("react");
+var import_vaul3 = require("vaul");
 var import_jsx_runtime26 = require("react/jsx-runtime");
+var triggerClass = "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
 var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+var sheetItemClass2 = "flex w-full cursor-pointer select-none items-center gap-3 rounded-md px-3 py-3 text-base outline-none transition-colors hover:bg-accent active:bg-accent disabled:pointer-events-none disabled:opacity-50";
 function RowActionsMenu({
   actions,
   disabled = false,
@@ -1154,49 +1267,111 @@ function RowActionsMenu({
   label = "A\xE7\xF5es",
   renderLink = defaultRenderLink
 }) {
+  const isDesktop = useIsDesktop();
+  const [open, setOpen] = (0, import_react7.useState)(false);
   if (actions.length === 0) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(DropdownMenu3.Root, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DropdownMenu3.Trigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
-      "button",
-      {
-        type: "button",
-        disabled,
-        "aria-label": label,
-        className: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-        children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_lucide_react7.MoreVertical, { className: "h-4 w-4" })
-      }
-    ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DropdownMenu3.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
-      DropdownMenu3.Content,
-      {
-        align,
-        sideOffset: 6,
-        className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        children: actions.map((action) => {
-          const cls = cn(itemClass2, action.destructive && "text-destructive focus:bg-destructive/10");
-          return action.href ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
-            href: action.href,
-            className: cls,
-            children: /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
-              action.icon,
+  const trigger = /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+    "button",
+    {
+      type: "button",
+      disabled,
+      "aria-label": label,
+      className: triggerClass,
+      children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_lucide_react7.MoreVertical, { className: "h-4 w-4" })
+    }
+  );
+  if (isDesktop) {
+    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(DropdownMenu3.Root, { open, onOpenChange: setOpen, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DropdownMenu3.Trigger, { asChild: true, children: trigger }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(DropdownMenu3.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+        DropdownMenu3.Content,
+        {
+          align,
+          sideOffset: 6,
+          className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+          children: actions.map((action) => {
+            const cls = cn(
+              itemClass2,
+              action.destructive && "text-destructive focus:bg-destructive/10"
+            );
+            return action.href ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+              DropdownMenu3.Item,
+              {
+                asChild: true,
+                disabled: action.disabled,
+                children: renderLink({
+                  href: action.href,
+                  className: cls,
+                  children: /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+                    action.icon,
+                    action.label
+                  ] })
+                })
+              },
               action.label
-            ] })
-          }) }, action.label) : /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(
-            DropdownMenu3.Item,
+            ) : /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(
+              DropdownMenu3.Item,
+              {
+                className: cls,
+                disabled: action.disabled,
+                onClick: action.onClick,
+                children: [
+                  action.icon,
+                  action.label
+                ]
+              },
+              action.label
+            );
+          })
+        }
+      ) })
+    ] });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_vaul3.Drawer.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_vaul3.Drawer.Trigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_vaul3.Drawer.Portal, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_vaul3.Drawer.Overlay, { className: "fixed inset-0 z-50 bg-black/80" }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_vaul3.Drawer.Content, { className: "fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-2xl border bg-popover p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-popover-foreground outline-none", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(import_vaul3.Drawer.Title, { className: "sr-only", children: label }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" }),
+        actions.map((action) => {
+          const cls = cn(
+            sheetItemClass2,
+            action.destructive && "text-destructive"
+          );
+          const inner = /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+            action.icon,
+            action.label
+          ] });
+          return action.href ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+            "span",
             {
-              className: cls,
+              onClick: () => setOpen(false),
+              onKeyDown: () => setOpen(false),
+              children: renderLink({
+                href: action.href,
+                className: cls,
+                children: inner
+              })
+            },
+            action.label
+          ) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+            "button",
+            {
+              type: "button",
               disabled: action.disabled,
-              onClick: action.onClick,
-              children: [
-                action.icon,
-                action.label
-              ]
+              className: cls,
+              onClick: () => {
+                action.onClick?.();
+                setOpen(false);
+              },
+              children: inner
             },
             action.label
           );
         })
-      }
-    ) })
+      ] })
+    ] })
   ] });
 }
 
@@ -1210,20 +1385,20 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-var import_react6 = require("react");
+var import_react8 = require("react");
 function useDisclosure(initial = false) {
-  const [open, setOpen] = (0, import_react6.useState)(initial);
-  const onOpen = (0, import_react6.useCallback)(() => setOpen(true), []);
-  const onClose = (0, import_react6.useCallback)(() => setOpen(false), []);
-  const onToggle = (0, import_react6.useCallback)(() => setOpen((v) => !v), []);
+  const [open, setOpen] = (0, import_react8.useState)(initial);
+  const onOpen = (0, import_react8.useCallback)(() => setOpen(true), []);
+  const onClose = (0, import_react8.useCallback)(() => setOpen(false), []);
+  const onToggle = (0, import_react8.useCallback)(() => setOpen((v) => !v), []);
   return { open, onOpen, onClose, onToggle, setOpen };
 }
 
 // src/hooks/use-toast.ts
 var import_sonner2 = require("sonner");
-var import_react7 = require("react");
+var import_react9 = require("react");
 function useCustomToast() {
-  const showToast = (0, import_react7.useCallback)(
+  const showToast = (0, import_react9.useCallback)(
     (title, description, status = "success") => {
       switch (status) {
         case "success":
@@ -1278,6 +1453,7 @@ function useCustomToast() {
   toast,
   useCustomToast,
   useDisclosure,
+  useIsDesktop,
   useTheme
 });
 //# sourceMappingURL=index.cjs.map

@@ -36,5 +36,6 @@ export type { RenderLink, RenderLinkProps } from "./components/types";
 export { cn } from "./lib/utils";
 export { extractApiError } from "./lib/api-error";
 export { useDisclosure } from "./hooks/use-disclosure";
+export { useIsDesktop } from "./hooks/use-is-desktop";
 export { useCustomToast, toast } from "./hooks/use-toast";
 //# sourceMappingURL=index.d.ts.map

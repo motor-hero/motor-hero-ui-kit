@@ -17,7 +17,8 @@ export function RowActionsMenuPage() {
         <p className="mt-2 text-lg text-muted-foreground">
           O menu de ações (⋮) das linhas de tabela — editar, excluir, ver — com as ações vindas por
           props. Substitui o <code className="rounded bg-muted px-1 py-0.5 text-sm">ActionsMenu</code>{" "}
-          copiado em cada projeto.
+          copiado em cada projeto. <strong>Responsivo</strong>: DropdownMenu no
+          desktop, action sheet (Drawer) no mobile.
         </p>
       </div>
 
