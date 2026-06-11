@@ -41,7 +41,7 @@ export function Combobox({
   const selected = options.find((option) => option.value === value)
 
   return (
-    <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
+    <PopoverPrimitive.Root open={open} onOpenChange={setOpen} modal>
       <PopoverPrimitive.Trigger asChild>
         <button
           type="button"

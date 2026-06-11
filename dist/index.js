@@ -563,7 +563,7 @@ function Combobox({
 }) {
   const [open, setOpen] = React4.useState(false);
   const selected = options.find((option) => option.value === value);
-  return /* @__PURE__ */ jsxs14(PopoverPrimitive.Root, { open, onOpenChange: setOpen, children: [
+  return /* @__PURE__ */ jsxs14(PopoverPrimitive.Root, { open, onOpenChange: setOpen, modal: true, children: [
     /* @__PURE__ */ jsx16(PopoverPrimitive.Trigger, { asChild: true, children: /* @__PURE__ */ jsxs14(
       "button",
       {
