@@ -1,1 +1,1 @@
-{"version":3,"file":"table-skeleton.d.ts","sourceRoot":"","sources":["../../src/components/table-skeleton.tsx"],"names":[],"mappings":"AAAA,UAAU,kBAAkB;IAC1B,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,OAAO,CAAC,EAAE,MAAM,CAAA;CACjB;AAED,wBAAgB,aAAa,CAAC,EAAE,IAAQ,EAAE,OAAW,EAAE,EAAE,kBAAkB,2CAc1E"}
+{"version":3,"file":"table-skeleton.d.ts","sourceRoot":"","sources":["../../src/components/table-skeleton.tsx"],"names":[],"mappings":"AAAA,UAAU,kBAAkB;IAC1B,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,OAAO,CAAC,EAAE,MAAM,CAAA;CACjB;AAED,wBAAgB,aAAa,CAAC,EAAE,IAAQ,EAAE,OAAW,EAAE,EAAE,kBAAkB,+BAc1E"}

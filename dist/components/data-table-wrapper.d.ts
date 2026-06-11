@@ -11,6 +11,6 @@ interface DataTableWrapperProps {
     hasNextPage?: boolean;
     hasPreviousPage?: boolean;
 }
-export declare function DataTableWrapper({ children, isEmpty, isLoading, emptyIcon, emptyTitle, emptyDescription, page, onPageChange, hasNextPage, hasPreviousPage, }: DataTableWrapperProps): import("react/jsx-runtime").JSX.Element;
+export declare function DataTableWrapper({ children, isEmpty, isLoading, emptyIcon, emptyTitle, emptyDescription, page, onPageChange, hasNextPage, hasPreviousPage, }: DataTableWrapperProps): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=data-table-wrapper.d.ts.map

@@ -8,6 +8,7 @@ import { AuthCardPage } from "./pages/AuthCardPage"
 import { StatCardPage } from "./pages/StatCardPage"
 import { SearchInputPage } from "./pages/SearchInputPage"
 import { PasswordInputPage } from "./pages/PasswordInputPage"
+import { ComboboxPage } from "./pages/ComboboxPage"
 import { PaginationPage } from "./pages/PaginationPage"
 import { TableSkeletonPage } from "./pages/TableSkeletonPage"
 import { MobileCardListPage } from "./pages/MobileCardListPage"
@@ -34,6 +35,7 @@ const pages: Record<string, () => JSX.Element> = {
   "stat-card": StatCardPage,
   "search-input": SearchInputPage,
   "password-input": PasswordInputPage,
+  combobox: ComboboxPage,
   pagination: PaginationPage,
   "table-skeleton": TableSkeletonPage,
   "mobile-card-list": MobileCardListPage,

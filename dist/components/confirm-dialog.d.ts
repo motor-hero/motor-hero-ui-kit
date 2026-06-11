@@ -10,6 +10,6 @@ interface ConfirmDialogProps {
     loading?: boolean;
     variant?: "default" | "destructive";
 }
-export declare function ConfirmDialog({ open, onOpenChange, onConfirm, title, description, confirmLabel, cancelLabel, loading, variant, }: ConfirmDialogProps): import("react/jsx-runtime").JSX.Element;
+export declare function ConfirmDialog({ open, onOpenChange, onConfirm, title, description, confirmLabel, cancelLabel, loading, variant, }: ConfirmDialogProps): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=confirm-dialog.d.ts.map

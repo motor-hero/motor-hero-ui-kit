@@ -7,6 +7,6 @@ interface FormFieldProps {
     children: ReactNode;
     className?: string;
 }
-export declare function FormField({ label, htmlFor, error, required, children, className }: FormFieldProps): import("react/jsx-runtime").JSX.Element;
+export declare function FormField({ label, htmlFor, error, required, children, className }: FormFieldProps): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=form-field.d.ts.map

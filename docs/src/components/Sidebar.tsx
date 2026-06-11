@@ -16,6 +16,7 @@ const navigation = [
     category: "Componentes",
     items: [
       { id: "auth-card", label: "AuthCard" },
+      { id: "combobox", label: "Combobox" },
       { id: "confirm-dialog", label: "ConfirmDialog" },
       { id: "empty-state", label: "EmptyState" },
       { id: "form-dialog", label: "FormDialog" },

@@ -6,6 +6,7 @@ const componentItems = [
   { id: "stat-card", name: "StatCard", desc: "Card de estatística para dashboards" },
   { id: "search-input", name: "SearchInput", desc: "Input de busca com ícone de lupa" },
   { id: "password-input", name: "PasswordInput", desc: "Campo de senha com botão de mostrar/ocultar" },
+  { id: "combobox", name: "Combobox", desc: "Select com busca por digitação (Popover + cmdk)" },
   { id: "pagination", name: "Pagination", desc: "Controles de paginação" },
   { id: "table-skeleton", name: "TableSkeleton", desc: "Skeleton loading para tabelas" },
   { id: "mobile-card-list", name: "MobileCardList", desc: "Lista de cards responsiva para mobile" },

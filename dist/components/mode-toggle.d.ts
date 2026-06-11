@@ -1,2 +1,2 @@
-export declare function ModeToggle(): import("react/jsx-runtime").JSX.Element;
+export declare function ModeToggle(): import("react").JSX.Element;
 //# sourceMappingURL=mode-toggle.d.ts.map

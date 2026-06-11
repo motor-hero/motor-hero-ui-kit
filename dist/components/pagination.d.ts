@@ -5,6 +5,6 @@ interface PaginationProps {
     hasPreviousPage: boolean;
     className?: string;
 }
-export declare function Pagination({ page, onPageChange, hasNextPage, hasPreviousPage, className }: PaginationProps): import("react/jsx-runtime").JSX.Element;
+export declare function Pagination({ page, onPageChange, hasNextPage, hasPreviousPage, className }: PaginationProps): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=pagination.d.ts.map

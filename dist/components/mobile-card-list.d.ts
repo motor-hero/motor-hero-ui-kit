@@ -7,6 +7,6 @@ interface MobileCardListProps<T> {
     loadingCount?: number;
     className?: string;
 }
-export declare function MobileCardList<T>({ data, renderCard, keyExtractor, isLoading, loadingCount, className, }: MobileCardListProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function MobileCardList<T>({ data, renderCard, keyExtractor, isLoading, loadingCount, className, }: MobileCardListProps<T>): import("react").JSX.Element;
 export {};
 //# sourceMappingURL=mobile-card-list.d.ts.map

@@ -10,7 +10,7 @@ interface FormDialogLayoutProps {
     isSubmitting?: boolean;
     isDisabled?: boolean;
 }
-export declare function FormDialogLayout({ title, children, onSubmit, submitLabel, cancelLabel, onCancel, isSubmitting, isDisabled, }: FormDialogLayoutProps): import("react/jsx-runtime").JSX.Element;
+export declare function FormDialogLayout({ title, children, onSubmit, submitLabel, cancelLabel, onCancel, isSubmitting, isDisabled, }: FormDialogLayoutProps): React.JSX.Element;
 declare const sizeClasses: {
     readonly sm: "sm:max-w-sm";
     readonly md: "sm:max-w-md";
@@ -41,6 +41,6 @@ interface FormDialogProps {
  * can persist after closing a dialog that contained a Select/Popover,
  * which would otherwise make the rest of the page unclickable.
  */
-export declare function FormDialog({ open, onOpenChange, title, description, children, footer, onSubmit, size, className, }: FormDialogProps): import("react/jsx-runtime").JSX.Element;
+export declare function FormDialog({ open, onOpenChange, title, description, children, footer, onSubmit, size, className, }: FormDialogProps): React.JSX.Element;
 export {};
 //# sourceMappingURL=form-dialog.d.ts.map
