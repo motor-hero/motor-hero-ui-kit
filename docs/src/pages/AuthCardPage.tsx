@@ -1,4 +1,4 @@
-import { AuthCard, FormField } from "@motor-hero/ui-kit"
+import { AuthCard, FormField, PasswordInput } from "@motor-hero/ui-kit"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
 
@@ -37,12 +37,7 @@ export function AuthCardPage() {
               />
             </FormField>
             <FormField label="Senha" htmlFor="auth-password" required>
-              <input
-                id="auth-password"
-                type="password"
-                placeholder="Senha"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              />
+              <PasswordInput id="auth-password" placeholder="Senha" />
             </FormField>
             <button className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90">
               Entrar
@@ -54,7 +49,7 @@ export function AuthCardPage() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Uso</h2>
         <CodeBlock
-          code={`import { AuthCard, FormField } from "@motor-hero/ui-kit"
+          code={`import { AuthCard, FormField, PasswordInput } from "@motor-hero/ui-kit"
 
 <AuthCard
   title="Entrar"
@@ -65,7 +60,7 @@ export function AuthCardPage() {
     <Input id="email" type="email" {...register("email")} />
   </FormField>
   <FormField label="Senha" htmlFor="password" required>
-    <Input id="password" type="password" {...register("password")} />
+    <PasswordInput id="password" {...register("password")} />
   </FormField>
   <Button type="submit" className="w-full">Entrar</Button>
 </AuthCard>`}

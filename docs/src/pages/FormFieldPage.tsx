@@ -1,4 +1,4 @@
-import { FormField } from "@motor-hero/ui-kit"
+import { FormField, PasswordInput } from "@motor-hero/ui-kit"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
 
@@ -25,11 +25,7 @@ export function FormFieldPage() {
               />
             </FormField>
             <FormField label="Senha" error="Senha é obrigatória" required>
-              <input
-                type="password"
-                placeholder="Senha"
-                className="flex h-9 w-full rounded-md border border-destructive bg-transparent px-3 py-1 text-sm shadow-sm"
-              />
+              <PasswordInput placeholder="Senha" />
             </FormField>
           </div>
         </div>

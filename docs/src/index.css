@@ -6,6 +6,7 @@
 @source "../../src";
 
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant aria-invalid (&[aria-invalid="true"]);
 
 @theme inline {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
