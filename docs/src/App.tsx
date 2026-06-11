@@ -7,6 +7,7 @@ import { FormFieldPage } from "./pages/FormFieldPage"
 import { AuthCardPage } from "./pages/AuthCardPage"
 import { StatCardPage } from "./pages/StatCardPage"
 import { SearchInputPage } from "./pages/SearchInputPage"
+import { PasswordInputPage } from "./pages/PasswordInputPage"
 import { PaginationPage } from "./pages/PaginationPage"
 import { TableSkeletonPage } from "./pages/TableSkeletonPage"
 import { MobileCardListPage } from "./pages/MobileCardListPage"
@@ -32,6 +33,7 @@ const pages: Record<string, () => JSX.Element> = {
   "auth-card": AuthCardPage,
   "stat-card": StatCardPage,
   "search-input": SearchInputPage,
+  "password-input": PasswordInputPage,
   pagination: PaginationPage,
   "table-skeleton": TableSkeletonPage,
   "mobile-card-list": MobileCardListPage,

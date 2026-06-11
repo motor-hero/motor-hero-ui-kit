@@ -511,31 +511,62 @@ var SearchInput = React2.forwardRef(
 );
 SearchInput.displayName = "SearchInput";
 
-// src/components/stat-card.tsx
+// src/components/password-input.tsx
+import { Eye, EyeOff } from "lucide-react";
+import * as React3 from "react";
 import { jsx as jsx15, jsxs as jsxs13 } from "react/jsx-runtime";
+var PasswordInput = React3.forwardRef(({ containerClassName, className, ...props }, ref) => {
+  const [visible, setVisible] = React3.useState(false);
+  return /* @__PURE__ */ jsxs13("div", { className: `relative ${containerClassName ?? ""}`, children: [
+    /* @__PURE__ */ jsx15(
+      "input",
+      {
+        ref,
+        type: visible ? "text" : "password",
+        className: `flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-base shadow-sm transition-all duration-200 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive md:text-sm ${className ?? ""}`,
+        ...props
+      }
+    ),
+    /* @__PURE__ */ jsx15(
+      "button",
+      {
+        type: "button",
+        onClick: () => setVisible((prev) => !prev),
+        "aria-label": visible ? "Ocultar senha" : "Mostrar senha",
+        tabIndex: -1,
+        className: "absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground",
+        children: visible ? /* @__PURE__ */ jsx15(EyeOff, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx15(Eye, { className: "h-4 w-4" })
+      }
+    )
+  ] });
+});
+PasswordInput.displayName = "PasswordInput";
+
+// src/components/stat-card.tsx
+import { jsx as jsx16, jsxs as jsxs14 } from "react/jsx-runtime";
 function StatCard({ label, value, detail, icon, isLoading }) {
   if (isLoading) {
-    return /* @__PURE__ */ jsxs13("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
-      /* @__PURE__ */ jsxs13("div", { className: "flex items-center justify-between pb-2", children: [
-        /* @__PURE__ */ jsx15("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
-        /* @__PURE__ */ jsx15("div", { className: "h-4 w-4 animate-pulse rounded bg-muted" })
+    return /* @__PURE__ */ jsxs14("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
+      /* @__PURE__ */ jsxs14("div", { className: "flex items-center justify-between pb-2", children: [
+        /* @__PURE__ */ jsx16("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx16("div", { className: "h-4 w-4 animate-pulse rounded bg-muted" })
       ] }),
-      /* @__PURE__ */ jsx15("div", { className: "mt-2 h-7 w-16 animate-pulse rounded bg-muted" }),
-      /* @__PURE__ */ jsx15("div", { className: "mt-1 h-4 w-20 animate-pulse rounded bg-muted" })
+      /* @__PURE__ */ jsx16("div", { className: "mt-2 h-7 w-16 animate-pulse rounded bg-muted" }),
+      /* @__PURE__ */ jsx16("div", { className: "mt-1 h-4 w-20 animate-pulse rounded bg-muted" })
     ] });
   }
-  return /* @__PURE__ */ jsxs13("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
-    /* @__PURE__ */ jsxs13("div", { className: "flex items-center justify-between pb-2", children: [
-      /* @__PURE__ */ jsx15("span", { className: "text-sm font-medium text-muted-foreground", children: label }),
-      icon && /* @__PURE__ */ jsx15("span", { className: "text-muted-foreground", children: icon })
+  return /* @__PURE__ */ jsxs14("div", { className: "rounded-lg border bg-card p-6 shadow-sm", children: [
+    /* @__PURE__ */ jsxs14("div", { className: "flex items-center justify-between pb-2", children: [
+      /* @__PURE__ */ jsx16("span", { className: "text-sm font-medium text-muted-foreground", children: label }),
+      icon && /* @__PURE__ */ jsx16("span", { className: "text-muted-foreground", children: icon })
     ] }),
-    /* @__PURE__ */ jsx15("div", { className: "text-2xl font-bold", children: value }),
-    detail && /* @__PURE__ */ jsx15("p", { className: "text-xs text-muted-foreground", children: detail })
+    /* @__PURE__ */ jsx16("div", { className: "text-2xl font-bold", children: value }),
+    detail && /* @__PURE__ */ jsx16("p", { className: "text-xs text-muted-foreground", children: detail })
   ] });
 }
 
 // src/components/data-table-wrapper.tsx
-import { jsx as jsx16, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs15 } from "react/jsx-runtime";
 function DataTableWrapper({
   children,
   isEmpty,
@@ -548,15 +579,15 @@ function DataTableWrapper({
   hasNextPage = false,
   hasPreviousPage = false
 }) {
-  return /* @__PURE__ */ jsxs14("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ jsx16("div", { className: "overflow-x-auto rounded-md border", children }),
-    !isLoading && isEmpty && /* @__PURE__ */ jsxs14("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
-      emptyIcon && /* @__PURE__ */ jsx16("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
-      /* @__PURE__ */ jsx16("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
-      emptyDescription && /* @__PURE__ */ jsx16("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
+  return /* @__PURE__ */ jsxs15("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsx17("div", { className: "overflow-x-auto rounded-md border", children }),
+    !isLoading && isEmpty && /* @__PURE__ */ jsxs15("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
+      emptyIcon && /* @__PURE__ */ jsx17("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
+      /* @__PURE__ */ jsx17("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
+      emptyDescription && /* @__PURE__ */ jsx17("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
     ] }),
-    page !== void 0 && onPageChange && /* @__PURE__ */ jsxs14("div", { className: "flex items-center justify-end gap-4", children: [
-      /* @__PURE__ */ jsx16(
+    page !== void 0 && onPageChange && /* @__PURE__ */ jsxs15("div", { className: "flex items-center justify-end gap-4", children: [
+      /* @__PURE__ */ jsx17(
         "button",
         {
           type: "button",
@@ -566,11 +597,11 @@ function DataTableWrapper({
           children: "Anterior"
         }
       ),
-      /* @__PURE__ */ jsxs14("span", { className: "text-sm text-muted-foreground", children: [
+      /* @__PURE__ */ jsxs15("span", { className: "text-sm text-muted-foreground", children: [
         "P\xE1gina ",
         page
       ] }),
-      /* @__PURE__ */ jsx16(
+      /* @__PURE__ */ jsx17(
         "button",
         {
           type: "button",
@@ -586,7 +617,7 @@ function DataTableWrapper({
 
 // src/components/mobile-card-list.tsx
 import { useRef } from "react";
-import { jsx as jsx17, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs16 } from "react/jsx-runtime";
 var SCROLL_THRESHOLD = 8;
 function MobileCardList({
   data,
@@ -617,26 +648,26 @@ function MobileCardList({
     }
   };
   if (isLoading) {
-    return /* @__PURE__ */ jsx17("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ jsx17("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ jsxs15("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ jsxs15("div", { className: "flex justify-between", children: [
-        /* @__PURE__ */ jsx17("div", { className: "h-5 w-32 animate-pulse rounded bg-muted" }),
-        /* @__PURE__ */ jsx17("div", { className: "h-5 w-16 animate-pulse rounded bg-muted" })
+    return /* @__PURE__ */ jsx18("div", { className: `space-y-3 ${className ?? ""}`, children: Array.from({ length: loadingCount }).map((_, i) => /* @__PURE__ */ jsx18("div", { className: "rounded-xl border p-4", children: /* @__PURE__ */ jsxs16("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ jsxs16("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ jsx18("div", { className: "h-5 w-32 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx18("div", { className: "h-5 w-16 animate-pulse rounded bg-muted" })
       ] }),
-      /* @__PURE__ */ jsx17("div", { className: "h-4 w-48 animate-pulse rounded bg-muted" }),
-      /* @__PURE__ */ jsxs15("div", { className: "flex justify-between", children: [
-        /* @__PURE__ */ jsx17("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
-        /* @__PURE__ */ jsx17("div", { className: "h-4 w-20 animate-pulse rounded bg-muted" })
+      /* @__PURE__ */ jsx18("div", { className: "h-4 w-48 animate-pulse rounded bg-muted" }),
+      /* @__PURE__ */ jsxs16("div", { className: "flex justify-between", children: [
+        /* @__PURE__ */ jsx18("div", { className: "h-4 w-24 animate-pulse rounded bg-muted" }),
+        /* @__PURE__ */ jsx18("div", { className: "h-4 w-20 animate-pulse rounded bg-muted" })
       ] })
     ] }) }, i)) });
   }
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx18(
     "div",
     {
       className: `space-y-3 ${className ?? ""}`,
       onTouchStart,
       onTouchMove,
       onClickCapture,
-      children: data.map((item, index) => /* @__PURE__ */ jsx17(
+      children: data.map((item, index) => /* @__PURE__ */ jsx18(
         "div",
         {
           className: "rounded-xl border p-4 transition-all duration-150 hover:border-foreground/20 active:scale-[0.99]",
@@ -649,7 +680,7 @@ function MobileCardList({
 }
 
 // src/components/responsive-data-view.tsx
-import { jsx as jsx18, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs17 } from "react/jsx-runtime";
 function ResponsiveDataView({
   table,
   cards,
@@ -660,13 +691,13 @@ function ResponsiveDataView({
   emptyDescription,
   pagination
 }) {
-  return /* @__PURE__ */ jsxs16("div", { className: "space-y-4", children: [
-    /* @__PURE__ */ jsx18("div", { className: "hidden overflow-x-auto rounded-md border md:block", children: table }),
-    /* @__PURE__ */ jsx18("div", { className: "md:hidden", children: cards }),
-    !isLoading && isEmpty && /* @__PURE__ */ jsxs16("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
-      emptyIcon && /* @__PURE__ */ jsx18("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
-      /* @__PURE__ */ jsx18("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
-      emptyDescription && /* @__PURE__ */ jsx18("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
+  return /* @__PURE__ */ jsxs17("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsx19("div", { className: "hidden overflow-x-auto rounded-md border md:block", children: table }),
+    /* @__PURE__ */ jsx19("div", { className: "md:hidden", children: cards }),
+    !isLoading && isEmpty && /* @__PURE__ */ jsxs17("div", { className: "flex flex-col items-center justify-center py-16 text-center", children: [
+      emptyIcon && /* @__PURE__ */ jsx19("div", { className: "mb-4 text-muted-foreground", children: emptyIcon }),
+      /* @__PURE__ */ jsx19("h3", { className: "text-lg font-semibold tracking-tight", children: emptyTitle }),
+      emptyDescription && /* @__PURE__ */ jsx19("p", { className: "mt-1 max-w-sm text-sm text-muted-foreground", children: emptyDescription })
     ] }),
     pagination
   ] });
@@ -674,10 +705,10 @@ function ResponsiveDataView({
 
 // src/components/toaster.tsx
 import { Toaster as Sonner } from "sonner";
-import { jsx as jsx19 } from "react/jsx-runtime";
+import { jsx as jsx20 } from "react/jsx-runtime";
 function Toaster(props) {
   const { theme = "system" } = useTheme();
-  return /* @__PURE__ */ jsx19(
+  return /* @__PURE__ */ jsx20(
     Sonner,
     {
       theme,
@@ -699,17 +730,17 @@ function Toaster(props) {
 
 // src/components/app-shell.tsx
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
-import { useState as useState2 } from "react";
+import { useState as useState3 } from "react";
 
 // src/components/sidebar-nav.tsx
 import { Fragment as Fragment3 } from "react";
 
 // src/components/types.tsx
-import { jsx as jsx20 } from "react/jsx-runtime";
-var defaultRenderLink = ({ children, ...props }) => /* @__PURE__ */ jsx20("a", { ...props, children });
+import { jsx as jsx21 } from "react/jsx-runtime";
+var defaultRenderLink = ({ children, ...props }) => /* @__PURE__ */ jsx21("a", { ...props, children });
 
 // src/components/sidebar-nav.tsx
-import { Fragment as Fragment4, jsx as jsx21, jsxs as jsxs17 } from "react/jsx-runtime";
+import { Fragment as Fragment4, jsx as jsx22, jsxs as jsxs18 } from "react/jsx-runtime";
 function defaultIsActive(item, activePath) {
   if (item.href === "/") return activePath === "/";
   return activePath === item.href || activePath.startsWith(item.href + "/");
@@ -724,7 +755,7 @@ function SidebarNav({
   onNavigate
 }) {
   const visible = items.filter((item) => !item.adminOnly || isAdmin);
-  return /* @__PURE__ */ jsx21("nav", { className: "flex flex-col gap-1", children: visible.map((item) => {
+  return /* @__PURE__ */ jsx22("nav", { className: "flex flex-col gap-1", children: visible.map((item) => {
     const active = isActive(item, activePath);
     const link = renderLink({
       href: item.href,
@@ -736,19 +767,19 @@ function SidebarNav({
         active ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
         isCollapsed && "justify-center px-2"
       ),
-      children: /* @__PURE__ */ jsxs17(Fragment4, { children: [
-        item.icon && /* @__PURE__ */ jsx21("span", { className: "shrink-0", children: item.icon }),
-        !isCollapsed && /* @__PURE__ */ jsx21("span", { className: "truncate", children: item.label })
+      children: /* @__PURE__ */ jsxs18(Fragment4, { children: [
+        item.icon && /* @__PURE__ */ jsx22("span", { className: "shrink-0", children: item.icon }),
+        !isCollapsed && /* @__PURE__ */ jsx22("span", { className: "truncate", children: item.label })
       ] })
     });
-    return /* @__PURE__ */ jsx21(Fragment3, { children: link }, item.href);
+    return /* @__PURE__ */ jsx22(Fragment3, { children: link }, item.href);
   }) });
 }
 
 // src/components/user-menu.tsx
 import * as DropdownMenu2 from "@radix-ui/react-dropdown-menu";
 import { LogOut, User } from "lucide-react";
-import { Fragment as Fragment5, jsx as jsx22, jsxs as jsxs18 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx23, jsxs as jsxs19 } from "react/jsx-runtime";
 function initials(user) {
   const source = user?.name?.trim() || user?.email?.trim();
   if (!source) return "";
@@ -766,44 +797,44 @@ function UserMenu({
   align = "end"
 }) {
   const label = initials(user);
-  return /* @__PURE__ */ jsxs18(DropdownMenu2.Root, { children: [
-    /* @__PURE__ */ jsx22(DropdownMenu2.Trigger, { asChild: true, children: /* @__PURE__ */ jsx22(
+  return /* @__PURE__ */ jsxs19(DropdownMenu2.Root, { children: [
+    /* @__PURE__ */ jsx23(DropdownMenu2.Trigger, { asChild: true, children: /* @__PURE__ */ jsx23(
       "button",
       {
         type: "button",
         className: "inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-input bg-background text-xs font-semibold shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
         "aria-label": "Menu do usu\xE1rio",
         "data-testid": "user-menu",
-        children: user?.avatarUrl ? /* @__PURE__ */ jsx22("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ jsx22("span", { children: label }) : /* @__PURE__ */ jsx22(User, { className: "h-4 w-4" })
+        children: user?.avatarUrl ? /* @__PURE__ */ jsx23("img", { src: user.avatarUrl, alt: user.name ?? user.email ?? "Avatar", className: "h-full w-full object-cover" }) : label ? /* @__PURE__ */ jsx23("span", { children: label }) : /* @__PURE__ */ jsx23(User, { className: "h-4 w-4" })
       }
     ) }),
-    /* @__PURE__ */ jsx22(DropdownMenu2.Portal, { children: /* @__PURE__ */ jsxs18(
+    /* @__PURE__ */ jsx23(DropdownMenu2.Portal, { children: /* @__PURE__ */ jsxs19(
       DropdownMenu2.Content,
       {
         align,
         sideOffset: 6,
         className: "z-50 min-w-[12rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
         children: [
-          (user?.name || user?.email) && /* @__PURE__ */ jsxs18(Fragment5, { children: [
-            /* @__PURE__ */ jsxs18("div", { className: "px-2 py-1.5", children: [
-              user.name && /* @__PURE__ */ jsx22("p", { className: "truncate text-sm font-medium", children: user.name }),
-              user.email && /* @__PURE__ */ jsx22("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
+          (user?.name || user?.email) && /* @__PURE__ */ jsxs19(Fragment5, { children: [
+            /* @__PURE__ */ jsxs19("div", { className: "px-2 py-1.5", children: [
+              user.name && /* @__PURE__ */ jsx23("p", { className: "truncate text-sm font-medium", children: user.name }),
+              user.email && /* @__PURE__ */ jsx23("p", { className: "truncate text-xs text-muted-foreground", children: user.email })
             ] }),
-            /* @__PURE__ */ jsx22(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
+            /* @__PURE__ */ jsx23(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" })
           ] }),
           items.map(
-            (item) => item.href ? /* @__PURE__ */ jsx22(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs18(Fragment5, { children: [
+            (item) => item.href ? /* @__PURE__ */ jsx23(DropdownMenu2.Item, { asChild: true, children: renderLink({ href: item.href, className: itemClass, children: /* @__PURE__ */ jsxs19(Fragment5, { children: [
               item.icon,
               item.label
-            ] }) }) }, item.label) : /* @__PURE__ */ jsxs18(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
+            ] }) }) }, item.label) : /* @__PURE__ */ jsxs19(DropdownMenu2.Item, { className: itemClass, onClick: item.onClick, children: [
               item.icon,
               item.label
             ] }, item.label)
           ),
-          onLogout && /* @__PURE__ */ jsxs18(Fragment5, { children: [
-            items.length > 0 && /* @__PURE__ */ jsx22(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
-            /* @__PURE__ */ jsxs18(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
-              /* @__PURE__ */ jsx22(LogOut, { className: "h-4 w-4" }),
+          onLogout && /* @__PURE__ */ jsxs19(Fragment5, { children: [
+            items.length > 0 && /* @__PURE__ */ jsx23(DropdownMenu2.Separator, { className: "-mx-1 my-1 h-px bg-border" }),
+            /* @__PURE__ */ jsxs19(DropdownMenu2.Item, { className: cn(itemClass, "text-destructive focus:bg-destructive/10"), onClick: onLogout, children: [
+              /* @__PURE__ */ jsx23(LogOut, { className: "h-4 w-4" }),
               logoutLabel
             ] })
           ] })
@@ -814,7 +845,7 @@ function UserMenu({
 }
 
 // src/components/app-shell.tsx
-import { jsx as jsx23, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs20 } from "react/jsx-runtime";
 function AppShell({
   brand,
   brandCollapsed,
@@ -831,9 +862,9 @@ function AppShell({
   defaultCollapsed = false,
   children
 }) {
-  const [collapsed, setCollapsed] = useState2(defaultCollapsed);
-  const [mobileOpen, setMobileOpen] = useState2(false);
-  const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ jsx23(
+  const [collapsed, setCollapsed] = useState3(defaultCollapsed);
+  const [mobileOpen, setMobileOpen] = useState3(false);
+  const nav = (isCollapsed, onNavigate) => /* @__PURE__ */ jsx24(
     SidebarNav,
     {
       items: navItems,
@@ -845,8 +876,8 @@ function AppShell({
       onNavigate
     }
   );
-  return /* @__PURE__ */ jsxs19("div", { className: "flex h-screen overflow-hidden bg-background", children: [
-    /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20("div", { className: "flex h-screen overflow-hidden bg-background", children: [
+    /* @__PURE__ */ jsxs20(
       "aside",
       {
         className: cn(
@@ -854,22 +885,22 @@ function AppShell({
           collapsed ? "w-16" : "w-60"
         ),
         children: [
-          /* @__PURE__ */ jsx23("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: collapsed ? brandCollapsed ?? brand : brand }),
-          /* @__PURE__ */ jsx23("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(collapsed) }),
-          collapsible && /* @__PURE__ */ jsx23("div", { className: "border-t p-2", children: /* @__PURE__ */ jsx23(
+          /* @__PURE__ */ jsx24("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: collapsed ? brandCollapsed ?? brand : brand }),
+          /* @__PURE__ */ jsx24("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(collapsed) }),
+          collapsible && /* @__PURE__ */ jsx24("div", { className: "border-t p-2", children: /* @__PURE__ */ jsx24(
             "button",
             {
               type: "button",
               onClick: () => setCollapsed((v) => !v),
               className: "flex w-full items-center justify-center rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
               "aria-label": collapsed ? "Expandir menu" : "Recolher menu",
-              children: collapsed ? /* @__PURE__ */ jsx23(ChevronRight, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx23(ChevronLeft, { className: "h-4 w-4" })
+              children: collapsed ? /* @__PURE__ */ jsx24(ChevronRight, { className: "h-4 w-4" }) : /* @__PURE__ */ jsx24(ChevronLeft, { className: "h-4 w-4" })
             }
           ) })
         ]
       }
     ),
-    /* @__PURE__ */ jsxs19(
+    /* @__PURE__ */ jsxs20(
       "div",
       {
         className: cn(
@@ -878,8 +909,8 @@ function AppShell({
         ),
         onClick: () => setMobileOpen(false),
         children: [
-          /* @__PURE__ */ jsx23("div", { className: "absolute inset-0 bg-black/50" }),
-          /* @__PURE__ */ jsxs19(
+          /* @__PURE__ */ jsx24("div", { className: "absolute inset-0 bg-black/50" }),
+          /* @__PURE__ */ jsxs20(
             "div",
             {
               className: cn(
@@ -888,32 +919,32 @@ function AppShell({
               ),
               onClick: (e) => e.stopPropagation(),
               children: [
-                /* @__PURE__ */ jsx23("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: brand }),
-                /* @__PURE__ */ jsx23("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(false, () => setMobileOpen(false)) })
+                /* @__PURE__ */ jsx24("div", { className: "flex h-14 shrink-0 items-center border-b px-4", children: brand }),
+                /* @__PURE__ */ jsx24("div", { className: "flex-1 overflow-y-auto px-2 py-4", children: nav(false, () => setMobileOpen(false)) })
               ]
             }
           )
         ]
       }
     ),
-    /* @__PURE__ */ jsxs19("div", { className: "flex flex-1 flex-col overflow-hidden", children: [
-      /* @__PURE__ */ jsxs19("header", { className: "flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4", children: [
-        /* @__PURE__ */ jsx23(
+    /* @__PURE__ */ jsxs20("div", { className: "flex flex-1 flex-col overflow-hidden", children: [
+      /* @__PURE__ */ jsxs20("header", { className: "flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4", children: [
+        /* @__PURE__ */ jsx24(
           "button",
           {
             type: "button",
             onClick: () => setMobileOpen(true),
             className: "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground md:hidden",
             "aria-label": "Abrir menu",
-            children: /* @__PURE__ */ jsx23(Menu, { className: "h-4 w-4" })
+            children: /* @__PURE__ */ jsx24(Menu, { className: "h-4 w-4" })
           }
         ),
-        /* @__PURE__ */ jsxs19("div", { className: "ml-auto flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxs20("div", { className: "ml-auto flex items-center gap-2", children: [
           headerActions,
-          (user || onLogout) && /* @__PURE__ */ jsx23(UserMenu, { user, items: userMenuItems, onLogout, renderLink })
+          (user || onLogout) && /* @__PURE__ */ jsx24(UserMenu, { user, items: userMenuItems, onLogout, renderLink })
         ] })
       ] }),
-      /* @__PURE__ */ jsx23("main", { className: "flex-1 overflow-y-auto", children })
+      /* @__PURE__ */ jsx24("main", { className: "flex-1 overflow-y-auto", children })
     ] })
   ] });
 }
@@ -921,7 +952,7 @@ function AppShell({
 // src/components/row-actions-menu.tsx
 import * as DropdownMenu3 from "@radix-ui/react-dropdown-menu";
 import { MoreVertical } from "lucide-react";
-import { Fragment as Fragment6, jsx as jsx24, jsxs as jsxs20 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx25, jsxs as jsxs21 } from "react/jsx-runtime";
 var itemClass2 = "flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 function RowActionsMenu({
   actions,
@@ -931,18 +962,18 @@ function RowActionsMenu({
   renderLink = defaultRenderLink
 }) {
   if (actions.length === 0) return null;
-  return /* @__PURE__ */ jsxs20(DropdownMenu3.Root, { children: [
-    /* @__PURE__ */ jsx24(DropdownMenu3.Trigger, { asChild: true, children: /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsxs21(DropdownMenu3.Root, { children: [
+    /* @__PURE__ */ jsx25(DropdownMenu3.Trigger, { asChild: true, children: /* @__PURE__ */ jsx25(
       "button",
       {
         type: "button",
         disabled,
         "aria-label": label,
         className: "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-        children: /* @__PURE__ */ jsx24(MoreVertical, { className: "h-4 w-4" })
+        children: /* @__PURE__ */ jsx25(MoreVertical, { className: "h-4 w-4" })
       }
     ) }),
-    /* @__PURE__ */ jsx24(DropdownMenu3.Portal, { children: /* @__PURE__ */ jsx24(
+    /* @__PURE__ */ jsx25(DropdownMenu3.Portal, { children: /* @__PURE__ */ jsx25(
       DropdownMenu3.Content,
       {
         align,
@@ -950,14 +981,14 @@ function RowActionsMenu({
         className: "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
         children: actions.map((action) => {
           const cls = cn(itemClass2, action.destructive && "text-destructive focus:bg-destructive/10");
-          return action.href ? /* @__PURE__ */ jsx24(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
+          return action.href ? /* @__PURE__ */ jsx25(DropdownMenu3.Item, { asChild: true, disabled: action.disabled, children: renderLink({
             href: action.href,
             className: cls,
-            children: /* @__PURE__ */ jsxs20(Fragment6, { children: [
+            children: /* @__PURE__ */ jsxs21(Fragment6, { children: [
               action.icon,
               action.label
             ] })
-          }) }, action.label) : /* @__PURE__ */ jsxs20(
+          }) }, action.label) : /* @__PURE__ */ jsxs21(
             DropdownMenu3.Item,
             {
               className: cls,
@@ -986,9 +1017,9 @@ function extractApiError(err, fallbackMessage = "Ocorreu um erro inesperado.") {
 }
 
 // src/hooks/use-disclosure.ts
-import { useCallback, useState as useState3 } from "react";
+import { useCallback, useState as useState4 } from "react";
 function useDisclosure(initial = false) {
-  const [open, setOpen] = useState3(initial);
+  const [open, setOpen] = useState4(initial);
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
   const onToggle = useCallback(() => setOpen((v) => !v), []);
@@ -1033,6 +1064,7 @@ export {
   ModeToggle,
   PageHeader,
   Pagination,
+  PasswordInput,
   ProgressBar,
   ResponsiveDataView,
   RowActionsMenu,

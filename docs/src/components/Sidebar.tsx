@@ -24,6 +24,7 @@ const navigation = [
       { id: "mode-toggle", label: "ModeToggle" },
       { id: "page-header", label: "PageHeader" },
       { id: "pagination", label: "Pagination" },
+      { id: "password-input", label: "PasswordInput" },
       { id: "progress-bar", label: "ProgressBar" },
       { id: "responsive-data-view", label: "ResponsiveDataView" },
       { id: "row-actions-menu", label: "RowActionsMenu" },
