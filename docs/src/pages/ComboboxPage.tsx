@@ -21,10 +21,11 @@ export function ComboboxPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Combobox</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Select com busca por digitação. Montado sobre Radix Popover + cmdk,
-          totalmente estilizável e responsivo — ideal para listas grandes ou
-          vindas de API, onde o <code>Select</code> nativo fica limitado.
-          Funciona dentro de modais (FormDialog).
+          Select com busca por digitação — ideal para listas grandes ou vindas
+          de API, onde o <code>Select</code> nativo fica limitado.{" "}
+          <strong>Responsivo</strong>: no desktop abre um Popover; no mobile
+          abre um Drawer (bottom sheet), o que faz a busca funcionar bem no
+          touch mesmo dentro de modais (FormDialog).
         </p>
       </div>
 
@@ -90,8 +91,13 @@ const [area, setArea] = useState("")
             <code>FormField</code> em erro e fica com borda vermelha.
           </li>
           <li>
-            O dropdown acompanha a largura do gatilho, rola em listas grandes e
-            usa Portal com <code>z-50</code> — funciona dentro de modais.
+            <strong>Desktop</strong>: Popover que acompanha a largura do
+            gatilho e rola em listas grandes.
+          </li>
+          <li>
+            <strong>Mobile</strong>: Drawer (bottom sheet) com alvos de toque
+            maiores — a busca funciona no touch mesmo aberto de dentro de um
+            modal, evitando os problemas de Popover-em-Dialog.
           </li>
         </ul>
       </div>

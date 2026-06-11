@@ -615,7 +615,22 @@ var PopoverPrimitive = __toESM(require("@radix-ui/react-popover"), 1);
 var import_cmdk = require("cmdk");
 var import_lucide_react4 = require("lucide-react");
 var React4 = __toESM(require("react"), 1);
+var import_vaul = require("vaul");
 var import_jsx_runtime16 = require("react/jsx-runtime");
+var DESKTOP_QUERY = "(min-width: 640px)";
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = React4.useState(
+    () => typeof window !== "undefined" ? window.matchMedia(DESKTOP_QUERY).matches : true
+  );
+  React4.useEffect(() => {
+    const mql = window.matchMedia(DESKTOP_QUERY);
+    const onChange = () => setIsDesktop(mql.matches);
+    onChange();
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return isDesktop;
+}
 function Combobox({
   options,
   value,
@@ -630,83 +645,93 @@ function Combobox({
   "aria-describedby": ariaDescribedby
 }) {
   const [open, setOpen] = React4.useState(false);
+  const isDesktop = useIsDesktop();
   const selected = options.find((option) => option.value === value);
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(PopoverPrimitive.Root, { open, onOpenChange: setOpen, modal: true, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverPrimitive.Trigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-      "button",
-      {
-        type: "button",
-        id,
-        role: "combobox",
-        "aria-expanded": open,
-        "aria-invalid": ariaInvalid,
-        "aria-describedby": ariaDescribedby,
-        disabled,
-        className: cn(
-          "flex h-9 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive",
-          className
-        ),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-            "span",
-            {
-              className: cn("truncate", !selected && "text-muted-foreground"),
-              children: selected ? selected.label : placeholder
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronsUpDown, { className: "h-4 w-4 shrink-0 opacity-50" })
-        ]
-      }
-    ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-      PopoverPrimitive.Content,
-      {
-        align: "start",
-        sideOffset: 4,
-        className: "z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md",
-        style: { width: "var(--radix-popover-trigger-width)" },
-        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_cmdk.Command, { className: "flex h-full w-full flex-col overflow-hidden", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center border-b px-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+  const trigger = /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+    "button",
+    {
+      type: "button",
+      id,
+      role: "combobox",
+      "aria-expanded": open,
+      "aria-invalid": ariaInvalid,
+      "aria-describedby": ariaDescribedby,
+      disabled,
+      className: cn(
+        "flex h-9 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: cn("truncate", !selected && "text-muted-foreground"), children: selected ? selected.label : placeholder }),
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronsUpDown, { className: "h-4 w-4 shrink-0 opacity-50" })
+      ]
+    }
+  );
+  const command = /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_cmdk.Command, { className: "flex h-full w-full flex-col overflow-hidden", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "flex items-center border-b px-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        import_cmdk.Command.Input,
+        {
+          placeholder: searchPlaceholder,
+          className: "flex h-11 w-full bg-transparent py-2 text-base outline-none placeholder:text-muted-foreground sm:h-9 sm:text-sm"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_cmdk.Command.List, { className: "max-h-[50vh] overflow-y-auto overflow-x-hidden p-1 sm:max-h-60", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_cmdk.Command.Empty, { className: "py-6 text-center text-sm text-muted-foreground", children: emptyMessage }),
+      options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
+        import_cmdk.Command.Item,
+        {
+          value: option.label,
+          disabled: option.disabled,
+          onSelect: () => {
+            onChange(option.value);
+            setOpen(false);
+          },
+          className: "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5",
+          children: [
             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-              import_cmdk.Command.Input,
+              import_lucide_react4.Check,
               {
-                placeholder: searchPlaceholder,
-                className: "flex h-9 w-full bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground"
+                className: cn(
+                  "h-4 w-4 shrink-0",
+                  value === option.value ? "opacity-100" : "opacity-0"
+                )
               }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_cmdk.Command.List, { className: "max-h-60 overflow-y-auto overflow-x-hidden p-1", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_cmdk.Command.Empty, { className: "py-6 text-center text-sm text-muted-foreground", children: emptyMessage }),
-            options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(
-              import_cmdk.Command.Item,
-              {
-                value: option.label,
-                disabled: option.disabled,
-                onSelect: () => {
-                  onChange(option.value);
-                  setOpen(false);
-                },
-                className: "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-                    import_lucide_react4.Check,
-                    {
-                      className: cn(
-                        "h-4 w-4 shrink-0",
-                        value === option.value ? "opacity-100" : "opacity-0"
-                      )
-                    }
-                  ),
-                  /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "truncate", children: option.label })
-                ]
-              },
-              option.value
-            ))
-          ] })
-        ] })
-      }
-    ) })
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "truncate", children: option.label })
+          ]
+        },
+        option.value
+      ))
+    ] })
+  ] });
+  if (isDesktop) {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(PopoverPrimitive.Root, { open, onOpenChange: setOpen, modal: true, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverPrimitive.Trigger, { asChild: true, children: trigger }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+        PopoverPrimitive.Content,
+        {
+          align: "start",
+          sideOffset: 4,
+          className: "z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md",
+          style: { width: "var(--radix-popover-trigger-width)" },
+          children: command
+        }
+      ) })
+    ] });
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_vaul.Drawer.Root, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_vaul.Drawer.Trigger, { asChild: true, children: trigger }),
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_vaul.Drawer.Portal, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_vaul.Drawer.Overlay, { className: "fixed inset-0 z-50 bg-black/80" }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(import_vaul.Drawer.Content, { className: "fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85vh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_vaul.Drawer.Title, { className: "sr-only", children: placeholder }),
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" }),
+        command
+      ] })
+    ] })
   ] });
 }
 
