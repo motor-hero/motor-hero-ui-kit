@@ -19,6 +19,7 @@ import { StatusBadgePage } from "./pages/StatusBadgePage"
 import { StatusDotPage } from "./pages/StatusDotPage"
 import { ConfirmDialogPage } from "./pages/ConfirmDialogPage"
 import { ModeTogglePage } from "./pages/ModeTogglePage"
+import { ThemingPage } from "./pages/ThemingPage"
 import { ResponsiveDataViewPage } from "./pages/ResponsiveDataViewPage"
 import { UtilitiesPage } from "./pages/UtilitiesPage"
 import { HooksPage } from "./pages/HooksPage"
@@ -29,6 +30,7 @@ import { ContributingPage } from "./pages/ContributingPage"
 
 const pages: Record<string, () => JSX.Element> = {
   introduction: Introduction,
+  theming: ThemingPage,
   "form-field": FormFieldPage,
   "form-dialog": FormDialogPage,
   "auth-card": AuthCardPage,

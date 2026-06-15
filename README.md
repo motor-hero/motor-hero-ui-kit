@@ -43,6 +43,47 @@ function App() {
 }
 ```
 
+## Temas e Multi-tenant
+
+Por padrão o kit usa o tema **zinc** (claro/escuro), alternado pelo `ThemeProvider`.
+Para servir várias marcas (tenants) no mesmo app, passe a prop opcional `tenantTheme`.
+**Sem ela, nada muda** — apps existentes seguem com o tema padrão.
+
+Pense em dois eixos independentes: a **marca** (qual tenant) e o **modo** (claro/escuro).
+Só o grupo de cores da **marca** é por tenant; neutros (`background`, `card`, `border`…) e
+status (`destructive`, `success`) são compartilhados e respondem só ao modo.
+
+```tsx
+import { ThemeProvider } from "@motor-hero/ui-kit"
+import type { TenantTheme } from "@motor-hero/ui-kit"
+
+const tenantTheme: TenantTheme = {
+  light: {
+    primary: "hsl(145 63% 32%)",
+    primaryForeground: "hsl(0 0% 100%)",
+    secondary: "hsl(0 0% 96%)",
+    secondaryForeground: "hsl(0 0% 12%)",
+    accent: "hsl(45 95% 55%)",
+    accentForeground: "hsl(0 0% 8%)",
+  },
+  dark: { primary: "hsl(145 50% 55%)" }, // opcional e parcial: só o que muda no escuro
+}
+
+<ThemeProvider defaultTheme="dark" tenantTheme={tenantTheme}>
+  <App />
+</ThemeProvider>
+```
+
+**Regras:**
+
+- Mínimo por tenant: `primary` + `primaryForeground` (2 cores). A marca completa tem três cores — `primary`, `secondary` e `accent` — cada uma com seu foreground.
+- `dark` é opcional e parcial — informe apenas os tokens que mudam; o resto herda do `light`.
+- Valores são qualquer cor CSS válida (`hsl(...)`, `#hex`, `oklch(...)`); prefira `hsl(...)`.
+- Os `*Foreground` são responsabilidade sua — garanta contraste AA, o kit não deriva.
+- As cores entram como estilo inline no `<html>`, vencendo o `.dark` e qualquer `@theme` do app (sem conflito de cascata). Memoize o objeto `tenantTheme`.
+
+Guia completo em [ui.motorhero.com.br](https://ui.motorhero.com.br) → **Temas Multi-tenant**.
+
 ## Desenvolvimento
 
 ```bash
