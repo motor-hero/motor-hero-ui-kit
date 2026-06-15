@@ -6,7 +6,10 @@ interface SidebarProps {
 const navigation = [
   {
     category: "Início",
-    items: [{ id: "introduction", label: "Introdução" }],
+    items: [
+      { id: "introduction", label: "Introdução" },
+      { id: "theming", label: "Temas Multi-tenant" },
+    ],
   },
   {
     category: "Layout",

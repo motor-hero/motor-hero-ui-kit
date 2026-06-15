@@ -1,1 +1,0 @@
-{"version":3,"file":"status-dot.d.ts","sourceRoot":"","sources":["../../src/components/status-dot.tsx"],"names":[],"mappings":"AAAA,UAAU,cAAc;IACtB,MAAM,EAAE,OAAO,CAAA;IACf,KAAK,CAAC,EAAE,MAAM,CAAA;IACd,SAAS,CAAC,EAAE,MAAM,CAAA;CACnB;AAED,wBAAgB,SAAS,CAAC,EAAE,MAAM,EAAE,KAAK,EAAE,SAAS,EAAE,EAAE,cAAc,+BASrE"}

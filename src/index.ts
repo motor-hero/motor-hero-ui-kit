@@ -1,6 +1,8 @@
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme-provider"
 export type { Theme, ThemeProviderProps, ThemeProviderState } from "./components/theme-provider"
+export { applyTenantTheme } from "./lib/tenant-theme"
+export type { TenantTheme, TenantTokenSet } from "./lib/tenant-theme"
 
 // Components
 export { ModeToggle } from "./components/mode-toggle"
