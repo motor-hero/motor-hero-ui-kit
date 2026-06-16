@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { applyTenantTheme, type TenantTheme } from "../lib/tenant-theme"
+import { applyCompanyTheme, type CompanyTheme } from "../lib/company-theme"
 
 type Theme = "dark" | "light" | "system"
 
@@ -7,7 +7,7 @@ type ThemeProviderProps = {
   children: React.ReactNode
   defaultTheme?: Theme
   storageKey?: string
-  tenantTheme?: TenantTheme
+  companyTheme?: CompanyTheme
 }
 
 type ThemeProviderState = {
@@ -26,7 +26,7 @@ export function ThemeProvider({
   children,
   defaultTheme = "system",
   storageKey = "ui-theme",
-  tenantTheme,
+  companyTheme,
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
@@ -38,7 +38,7 @@ export function ThemeProvider({
     const applyResolved = (resolved: "light" | "dark") => {
       root.classList.remove("light", "dark")
       root.classList.add(resolved)
-      applyTenantTheme(root, tenantTheme, resolved)
+      applyCompanyTheme(root, companyTheme, resolved)
     }
 
     if (theme === "system") {
@@ -51,7 +51,7 @@ export function ThemeProvider({
     }
 
     applyResolved(theme)
-  }, [theme, tenantTheme])
+  }, [theme, companyTheme])
 
   const value = {
     theme,

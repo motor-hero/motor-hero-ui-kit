@@ -1,8 +1,13 @@
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme-provider"
 export type { Theme, ThemeProviderProps, ThemeProviderState } from "./components/theme-provider"
-export { applyTenantTheme } from "./lib/tenant-theme"
-export type { TenantTheme, TenantTokenSet } from "./lib/tenant-theme"
+export { applyCompanyTheme } from "./lib/company-theme"
+export type { CompanyTheme, CompanyThemeTokens } from "./lib/company-theme"
+export { useCompanySubdomain, getSubdomain } from "./hooks/use-company-subdomain"
+export type {
+  UseCompanySubdomainOptions,
+  UseCompanySubdomainResult,
+} from "./hooks/use-company-subdomain"
 
 // Components
 export { ModeToggle } from "./components/mode-toggle"
