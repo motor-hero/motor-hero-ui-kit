@@ -6,14 +6,14 @@ interface SidebarProps {
 const navigation = [
   {
     category: "Início",
-    items: [
-      { id: "introduction", label: "Introdução" },
-      { id: "theming", label: "Temas Multi-tenant" },
-    ],
+    items: [{ id: "introduction", label: "Introdução" }],
   },
   {
     category: "Layout",
-    items: [{ id: "app-shell", label: "AppShell" }],
+    items: [
+      { id: "theme-provider", label: "ThemeProvider" },
+      { id: "app-shell", label: "AppShell" },
+    ],
   },
   {
     category: "Componentes",
