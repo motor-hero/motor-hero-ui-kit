@@ -58,7 +58,7 @@ export function RowActionsMenu({
 
   if (isDesktop) {
     return (
-      <DropdownMenu.Root open={open} onOpenChange={setOpen}>
+      <DropdownMenu.Root open={open} onOpenChange={setOpen} modal={false}>
         <DropdownMenu.Trigger asChild>{trigger}</DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
@@ -70,7 +70,7 @@ export function RowActionsMenu({
               const cls = cn(
                 itemClass,
                 action.destructive &&
-                  "text-destructive focus:bg-destructive/10",
+                "text-destructive focus:bg-destructive/10",
               )
               return action.href ? (
                 <DropdownMenu.Item
