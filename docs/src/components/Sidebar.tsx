@@ -20,6 +20,7 @@ const navigation = [
     items: [
       { id: "auth-card", label: "AuthCard" },
       { id: "combobox", label: "Combobox" },
+      { id: "multi-combobox", label: "MultiCombobox" },
       { id: "confirm-dialog", label: "ConfirmDialog" },
       { id: "empty-state", label: "EmptyState" },
       { id: "form-dialog", label: "FormDialog" },
