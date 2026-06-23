@@ -27,7 +27,10 @@ export interface MultiComboboxProps {
 /**
  * Combobox de múltipla seleção com chips, acessível e responsivo.
  *
- * - Desktop: Popover (modal) + cmdk — o dropdown acompanha a largura do gatilho.
+ * - Desktop: Popover não-modal + cmdk — o dropdown acompanha a largura do gatilho.
+ *   Não-modal de propósito: dentro de um Dialog, um Popover modal trava
+ *   `body { pointer-events: none }` e marca o resto do Dialog como aria-hidden,
+ *   o que deixava a página/Dialog presos ao fechar com o picker aberto.
  * - Mobile: Drawer (bottom sheet) + cmdk — evita os problemas de foco/clique de
  *   Popover dentro de modal no touch, então a busca funciona no celular.
  *
@@ -151,7 +154,7 @@ export function MultiCombobox({
 
   if (isDesktop) {
     return (
-      <PopoverPrimitive.Root open={open} onOpenChange={setOpen} modal>
+      <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
         <PopoverPrimitive.Trigger asChild disabled={disabled}>
           {trigger}
         </PopoverPrimitive.Trigger>
@@ -159,7 +162,7 @@ export function MultiCombobox({
           <PopoverPrimitive.Content
             align="start"
             sideOffset={4}
-            className="z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md"
+            className="pointer-events-auto z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md"
             style={{ width: "var(--radix-popover-trigger-width)" }}
           >
             {command}
