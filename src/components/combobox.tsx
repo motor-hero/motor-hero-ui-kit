@@ -1,8 +1,9 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 import { Command as CommandPrimitive } from "cmdk"
-import { Check, ChevronsUpDown, Search } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Search } from "lucide-react"
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
+import { useInfiniteScrollSentinel } from "../hooks/use-infinite-scroll-sentinel"
 import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
 
@@ -27,6 +28,18 @@ export interface ComboboxProps {
   className?: string
   "aria-invalid"?: boolean | "true" | "false"
   "aria-describedby"?: string
+  /** Modo servidor: chamado a cada tecla com o texto bruto da busca. Sua
+   *  presença ativa o modo servidor (filtro do cmdk desligado). */
+  onSearchChange?: (search: string) => void
+  /** Modo servidor: chamado ao rolar até o fim da lista. */
+  onLoadMore?: () => void
+  /** Modo servidor: mostra uma linha de carregamento no fim da lista. */
+  loading?: boolean
+  /** Modo servidor: habilita o disparo de `onLoadMore`. */
+  hasMore?: boolean
+  /** Modo servidor: rótulo do valor já selecionado que pode não estar na
+   *  página carregada (ex.: formulário de edição). */
+  selectedOption?: ComboboxOption
 }
 
 /**
@@ -55,10 +68,24 @@ export function Combobox({
   className,
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby,
+  onSearchChange,
+  onLoadMore,
+  loading,
+  hasMore,
+  selectedOption,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useIsDesktop()
-  const selected = options.find((option) => option.value === value)
+  const isServer = onSearchChange !== undefined
+  const selected =
+    selectedOption?.value === value
+      ? selectedOption
+      : options.find((option) => option.value === value)
+  const { listRef, sentinelRef } = useInfiniteScrollSentinel({
+    enabled: isServer && !!hasMore,
+    loading,
+    onLoadMore,
+  })
 
   const trigger = (
     <button
@@ -82,22 +109,33 @@ export function Combobox({
   )
 
   const command = (
-    <CommandPrimitive className="flex h-full w-full flex-col overflow-hidden">
+    <CommandPrimitive
+      shouldFilter={!isServer}
+      className="flex h-full w-full flex-col overflow-hidden"
+    >
       <div className="flex items-center border-b px-3">
         <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         <CommandPrimitive.Input
           placeholder={searchPlaceholder}
+          onValueChange={isServer ? onSearchChange : undefined}
           className="flex h-11 w-full bg-transparent py-2 text-base outline-none placeholder:text-muted-foreground sm:h-9 sm:text-sm"
         />
       </div>
-      <CommandPrimitive.List className="max-h-[50vh] overflow-y-auto overflow-x-hidden p-1 sm:max-h-60">
-        <CommandPrimitive.Empty className="py-6 text-center text-sm text-muted-foreground">
-          {emptyMessage}
-        </CommandPrimitive.Empty>
+      <CommandPrimitive.List
+        ref={listRef}
+        className="max-h-[50vh] overflow-y-auto overflow-x-hidden p-1 sm:max-h-60"
+      >
+        {!isServer && (
+          <CommandPrimitive.Empty className="py-6 text-center text-sm text-muted-foreground">
+            {emptyMessage}
+          </CommandPrimitive.Empty>
+        )}
         {options.map((option) => (
           <CommandPrimitive.Item
             key={option.value}
-            value={option.label}
+            // cliente: cmdk filtra pelo `value`, então usamos o label; servidor:
+            // o servidor já filtrou, então usamos o id (único, evita colisão de labels).
+            value={isServer ? option.value : option.label}
             disabled={option.disabled}
             onSelect={() => {
               onChange(option.value)
@@ -114,6 +152,19 @@ export function Combobox({
             <span className="truncate">{option.label}</span>
           </CommandPrimitive.Item>
         ))}
+        {isServer && !loading && options.length === 0 && (
+          <div className="py-6 text-center text-sm text-muted-foreground">
+            {emptyMessage}
+          </div>
+        )}
+        {isServer && loading && (
+          <div className="flex items-center justify-center py-6">
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          </div>
+        )}
+        {isServer && hasMore && (
+          <div ref={sentinelRef} aria-hidden className="h-1" />
+        )}
       </CommandPrimitive.List>
     </CommandPrimitive>
   )
