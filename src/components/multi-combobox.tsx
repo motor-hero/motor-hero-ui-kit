@@ -1,8 +1,9 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 import { Command as CommandPrimitive } from "cmdk"
-import { Check, ChevronsUpDown, Search, X } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Search, X } from "lucide-react"
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
+import { useInfiniteScrollSentinel } from "../hooks/use-infinite-scroll-sentinel"
 import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
 import type { ComboboxOption } from "./combobox"
@@ -22,6 +23,18 @@ export interface MultiComboboxProps {
   className?: string
   "aria-invalid"?: boolean | "true" | "false"
   "aria-describedby"?: string
+  /** Modo servidor: chamado a cada tecla com o texto bruto da busca. Sua
+   *  presença ativa o modo servidor (filtro do cmdk desligado). */
+  onSearchChange?: (search: string) => void
+  /** Modo servidor: chamado ao rolar até o fim da lista. */
+  onLoadMore?: () => void
+  /** Modo servidor: mostra uma linha de carregamento no fim da lista. */
+  loading?: boolean
+  /** Modo servidor: habilita o disparo de `onLoadMore`. */
+  hasMore?: boolean
+  /** Modo servidor: rótulos dos valores já selecionados que podem não estar
+   *  na página carregada (chips do formulário de edição). */
+  selectedOptions?: ComboboxOption[]
 }
 
 /**
@@ -51,10 +64,28 @@ export function MultiCombobox({
   className,
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby,
+  onSearchChange,
+  onLoadMore,
+  loading,
+  hasMore,
+  selectedOptions,
 }: MultiComboboxProps) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useIsDesktop()
-  const selected = options.filter((option) => value.includes(option.value))
+  const isServer = onSearchChange !== undefined
+  // Chips a partir de selectedOptions (rótulos salvos) + página atual, dedup
+  // por value (primeira ocorrência vence → o rótulo salvo prevalece).
+  const seen = new Set<string>()
+  const selected = [...(selectedOptions ?? []), ...options].filter((option) => {
+    if (!value.includes(option.value) || seen.has(option.value)) return false
+    seen.add(option.value)
+    return true
+  })
+  const { listRef, sentinelRef } = useInfiniteScrollSentinel({
+    enabled: isServer && !!hasMore,
+    loading,
+    onLoadMore,
+  })
 
   const toggleValue = (optionValue: string) => {
     onChange(
@@ -119,22 +150,31 @@ export function MultiCombobox({
   )
 
   const command = (
-    <CommandPrimitive className="flex h-full w-full flex-col overflow-hidden">
+    <CommandPrimitive
+      shouldFilter={!isServer}
+      className="flex h-full w-full flex-col overflow-hidden"
+    >
       <div className="flex items-center border-b px-3">
         <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         <CommandPrimitive.Input
           placeholder={searchPlaceholder}
+          onValueChange={isServer ? onSearchChange : undefined}
           className="flex h-11 w-full bg-transparent py-2 text-base outline-none placeholder:text-muted-foreground sm:h-9 sm:text-sm"
         />
       </div>
-      <CommandPrimitive.List className="max-h-[50vh] overflow-y-auto overflow-x-hidden p-1 sm:max-h-60">
-        <CommandPrimitive.Empty className="py-6 text-center text-sm text-muted-foreground">
-          {emptyMessage}
-        </CommandPrimitive.Empty>
+      <CommandPrimitive.List
+        ref={listRef}
+        className="max-h-[50vh] overflow-y-auto overflow-x-hidden p-1 sm:max-h-60"
+      >
+        {!isServer && (
+          <CommandPrimitive.Empty className="py-6 text-center text-sm text-muted-foreground">
+            {emptyMessage}
+          </CommandPrimitive.Empty>
+        )}
         {options.map((option) => (
           <CommandPrimitive.Item
             key={option.value}
-            value={option.label}
+            value={isServer ? option.value : option.label}
             disabled={option.disabled}
             onSelect={() => toggleValue(option.value)}
             className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5"
@@ -148,6 +188,19 @@ export function MultiCombobox({
             <span className="truncate">{option.label}</span>
           </CommandPrimitive.Item>
         ))}
+        {isServer && !loading && options.length === 0 && (
+          <div className="py-6 text-center text-sm text-muted-foreground">
+            {emptyMessage}
+          </div>
+        )}
+        {isServer && loading && (
+          <div className="flex items-center justify-center py-6">
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          </div>
+        )}
+        {isServer && hasMore && (
+          <div ref={sentinelRef} aria-hidden className="h-1" />
+        )}
       </CommandPrimitive.List>
     </CommandPrimitive>
   )
