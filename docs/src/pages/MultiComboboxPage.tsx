@@ -2,6 +2,7 @@ import { useState } from "react"
 import { MultiCombobox } from "@motor-hero/ui-kit"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
+import { useFakeInfiniteOptions } from "../lib/fake-options-source"
 
 const areas = [
   { value: "florestas", label: "Florestas" },
@@ -15,6 +16,8 @@ const areas = [
 
 export function MultiComboboxPage() {
   const [value, setValue] = useState<string[]>([])
+  const server = useFakeInfiniteOptions()
+  const [serverValues, setServerValues] = useState<string[]>(["42", "108"])
 
   return (
     <div className="space-y-8">
@@ -52,6 +55,58 @@ export function MultiComboboxPage() {
               </p>
             )}
           </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-xl font-semibold">Modo servidor (paginação)</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Igual ao Combobox: <code>onSearchChange</code> ativa o modo servidor.
+          Os chips dos valores já selecionados vêm de <code>selectedOptions</code>,
+          então aparecem mesmo antes da página deles carregar (aqui pré-selecionamos
+          os itens 42 e 108).
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="max-w-sm space-y-4">
+            <MultiCombobox
+              options={server.options}
+              value={serverValues}
+              onChange={setServerValues}
+              selectedOptions={[
+                { value: "42", label: "Fornecedor 042" },
+                { value: "108", label: "Fornecedor 108" },
+              ]}
+              onSearchChange={server.onSearchChange}
+              onLoadMore={server.onLoadMore}
+              loading={server.loading}
+              hasMore={server.hasMore}
+              placeholder="Selecione os fornecedores"
+              searchPlaceholder="Buscar fornecedor..."
+            />
+            <p className="text-sm text-muted-foreground">
+              Selecionados:{" "}
+              <span className="font-medium text-foreground">
+                {serverValues.join(", ") || "nenhum"}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="mt-4">
+          <CodeBlock
+            code={`const props = useInfiniteOptions({
+  queryKey: ["supplier-options"],
+  queryFn: ({ page, size, search }) =>
+    SuppliersService.readSuppliers({ page, size, search }),
+  toOption: (s) => ({ value: s.id, label: s.name }),
+})
+
+<MultiCombobox
+  value={ids}
+  onChange={setIds}
+  selectedOptions={current}   // rótulos dos chips salvos
+  {...props}
+/>`}
+          />
         </div>
       </div>
 
@@ -124,6 +179,11 @@ const [areasSelecionadas, setAreasSelecionadas] = useState<string[]>([])
             { name: "disabled", type: "boolean", description: "Desabilita o gatilho" },
             { name: "id", type: "string", description: "ID do gatilho (associação com label)" },
             { name: "className", type: "string", description: "Classes para o gatilho" },
+            { name: "onSearchChange", type: "(search: string) => void", description: "Modo servidor: chamado a cada tecla; sua presença ativa o modo servidor" },
+            { name: "onLoadMore", type: "() => void", description: "Modo servidor: chamado ao rolar até o fim da lista" },
+            { name: "loading", type: "boolean", description: "Modo servidor: mostra a linha de carregamento" },
+            { name: "hasMore", type: "boolean", description: "Modo servidor: habilita o disparo de onLoadMore" },
+            { name: "selectedOptions", type: "ComboboxOption[]", description: "Modo servidor: rótulos dos chips selecionados fora da página carregada" },
           ]}
         />
       </div>
