@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Combobox } from "@motor-hero/ui-kit"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
+import { useFakeInfiniteOptions } from "../lib/fake-options-source"
 
 const areas = [
   { value: "florestas", label: "Florestas" },
@@ -15,6 +16,8 @@ const areas = [
 
 export function ComboboxPage() {
   const [value, setValue] = useState("")
+  const server = useFakeInfiniteOptions()
+  const [serverValue, setServerValue] = useState("42")
 
   return (
     <div className="space-y-8">
@@ -49,6 +52,59 @@ export function ComboboxPage() {
               </p>
             )}
           </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-xl font-semibold">Modo servidor (paginação)</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Passe <code>onSearchChange</code> para ativar o modo servidor: o filtro
+          do cmdk é desligado, a busca é enviada ao backend e a lista pagina ao
+          rolar até o fim. <code>selectedOption</code> garante o rótulo do valor
+          já selecionado mesmo que ele não esteja na página carregada (caso de
+          formulário de edição — aqui pré-selecionamos o item 42).
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="max-w-sm space-y-4">
+            <Combobox
+              options={server.options}
+              value={serverValue}
+              onChange={setServerValue}
+              selectedOption={{ value: "42", label: "Fornecedor 042" }}
+              onSearchChange={server.onSearchChange}
+              onLoadMore={server.onLoadMore}
+              loading={server.loading}
+              hasMore={server.hasMore}
+              placeholder="Selecione o fornecedor"
+              searchPlaceholder="Buscar fornecedor..."
+            />
+            {serverValue && (
+              <p className="text-sm text-muted-foreground">
+                Selecionado:{" "}
+                <span className="font-medium text-foreground">{serverValue}</span>
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="mt-4">
+          <CodeBlock
+            code={`// O hook de dados vive no app (não no ui-kit), sobre TanStack Query:
+import { useInfiniteOptions } from "@/hooks/useInfiniteOptions"
+
+const props = useInfiniteOptions({
+  queryKey: ["supplier-options"],
+  queryFn: ({ page, size, search }) =>
+    SuppliersService.readSuppliers({ page, size, search }),
+  toOption: (s) => ({ value: s.id, label: s.name }),
+})
+
+<Combobox
+  value={id}
+  onChange={setId}
+  selectedOption={current}   // rótulo do valor salvo (form de edição)
+  {...props}
+/>`}
+          />
         </div>
       </div>
 
@@ -115,6 +171,11 @@ const [area, setArea] = useState("")
             { name: "disabled", type: "boolean", description: "Desabilita o gatilho" },
             { name: "id", type: "string", description: "ID do gatilho (associação com label)" },
             { name: "className", type: "string", description: "Classes para o gatilho" },
+            { name: "onSearchChange", type: "(search: string) => void", description: "Modo servidor: chamado a cada tecla; sua presença ativa o modo servidor" },
+            { name: "onLoadMore", type: "() => void", description: "Modo servidor: chamado ao rolar até o fim da lista" },
+            { name: "loading", type: "boolean", description: "Modo servidor: mostra a linha de carregamento" },
+            { name: "hasMore", type: "boolean", description: "Modo servidor: habilita o disparo de onLoadMore" },
+            { name: "selectedOption", type: "ComboboxOption", description: "Modo servidor: rótulo do valor selecionado fora da página carregada" },
           ]}
         />
       </div>
