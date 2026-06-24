@@ -32,7 +32,11 @@ export interface ComboboxProps {
 /**
  * Select com busca (combobox) acessível e responsivo.
  *
- * - Desktop: Popover (modal) + cmdk — o dropdown acompanha a largura do gatilho.
+ * - Desktop: Popover não-modal + cmdk — o dropdown acompanha a largura do
+ *   gatilho. Não-modal (com `pointer-events-auto` no conteúdo) de propósito:
+ *   dentro de um Dialog, um Popover modal trava `body { pointer-events: none }`
+ *   e prende o foco, então a busca não recebe clique/digitação (mesmo motivo do
+ *   MultiCombobox).
  * - Mobile: Drawer (bottom sheet) + cmdk — evita os problemas de foco/clique de
  *   Popover dentro de modal no touch, então a busca funciona no celular.
  *
@@ -116,13 +120,13 @@ export function Combobox({
 
   if (isDesktop) {
     return (
-      <PopoverPrimitive.Root open={open} onOpenChange={setOpen} modal>
+      <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
         <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             align="start"
             sideOffset={4}
-            className="z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md"
+            className="pointer-events-auto z-50 overflow-hidden rounded-md border bg-popover p-0 text-popover-foreground shadow-md"
             style={{ width: "var(--radix-popover-trigger-width)" }}
           >
             {command}
