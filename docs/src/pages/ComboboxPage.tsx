@@ -14,10 +14,18 @@ const areas = [
   { value: "financas", label: "Finanças" },
 ]
 
+const units = [
+  { value: "%", label: "%" },
+  { value: "ha", label: "ha" },
+  { value: "n°", label: "n°" },
+  { value: "R$", label: "R$" },
+]
+
 export function ComboboxPage() {
   const [value, setValue] = useState("")
   const server = useFakeInfiniteOptions()
   const [serverValue, setServerValue] = useState("42")
+  const [unit, setUnit] = useState("de estruturas físicas")
 
   return (
     <div className="space-y-8">
@@ -109,6 +117,47 @@ const props = useInfiniteOptions({
       </div>
 
       <div>
+        <h2 className="mb-4 text-xl font-semibold">Texto livre (creatable)</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Passe <code>creatable</code> para permitir confirmar o texto digitado
+          como valor, mesmo fora da lista — útil para campos como unidade de
+          medida, onde além das sugestões o usuário precisa escrever um texto
+          próprio (ex.: <code>"de estruturas físicas"</code>). O valor
+          personalizado aparece no gatilho sem precisar injetá-lo em{" "}
+          <code>options</code>.
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="max-w-sm space-y-4">
+            <Combobox
+              options={units}
+              value={unit}
+              onChange={setUnit}
+              creatable
+              placeholder="Selecione ou digite a unidade"
+              searchPlaceholder="Buscar ou criar..."
+            />
+            {unit && (
+              <p className="text-sm text-muted-foreground">
+                Selecionado:{" "}
+                <span className="font-medium text-foreground">{unit}</span>
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="mt-4">
+          <CodeBlock
+            code={`<Combobox
+  options={units}
+  value={unit}
+  onChange={setUnit}
+  creatable                       // habilita a linha "Usar <texto>"
+  placeholder="Selecione ou digite a unidade"
+/>`}
+          />
+        </div>
+      </div>
+
+      <div>
         <h2 className="mb-4 text-xl font-semibold">Uso</h2>
         <CodeBlock
           code={`import { Combobox } from "@motor-hero/ui-kit"
@@ -176,6 +225,8 @@ const [area, setArea] = useState("")
             { name: "loading", type: "boolean", description: "Modo servidor: mostra a linha de carregamento" },
             { name: "hasMore", type: "boolean", description: "Modo servidor: habilita o disparo de onLoadMore" },
             { name: "selectedOption", type: "ComboboxOption", description: "Modo servidor: rótulo do valor selecionado fora da página carregada" },
+            { name: "creatable", type: "boolean", description: "Permite confirmar o texto digitado como valor, mesmo fora da lista" },
+            { name: "formatCreateLabel", type: "(search: string) => string", default: 'Usar "<texto>"', description: "Rótulo da linha de criação" },
           ]}
         />
       </div>
