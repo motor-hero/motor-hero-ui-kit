@@ -39,7 +39,7 @@ export function ColorPicker({
   const color = value || ""
 
   return (
-    <PopoverPrimitive.Root open={open} onOpenChange={setOpen} modal>
+    <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
       <PopoverPrimitive.Trigger asChild>
         <button
           type="button"
@@ -63,9 +63,9 @@ export function ColorPicker({
                 color
                   ? { backgroundColor: color }
                   : {
-                      backgroundImage:
-                        "linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%),linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%)",
-                    }
+                    backgroundImage:
+                      "linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%),linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%)",
+                  }
               }
             />
             <span className={cn("truncate", !color && "text-muted-foreground")}>
