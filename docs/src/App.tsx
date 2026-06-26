@@ -4,6 +4,7 @@ import { Sidebar } from "./components/Sidebar"
 import { Introduction } from "./pages/Introduction"
 import { BaseDialogPage } from "./pages/BaseDialogPage"
 import { FormDialogPage } from "./pages/FormDialogPage"
+import { MultiStepFormPage } from "./pages/MultiStepFormPage"
 import { FormFieldPage } from "./pages/FormFieldPage"
 import { AuthCardPage } from "./pages/AuthCardPage"
 import { StatCardPage } from "./pages/StatCardPage"
@@ -36,6 +37,7 @@ const pages: Record<string, () => JSX.Element> = {
   "form-field": FormFieldPage,
   "base-dialog": BaseDialogPage,
   "form-dialog": FormDialogPage,
+  "multi-step-form": MultiStepFormPage,
   "auth-card": AuthCardPage,
   "stat-card": StatCardPage,
   "search-input": SearchInputPage,

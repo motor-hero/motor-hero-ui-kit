@@ -28,6 +28,7 @@ const navigation = [
       { id: "form-field", label: "FormField" },
       { id: "mobile-card-list", label: "MobileCardList" },
       { id: "mode-toggle", label: "ModeToggle" },
+      { id: "multi-step-form", label: "Multi-step Form" },
       { id: "page-header", label: "PageHeader" },
       { id: "pagination", label: "Pagination" },
       { id: "password-input", label: "PasswordInput" },
