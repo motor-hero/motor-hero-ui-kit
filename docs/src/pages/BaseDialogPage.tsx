@@ -1,27 +1,26 @@
-import { FormDialog } from "@motor-hero/ui-kit"
+import { BaseDialog } from "@motor-hero/ui-kit"
 import { useState } from "react"
 import { CodeBlock } from "../components/CodeBlock"
 import { PropsTable } from "../components/PropsTable"
 
-export function FormDialogPage() {
+export function BaseDialogPage() {
   const [open, setOpen] = useState(false)
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">FormDialog</h1>
+        <h1 className="text-3xl font-bold tracking-tight">BaseDialog</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Especialização de{" "}
-          <a href="#base-dialog" className="text-brand underline">
-            BaseDialog
-          </a>{" "}
-          voltada a formulários: quando <code>onSubmit</code> é informado, o
-          corpo e o rodapé são envolvidos num <code>&lt;form&gt;</code> (Enter
-          envia e botões <code>type="submit"</code> no rodapé funcionam). Herda
-          toda a estrutura do BaseDialog — bottom sheet no mobile, dialog
-          centralizado no desktop, cabeçalho e rodapé fixos com só o corpo
-          rolando, e o fix do bug do Radix de <code>pointer-events: none</code>.
-          Para um dialog genérico sem formulário, use o BaseDialog.
+          Estrutura base de modal padronizado e responsivo: bottom sheet no
+          mobile, dialog centralizado no desktop. Cabeçalho e rodapé fixos; só o
+          corpo rola. Já corrige o bug do Radix em que a página fica sem cliques
+          (<code>pointer-events: none</code>) após fechar um modal que contém
+          Select/Popover. É agnóstico a formulário e a botões — use o{" "}
+          <code>footer</code> para as ações que quiser. Para formulários, veja{" "}
+          <a href="#form-dialog" className="text-brand underline">
+            FormDialog
+          </a>
+          , uma especialização que envolve o corpo num <code>&lt;form&gt;</code>.
         </p>
       </div>
 
@@ -35,15 +34,12 @@ export function FormDialogPage() {
           >
             Abrir modal
           </button>
-          <FormDialog
+          <BaseDialog
             open={open}
             onOpenChange={setOpen}
-            title="Adicionar registro"
+            title="Detalhes do registro"
+            description="Um dialog genérico, sem formulário."
             size="md"
-            onSubmit={(e) => {
-              e.preventDefault()
-              setOpen(false)
-            }}
             footer={
               <>
                 <button
@@ -51,56 +47,57 @@ export function FormDialogPage() {
                   onClick={() => setOpen(false)}
                   className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent"
                 >
-                  Cancelar
+                  Fechar
                 </button>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={() => setOpen(false)}
                   className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                 >
-                  Salvar
+                  Ok
                 </button>
               </>
             }
           >
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Conteúdo do formulário aqui. Em telas pequenas o modal vira um
-                bottom sheet; com muito conteúdo, apenas esta área rola.
+                Conteúdo livre. Em telas pequenas o modal vira um bottom sheet;
+                com muito conteúdo, apenas esta área rola.
               </p>
               {Array.from({ length: 8 }).map((_, i) => (
-                <input
+                <div
                   // biome-ignore lint/suspicious/noArrayIndexKey: demo
                   key={i}
-                  placeholder={`Campo ${i + 1}`}
-                  className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm"
-                />
+                  className="rounded-md border px-3 py-2 text-sm"
+                >
+                  Linha {i + 1}
+                </div>
               ))}
             </div>
-          </FormDialog>
+          </BaseDialog>
         </div>
       </div>
 
       <div>
         <h2 className="mb-4 text-xl font-semibold">Uso</h2>
         <CodeBlock
-          code={`import { FormDialog } from "@motor-hero/ui-kit"
+          code={`import { BaseDialog } from "@motor-hero/ui-kit"
 
-<FormDialog
+<BaseDialog
   open={open}
   onOpenChange={setOpen}
-  title="Adicionar indicador"
+  title="Detalhes"
   size="lg"
-  onSubmit={handleSubmit(onSubmit)}
   footer={
     <>
-      <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
-      <Button type="submit">Salvar</Button>
+      <Button variant="outline" onClick={() => setOpen(false)}>Fechar</Button>
+      <Button onClick={handleOk}>Ok</Button>
     </>
   }
 >
   {/* só o corpo rola */}
-  <FormFields />
-</FormDialog>`}
+  <Content />
+</BaseDialog>`}
         />
       </div>
 
@@ -143,12 +140,6 @@ export function FormDialogPage() {
               description: "Ações no rodapé fixo (botões)",
             },
             {
-              name: "onSubmit",
-              type: "(e: FormEvent) => void",
-              description:
-                "Se informado, envolve corpo + rodapé num <form> (Enter envia)",
-            },
-            {
               name: "size",
               type: '"sm" | "md" | "lg" | "xl" | "2xl"',
               default: '"lg"',
@@ -158,6 +149,12 @@ export function FormDialogPage() {
               name: "className",
               type: "string",
               description: "Classes adicionais no container",
+            },
+            {
+              name: "contentWrapper",
+              type: "(content: ReactNode) => ReactNode",
+              description:
+                "Avançado: envolve o conteúdo interno dentro do Content. Usado pelo FormDialog para injetar um <form>.",
             },
           ]}
         />

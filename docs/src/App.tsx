@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type JSX } from "react"
 import { Header } from "./components/Header"
 import { Sidebar } from "./components/Sidebar"
 import { Introduction } from "./pages/Introduction"
+import { BaseDialogPage } from "./pages/BaseDialogPage"
 import { FormDialogPage } from "./pages/FormDialogPage"
 import { FormFieldPage } from "./pages/FormFieldPage"
 import { AuthCardPage } from "./pages/AuthCardPage"
@@ -33,6 +34,7 @@ const pages: Record<string, () => JSX.Element> = {
   introduction: Introduction,
   "theme-provider": ThemeProviderPage,
   "form-field": FormFieldPage,
+  "base-dialog": BaseDialogPage,
   "form-dialog": FormDialogPage,
   "auth-card": AuthCardPage,
   "stat-card": StatCardPage,
