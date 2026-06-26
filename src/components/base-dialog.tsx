@@ -3,6 +3,7 @@ import { X } from "lucide-react"
 import * as React from "react"
 import type { ReactNode } from "react"
 
+import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
 
 const sizeClasses = {
@@ -24,6 +25,13 @@ export interface BaseDialogProps {
   footer?: ReactNode
   size?: BaseDialogSize
   className?: string
+  /**
+   * Radix `modal` for the underlying Dialog. Defaults to `!isDesktop`: on
+   * desktop the dialog is non-modal so a Combobox/Select popover (portaled
+   * outside the dialog) can receive focus and keystrokes; on mobile it stays
+   * modal so the bottom-sheet behaves. Pass explicitly to override.
+   */
+  modal?: boolean
   /**
    * Advanced: wraps the dialog's inner content (header + body + footer) inside
    * Content. Used by FormDialog to inject a <form>. Defaults to identity.
@@ -50,8 +58,10 @@ export function BaseDialog({
   footer,
   size = "lg",
   className,
+  modal,
   contentWrapper = (content) => content,
 }: BaseDialogProps) {
+  const isDesktop = useIsDesktop()
   React.useEffect(() => {
     if (open) return
     const id = window.setTimeout(() => {
@@ -92,7 +102,7 @@ export function BaseDialog({
   )
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} modal={modal ?? !isDesktop}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <Dialog.Content
