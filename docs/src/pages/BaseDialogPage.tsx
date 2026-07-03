@@ -158,6 +158,12 @@ export function BaseDialogPage() {
                 "Desfoca o fundo atrás do modal. Passe false para manter o scrim liso.",
             },
             {
+              name: "backdropClassName",
+              type: "string",
+              description:
+                "Classes extras no scrim/overlay. Ajusta o escurecimento por diálogo, ex.: bg-black/40 (mais leve) ou bg-transparent (só o blur). O default é bg-black/50.",
+            },
+            {
               name: "contentWrapper",
               type: "(content: ReactNode) => ReactNode",
               description:

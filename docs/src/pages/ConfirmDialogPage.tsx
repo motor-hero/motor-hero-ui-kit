@@ -102,6 +102,8 @@ const { open, onOpen, onClose, setOpen } = useDisclosure()
             { name: "cancelLabel", type: "string", default: '"Cancelar"', description: "Texto do botão de cancelar" },
             { name: "loading", type: "boolean", default: "false", description: "Exibe estado de carregamento" },
             { name: "variant", type: '"default" | "destructive"', default: '"default"', description: "Estilo visual do botão de confirmação" },
+            { name: "blurBackdrop", type: "boolean", default: "true", description: "Desfoca o fundo atrás do modal. Passe false para manter o scrim liso." },
+            { name: "backdropClassName", type: "string", description: "Classes extras no scrim/overlay, ex.: bg-black/40 para um escurecimento mais leve. O default é bg-black/50." },
           ]}
         />
       </div>

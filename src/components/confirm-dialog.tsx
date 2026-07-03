@@ -1,6 +1,8 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog"
 import type { ReactNode } from "react"
 
+import { cn } from "../lib/utils"
+
 interface ConfirmDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -11,6 +13,17 @@ interface ConfirmDialogProps {
   cancelLabel?: string
   loading?: boolean
   variant?: "default" | "destructive"
+  /**
+   * Applies backdrop-blur to the overlay behind the dialog.
+   * Defaults to true; pass false to keep the plain scrim.
+   */
+  blurBackdrop?: boolean
+  /**
+   * Extra classes appended to the backdrop/overlay. Use it to tune the scrim
+   * per dialog, e.g. `bg-black/40` for a lighter tint. Wins over the default
+   * via tailwind-merge.
+   */
+  backdropClassName?: string
 }
 
 export function ConfirmDialog({
@@ -23,11 +36,19 @@ export function ConfirmDialog({
   cancelLabel = "Cancelar",
   loading = false,
   variant = "default",
+  blurBackdrop = true,
+  backdropClassName,
 }: ConfirmDialogProps) {
   return (
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <AlertDialog.Overlay
+          className={cn(
+            "fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+            blurBackdrop && "backdrop-blur-sm",
+            backdropClassName,
+          )}
+        />
         <AlertDialog.Content className="fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
           <div className="flex flex-col space-y-2 text-center sm:text-left">
             <AlertDialog.Title className="text-lg font-semibold">{title}</AlertDialog.Title>

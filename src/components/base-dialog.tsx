@@ -43,6 +43,13 @@ export interface BaseDialogProps {
    */
   blurBackdrop?: boolean
   /**
+   * Extra classes appended to the backdrop/overlay. Use it to tune the scrim
+   * per dialog, e.g. `bg-black/40` for a lighter tint or `bg-transparent` to
+   * drop the darkening and keep only the blur. Wins over the default via
+   * tailwind-merge.
+   */
+  backdropClassName?: string
+  /**
    * Advanced: wraps the dialog's inner content (header + body + footer) inside
    * Content. Used by FormDialog to inject a <form>. Defaults to identity.
    */
@@ -70,6 +77,7 @@ export function BaseDialog({
   className,
   modal,
   blurBackdrop = true,
+  backdropClassName,
   contentWrapper = (content) => content,
 }: BaseDialogProps) {
   const isDesktop = useIsDesktop()
@@ -120,18 +128,23 @@ export function BaseDialog({
         {isModal ? (
           <Dialog.Overlay
             className={cn(
-              "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+              "fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
               blurBackdrop && "backdrop-blur-sm",
+              backdropClassName,
             )}
           />
         ) : (
           // Radix skips Dialog.Overlay when non-modal, so the backdrop is
           // rendered by hand; pointer-events-none keeps outside interactions
           // working (the reason the dialog is non-modal on desktop).
-          blurBackdrop && (
+          (blurBackdrop || backdropClassName) && (
             <div
               aria-hidden
-              className="pointer-events-none fixed inset-0 z-50 bg-black/80 backdrop-blur-sm animate-in fade-in-0"
+              className={cn(
+                "pointer-events-none fixed inset-0 z-50 bg-black/50 animate-in fade-in-0",
+                blurBackdrop && "backdrop-blur-sm",
+                backdropClassName,
+              )}
             />
           )
         )}
