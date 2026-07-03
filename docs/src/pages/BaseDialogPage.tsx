@@ -151,6 +151,13 @@ export function BaseDialogPage() {
               description: "Classes adicionais no container",
             },
             {
+              name: "blurBackdrop",
+              type: "boolean",
+              default: "true",
+              description:
+                "Desfoca o fundo atrás do modal. Passe false para manter o scrim liso.",
+            },
+            {
               name: "contentWrapper",
               type: "(content: ReactNode) => ReactNode",
               description:

@@ -38,6 +38,11 @@ export interface BaseDialogProps {
    */
   modal?: boolean
   /**
+   * Applies backdrop-blur to the overlay behind the dialog.
+   * Defaults to true; pass false to keep the plain scrim.
+   */
+  blurBackdrop?: boolean
+  /**
    * Advanced: wraps the dialog's inner content (header + body + footer) inside
    * Content. Used by FormDialog to inject a <form>. Defaults to identity.
    */
@@ -64,6 +69,7 @@ export function BaseDialog({
   size = "lg",
   className,
   modal,
+  blurBackdrop = true,
   contentWrapper = (content) => content,
 }: BaseDialogProps) {
   const isDesktop = useIsDesktop()
@@ -106,10 +112,29 @@ export function BaseDialog({
     </>
   )
 
+  const isModal = modal ?? !isDesktop
+
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange} modal={modal ?? !isDesktop}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} modal={isModal}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        {isModal ? (
+          <Dialog.Overlay
+            className={cn(
+              "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+              blurBackdrop && "backdrop-blur-sm",
+            )}
+          />
+        ) : (
+          // Radix skips Dialog.Overlay when non-modal, so the backdrop is
+          // rendered by hand; pointer-events-none keeps outside interactions
+          // working (the reason the dialog is non-modal on desktop).
+          blurBackdrop && (
+            <div
+              aria-hidden
+              className="pointer-events-none fixed inset-0 z-50 bg-black/80 backdrop-blur-sm animate-in fade-in-0"
+            />
+          )
+        )}
         <Dialog.Content
           onCloseAutoFocus={() => {
             document.body.style.pointerEvents = ""
