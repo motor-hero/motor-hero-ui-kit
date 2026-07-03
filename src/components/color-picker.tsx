@@ -1,7 +1,11 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 import { ChevronsUpDown, X } from "lucide-react"
 import * as React from "react"
-import { HexColorInput, HexColorPicker } from "react-colorful"
+import {
+  HexAlphaColorPicker,
+  HexColorInput,
+  HexColorPicker,
+} from "react-colorful"
 import { cn } from "../lib/utils"
 
 export interface ColorPickerProps {
@@ -15,6 +19,11 @@ export interface ColorPickerProps {
    * so the field can fall back to its default. On by default.
    */
   clearable?: boolean
+  /**
+   * Accept an alpha channel — the picker gains an opacity slider and the
+   * value may be an 8-digit hex (`#RRGGBBAA`). Off by default.
+   */
+  alpha?: boolean
   disabled?: boolean
   id?: string
   className?: string
@@ -35,6 +44,7 @@ export function ColorPicker({
   onChange,
   placeholder = "Selecionar cor",
   clearable = true,
+  alpha = false,
   disabled,
   id,
   className,
@@ -69,18 +79,14 @@ export function ColorPicker({
           <span className="flex items-center gap-2 truncate">
             <span
               aria-hidden
-              className={cn(
-                "h-5 w-5 shrink-0 rounded border border-border",
-                !color && "bg-[length:8px_8px] bg-[position:0_0,4px_4px]",
-              )}
-              style={
-                color
-                  ? { backgroundColor: color }
-                  : {
-                    backgroundImage:
-                      "linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%),linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%)",
-                  }
-              }
+              className="h-5 w-5 shrink-0 rounded border border-border bg-[length:8px_8px] bg-[position:0_0,4px_4px]"
+              style={{
+                // The checkerboard stays under the color layer so a
+                // translucent value reads as translucent in the swatch.
+                backgroundImage: `${
+                  color ? `linear-gradient(${color},${color}),` : ""
+                }linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%),linear-gradient(45deg,var(--color-muted) 25%,transparent 25%,transparent 75%,var(--color-muted) 75%)`,
+              }}
             />
             <span className={cn("truncate", !color && "text-muted-foreground")}>
               {color || placeholder}
@@ -114,13 +120,18 @@ export function ColorPicker({
           className="z-50 w-56 rounded-md border bg-popover p-3 text-popover-foreground shadow-md"
         >
           <div className="mh-color-picker flex flex-col gap-3">
-            <HexColorPicker color={color} onChange={onChange} />
+            {alpha ? (
+              <HexAlphaColorPicker color={color} onChange={onChange} />
+            ) : (
+              <HexColorPicker color={color} onChange={onChange} />
+            )}
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">#</span>
               <HexColorInput
                 color={color}
                 onChange={onChange}
                 prefixed={false}
+                alpha={alpha}
                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm uppercase shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
             </div>
