@@ -23,6 +23,7 @@ const navigation = [
       { id: "combobox", label: "Combobox" },
       { id: "multi-combobox", label: "MultiCombobox" },
       { id: "confirm-dialog", label: "ConfirmDialog" },
+      { id: "date-picker", label: "DatePicker / DateTimePicker" },
       { id: "empty-state", label: "EmptyState" },
       { id: "form-dialog", label: "FormDialog" },
       { id: "form-field", label: "FormField" },

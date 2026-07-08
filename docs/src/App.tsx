@@ -12,6 +12,7 @@ import { SearchInputPage } from "./pages/SearchInputPage"
 import { PasswordInputPage } from "./pages/PasswordInputPage"
 import { ComboboxPage } from "./pages/ComboboxPage"
 import { MultiComboboxPage } from "./pages/MultiComboboxPage"
+import { DatePickerPage } from "./pages/DatePickerPage"
 import { PaginationPage } from "./pages/PaginationPage"
 import { TableSkeletonPage } from "./pages/TableSkeletonPage"
 import { MobileCardListPage } from "./pages/MobileCardListPage"
@@ -52,6 +53,7 @@ const pages: Record<string, () => JSX.Element> = {
   "progress-bar": ProgressBarPage,
   "status-badge": StatusBadgePage,
   "status-dot": StatusDotPage,
+  "date-picker": DatePickerPage,
   "confirm-dialog": ConfirmDialogPage,
   "mode-toggle": ModeTogglePage,
   "responsive-data-view": ResponsiveDataViewPage,
