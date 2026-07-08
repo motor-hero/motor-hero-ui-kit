@@ -91,25 +91,26 @@ const triggerInputClass =
 const fieldInputClass =
   "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
+/** Botão "ghost" (sem borda, hover:bg-accent) — mesma variante que o shadcn usa nas
+ *  setas de navegação do calendário; inline porque o ui-kit não tem um Button próprio. */
+const navButtonClass =
+  "inline-flex size-(--cell-size) shrink-0 select-none items-center justify-center rounded-md p-0 transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:opacity-50"
+
 const calendarClassNames = {
-  months: "flex flex-col",
-  month: "flex flex-col gap-4",
-  month_caption: "flex justify-center pt-1 relative items-center h-7",
-  caption_label: "text-sm font-medium",
-  nav: "flex items-center gap-1 absolute inset-x-0 top-0 justify-between px-1",
-  button_previous:
-    "inline-flex size-7 items-center justify-center rounded-md border border-input bg-transparent p-0 opacity-50 hover:opacity-100",
-  button_next:
-    "inline-flex size-7 items-center justify-center rounded-md border border-input bg-transparent p-0 opacity-50 hover:opacity-100",
-  month_grid: "w-full border-collapse space-y-1",
+  months: "relative flex flex-col gap-4",
+  month: "flex w-full flex-col gap-4",
+  month_caption: "flex h-(--cell-size) w-full items-center justify-center px-(--cell-size)",
+  caption_label: "text-sm font-medium select-none",
+  nav: "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
+  button_previous: navButtonClass,
+  button_next: navButtonClass,
+  month_grid: "w-full border-collapse",
   weekdays: "flex",
-  weekday: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
-  week: "flex w-full mt-2",
-  day: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
+  weekday: "flex-1 select-none rounded-md text-[0.8rem] font-normal text-muted-foreground",
+  week: "mt-2 flex w-full",
+  day: "relative aspect-square h-full w-full select-none p-0 text-center aria-selected:[&>button]:bg-primary aria-selected:[&>button]:text-primary-foreground aria-selected:[&>button]:hover:bg-primary",
   day_button:
-    "inline-flex size-8 items-center justify-center rounded-md p-0 font-normal hover:bg-accent hover:text-accent-foreground aria-selected:opacity-100",
-  selected:
-    "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground rounded-md [&>button]:bg-primary [&>button]:text-primary-foreground",
+    "inline-flex aspect-square size-auto w-full min-w-(--cell-size) items-center justify-center rounded-md p-0 font-normal transition-colors hover:bg-accent hover:text-accent-foreground",
   today: "bg-accent text-accent-foreground rounded-md",
   outside: "text-muted-foreground opacity-50",
   disabled: "text-muted-foreground opacity-50 pointer-events-none",
@@ -264,7 +265,7 @@ function DatePickerImpl({
         defaultMonth={(withTime ? pendingDate : committedDate) ?? new Date()}
         onSelect={(date) => date && handleCalendarSelect(date)}
         disabled={matchers}
-        className={withTime ? "p-0" : "p-3"}
+        className={cn(withTime ? "p-0" : "p-3", "[--cell-size:2rem]")}
         classNames={calendarClassNames}
         components={calendarComponents}
       />
