@@ -1,8 +1,8 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 import { InputMask } from "@react-input/mask"
-import { format, isValid, parse } from "date-fns"
+import { endOfYear, format, isValid, parse, subYears } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CalendarIcon, ChevronLeft, ChevronRight, Clock } from "lucide-react"
+import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Clock } from "lucide-react"
 import * as React from "react"
 import { DayPicker, type Matcher } from "react-day-picker"
 import { Drawer as DrawerPrimitive } from "vaul"
@@ -100,7 +100,12 @@ const calendarClassNames = {
   months: "relative flex flex-col gap-4",
   month: "flex w-full flex-col gap-4",
   month_caption: "flex h-(--cell-size) w-full items-center justify-center px-(--cell-size)",
-  caption_label: "text-sm font-medium select-none",
+  caption_label:
+    "flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm font-medium select-none [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
+  dropdowns: "flex h-(--cell-size) w-full items-center justify-center gap-1.5 text-sm font-medium",
+  dropdown_root:
+    "relative rounded-md border border-input shadow-xs has-focus:border-ring has-focus:ring-[3px] has-focus:ring-ring/50",
+  dropdown: "absolute inset-0 bg-popover opacity-0",
   nav: "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
   button_previous: navButtonClass,
   button_next: navButtonClass,
@@ -118,13 +123,16 @@ const calendarClassNames = {
 }
 
 const calendarComponents = {
-  Chevron: ({ orientation }: { orientation?: string }) =>
-    orientation === "left" ? (
-      <ChevronLeft className="size-4" />
-    ) : (
-      <ChevronRight className="size-4" />
-    ),
+  Chevron: ({ orientation }: { orientation?: string }) => {
+    if (orientation === "left") return <ChevronLeft className="size-4" />
+    if (orientation === "right") return <ChevronRight className="size-4" />
+    return <ChevronDown className="size-4" />
+  },
 }
+
+/** Nome curto do mês em pt-BR pro rótulo do dropdown (ex. "jul") — explícito porque
+ *  `toLocaleString("default", ...)` seguiria o locale do navegador, não o do app. */
+const formatMonthDropdown = (date: Date) => date.toLocaleString("pt-BR", { month: "short" })
 
 /**
  * DatePicker / DateTimePicker — calendário + campo digitável com máscara
@@ -160,6 +168,12 @@ function DatePickerImpl({
   const committedDate = withTime ? dateTimeToDate(value) : dateOnlyToDate(value)
   const displayValue = displayFor(value, withTime)
   const matchers = toMatchers(minDate, maxDate, disabledDates)
+  // Alcance do dropdown de ano: minDate/maxDate quando informados, senão o mesmo
+  // padrão da lib (100 anos atrás -> fim do ano atual) — calculado explícito nos dois
+  // lados porque passar só um dos dois via prop faz a lib truncar o outro (visto na
+  // prática: só uma opção de ano no lado sem prop), em vez de cair no padrão dela.
+  const startMonth = dateOnlyToDate(minDate) ?? subYears(new Date(), 100)
+  const endMonth = dateOnlyToDate(maxDate) ?? endOfYear(new Date())
 
   const setOpen = (next: boolean) => {
     setOpenRaw(next)
@@ -261,6 +275,10 @@ function DatePickerImpl({
       <DayPicker
         mode="single"
         locale={ptBR}
+        captionLayout="dropdown"
+        formatters={{ formatMonthDropdown }}
+        startMonth={startMonth}
+        endMonth={endMonth}
         selected={withTime ? pendingDate : committedDate}
         defaultMonth={(withTime ? pendingDate : committedDate) ?? new Date()}
         onSelect={(date) => date && handleCalendarSelect(date)}
