@@ -67,7 +67,7 @@ export function FilterToolbarPage() {
 					<FilterToolbar isFilterActive={isFilterActive} onClear={clearAll}>
 						<SearchInput
 							placeholder="Buscar por código"
-							className="w-full sm:w-72"
+							containerClassName="w-full sm:w-72 sm:flex-none"
 						/>
 
 						<FilterPopover
