@@ -1,5 +1,5 @@
 import {
-	FilterOptionList,
+	Combobox,
 	FilterPopover,
 	FilterToolbar,
 	SearchInput,
@@ -10,6 +10,7 @@ import { CodeBlock } from "../components/CodeBlock";
 import { PropsTable } from "../components/PropsTable";
 
 const statusOptions = [
+	{ value: "all", label: "Todos os status" },
 	{ value: "solicitado", label: "Solicitado" },
 	{ value: "em_analise", label: "Em Análise" },
 	{ value: "concluido", label: "Concluído" },
@@ -17,31 +18,32 @@ const statusOptions = [
 ];
 
 const tipoOptions = [
+	{ value: "all", label: "Todos os tipos" },
 	{ value: "gift_card", label: "Gift card" },
 	{ value: "physical_product", label: "Produto físico" },
 	{ value: "experience", label: "Experiência" },
 ];
 
 const responsavelOptions = [
+	{ value: "all", label: "Todos os responsáveis" },
 	{ value: "ana", label: "Ana Prado" },
 	{ value: "bruno", label: "Bruno Lima" },
 	{ value: "patricia", label: "Patrícia Mendes" },
 ];
 
 export function FilterToolbarPage() {
-	const [status, setStatus] = useState("");
-	const [tipo, setTipo] = useState("");
-	const [responsaveis, setResponsaveis] = useState<string[]>([]);
+	const [status, setStatus] = useState("all");
+	const [tipo, setTipo] = useState("all");
+	const [responsavel, setResponsavel] = useState("all");
 
-	const statusLabel = statusOptions.find((o) => o.value === status)?.label;
-	const tipoLabel = tipoOptions.find((o) => o.value === tipo)?.label;
-	const secondaryCount = responsaveis.length;
-	const isFilterActive = !!status || !!tipo || secondaryCount > 0;
+	const active = [status, tipo, responsavel].filter((v) => v !== "all");
+	const activeCount = active.length;
+	const isFilterActive = activeCount > 0;
 
 	const clearAll = () => {
-		setStatus("");
-		setTipo("");
-		setResponsaveis([]);
+		setStatus("all");
+		setTipo("all");
+		setResponsavel("all");
 	};
 
 	return (
@@ -50,13 +52,12 @@ export function FilterToolbarPage() {
 				<h1 className="text-3xl font-bold tracking-tight">FilterToolbar</h1>
 				<p className="mt-2 text-lg text-muted-foreground">
 					Barra de filtros <strong>compacta</strong> para telas com muitos
-					filtros. Mantém poucos controles visíveis (uma busca + 1–2 filtros
-					primários) e recolhe o restante atrás de um botão{" "}
-					<strong>“Filtros”</strong> com contador, no lugar de uma fileira
-					poluída de dropdowns. Composicional: o app fornece os controles reais
-					(<code>Combobox</code>, <code>FilterOptionList</code>) dentro de cada{" "}
-					<code>FilterPopover</code>. <strong>Responsivo</strong>: cada popover
-					vira um Drawer (bottom sheet) no mobile.
+					filtros. O padrão é sempre <strong>um campo de texto livre</strong>{" "}
+					(se houver) <strong>ao lado de um único botão “Filtros”</strong> que
+					recolhe todos os filtros adicionais atrás de um popover com contador —
+					no lugar de uma fileira poluída de dropdowns.{" "}
+					<strong>Responsivo</strong>: lado a lado no desktop, empilhado no
+					mobile (e cada popover vira um Drawer/bottom sheet).
 				</p>
 			</div>
 
@@ -66,54 +67,50 @@ export function FilterToolbarPage() {
 					<FilterToolbar isFilterActive={isFilterActive} onClear={clearAll}>
 						<SearchInput
 							placeholder="Buscar por código"
-							className="w-full sm:w-56"
+							className="w-full sm:w-72"
 						/>
-
-						<FilterPopover label={statusLabel ?? "Status"} active={!!status}>
-							{({ close }) => (
-								<FilterOptionList
-									options={statusOptions}
-									value={status}
-									clearable
-									onChange={(v) => {
-										setStatus(v as string);
-										close();
-									}}
-								/>
-							)}
-						</FilterPopover>
-
-						<FilterPopover label={tipoLabel ?? "Tipo"} active={!!tipo}>
-							{({ close }) => (
-								<FilterOptionList
-									options={tipoOptions}
-									value={tipo}
-									clearable
-									onChange={(v) => {
-										setTipo(v as string);
-										close();
-									}}
-								/>
-							)}
-						</FilterPopover>
 
 						<FilterPopover
 							label="Filtros"
 							icon={Filter}
-							active={secondaryCount > 0}
-							badge={secondaryCount || undefined}
-							contentClassName="w-72"
+							active={activeCount > 0}
+							badge={activeCount || undefined}
+							contentClassName="w-80"
 						>
-							<div className="space-y-1.5 p-3">
-								<span className="text-xs font-medium text-muted-foreground">
-									Responsável
-								</span>
-								<FilterOptionList
-									options={responsavelOptions}
-									value={responsaveis}
-									multiple
-									onChange={(v) => setResponsaveis(v as string[])}
-								/>
+							<div className="space-y-3 p-3">
+								<div className="space-y-1.5">
+									<span className="text-xs font-medium text-muted-foreground">
+										Status
+									</span>
+									<Combobox
+										className="w-full"
+										options={statusOptions}
+										value={status}
+										onChange={setStatus}
+									/>
+								</div>
+								<div className="space-y-1.5">
+									<span className="text-xs font-medium text-muted-foreground">
+										Tipo de resgate
+									</span>
+									<Combobox
+										className="w-full"
+										options={tipoOptions}
+										value={tipo}
+										onChange={setTipo}
+									/>
+								</div>
+								<div className="space-y-1.5">
+									<span className="text-xs font-medium text-muted-foreground">
+										Responsável
+									</span>
+									<Combobox
+										className="w-full"
+										options={responsavelOptions}
+										value={responsavel}
+										onChange={setResponsavel}
+									/>
+								</div>
 							</div>
 						</FilterPopover>
 					</FilterToolbar>
@@ -126,35 +123,26 @@ export function FilterToolbarPage() {
 					code={`import {
   FilterToolbar,
   FilterPopover,
-  FilterOptionList,
   SearchInput,
   Combobox,
 } from "@motor-hero/ui-kit"
 import { Filter } from "lucide-react"
 
 <FilterToolbar isFilterActive={isFilterActive} onClear={clearFilters}>
-  <SearchInput placeholder="Buscar por código" className="w-full sm:w-56" />
+  {/* 1) campo de texto livre (se houver) */}
+  <SearchInput placeholder="Buscar por código" className="w-full sm:w-72" />
 
-  {/* Filtro primário inline — a lista fecha ao selecionar via { close } */}
-  <FilterPopover label={status ? statusLabel(status) : "Status"} active={!!status}>
-    {({ close }) => (
-      <FilterOptionList
-        options={statusOptions}
-        value={status}
-        clearable
-        onChange={(v) => {
-          setStatus(v as string)
-          close()
-        }}
-      />
-    )}
-  </FilterPopover>
-
-  {/* Overflow — recolhe os filtros menos usados atrás de um botão com badge */}
-  <FilterPopover label="Filtros" icon={Filter} active={count > 0} badge={count || undefined} contentClassName="w-80">
+  {/* 2) um único "Filtros" com todos os filtros adicionais */}
+  <FilterPopover
+    label="Filtros"
+    icon={Filter}
+    active={activeCount > 0}
+    badge={activeCount || undefined}
+    contentClassName="w-80"
+  >
     <div className="space-y-3 p-3">
+      <Combobox className="w-full" options={statusOptions} value={status} onChange={setStatus} />
       <Combobox className="w-full" {...clientOptions} value={clientId ?? "all"} onChange={...} />
-      <Combobox className="w-full" {...campaignOptions} value={campaignId ?? "all"} onChange={...} />
     </div>
   </FilterPopover>
 </FilterToolbar>`}
@@ -167,28 +155,26 @@ import { Filter } from "lucide-react"
 				</h2>
 				<ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
 					<li>
-						<strong>FilterToolbar</strong> é só o contêiner responsivo (
-						<code>flex flex-wrap</code>) que mostra o botão “Limpar filtros”
-						quando <code>isFilterActive</code>.
+						<strong>FilterToolbar</strong> é o contêiner responsivo: lado a lado
+						no desktop, empilhado no mobile (<code>flex-col sm:flex-row</code>).
+						Mostra o botão “Limpar filtros” quando <code>isFilterActive</code>.
 					</li>
 					<li>
 						<strong>FilterPopover</strong> segue o idiom do{" "}
 						<code>Combobox</code>: Popover não-modal no desktop, Drawer (bottom
-						sheet) no mobile. Aceita <code>children</code> como nó ou
-						render-prop <code>{"({ close }) => ..."}</code> para fechar após
-						selecionar.
+						sheet) no mobile; o gatilho fica full-width no mobile. O{" "}
+						<code>badge</code> mostra a contagem de filtros ativos.
 					</li>
 					<li>
 						O <code>onInteractOutside</code> ignora cliques que caem dentro de
-						outro popover (ex.: o dropdown de um <code>Combobox</code> aninhado
-						no overflow), então o painel “Filtros” não fecha ao operar os
-						controles internos.
+						outro popover (ex.: o dropdown de um <code>Combobox</code> ou o
+						calendário de um <code>DatePicker</code> aninhados), então o painel
+						“Filtros” não fecha ao operar os controles internos.
 					</li>
 					<li>
-						<strong>FilterOptionList</strong> cobre enums curtos (seleção
-						simples ou múltipla) sem aninhar um Combobox; para listas
-						grandes/assíncronas use um <code>Combobox</code> dentro do{" "}
-						<code>FilterPopover</code>.
+						Para enums curtos, <code>FilterOptionList</code> (seleção simples ou
+						múltipla) evita aninhar um <code>Combobox</code>; para listas
+						grandes/assíncronas use um <code>Combobox</code> dentro do painel.
 					</li>
 				</ul>
 			</div>
@@ -201,7 +187,7 @@ import { Filter } from "lucide-react"
 							name: "children",
 							type: "ReactNode",
 							required: true,
-							description: "A busca e os FilterPopover da barra",
+							description: "A busca e o(s) FilterPopover da barra",
 						},
 						{
 							name: "isFilterActive",
@@ -237,7 +223,7 @@ import { Filter } from "lucide-react"
 							name: "label",
 							type: "string",
 							required: true,
-							description: "Rótulo do gatilho (ou o valor selecionado)",
+							description: "Rótulo do gatilho",
 						},
 						{
 							name: "children",
@@ -249,7 +235,7 @@ import { Filter } from "lucide-react"
 						{
 							name: "icon",
 							type: "LucideIcon",
-							description: "Ícone à esquerda (ex.: Filter no overflow)",
+							description: "Ícone à esquerda (ex.: Filter)",
 						},
 						{
 							name: "active",
@@ -260,7 +246,7 @@ import { Filter } from "lucide-react"
 						{
 							name: "badge",
 							type: "ReactNode",
-							description: "Conteúdo do badge quando ativo (contagem/rótulo)",
+							description: "Conteúdo do badge quando ativo (ex.: contagem)",
 						},
 						{
 							name: "contentClassName",
