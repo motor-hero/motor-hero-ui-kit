@@ -30,13 +30,18 @@ export function FilterToolbar({
 	className,
 }: FilterToolbarProps) {
 	return (
-		<div className={cn("mb-6 flex flex-wrap items-center gap-2", className)}>
+		<div
+			className={cn(
+				"mb-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center",
+				className,
+			)}
+		>
 			{children}
 			{isFilterActive && onClear && (
 				<button
 					type="button"
 					onClick={onClear}
-					className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md px-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+					className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 self-start rounded-md px-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground sm:self-auto"
 				>
 					<X className="h-4 w-4" />
 					{clearLabel}
@@ -93,7 +98,7 @@ export function FilterPopover({
 			type="button"
 			aria-expanded={open}
 			className={cn(
-				"inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm transition-colors hover:border-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+				"flex h-9 w-full shrink-0 cursor-pointer items-center justify-between gap-1.5 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm transition-colors hover:border-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto sm:justify-start",
 				active ? "border-ring/60 text-foreground" : "text-muted-foreground",
 			)}
 		>
