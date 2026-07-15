@@ -31,7 +31,7 @@ export function FormField({ label, htmlFor, error, required, children, className
     <div className={`space-y-2 ${className ?? ""}`}>
       <label
         htmlFor={htmlFor}
-        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        className="block text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
         {label}
         {required && <span className="ml-1 text-destructive">*</span>}
