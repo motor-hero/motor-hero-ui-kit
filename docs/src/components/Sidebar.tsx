@@ -34,6 +34,7 @@ const navigation = [
       { id: "pagination", label: "Pagination" },
       { id: "password-input", label: "PasswordInput" },
       { id: "progress-bar", label: "ProgressBar" },
+      { id: "rating", label: "Rating" },
       { id: "responsive-data-view", label: "ResponsiveDataView" },
       { id: "row-actions-menu", label: "RowActionsMenu" },
       { id: "search-input", label: "SearchInput" },

@@ -19,6 +19,7 @@ import { MobileCardListPage } from "./pages/MobileCardListPage"
 import { EmptyStatePage } from "./pages/EmptyStatePage"
 import { PageHeaderPage } from "./pages/PageHeaderPage"
 import { ProgressBarPage } from "./pages/ProgressBarPage"
+import { RatingPage } from "./pages/RatingPage"
 import { StatusBadgePage } from "./pages/StatusBadgePage"
 import { StatusDotPage } from "./pages/StatusDotPage"
 import { ConfirmDialogPage } from "./pages/ConfirmDialogPage"
@@ -51,6 +52,7 @@ const pages: Record<string, () => JSX.Element> = {
   "empty-state": EmptyStatePage,
   "page-header": PageHeaderPage,
   "progress-bar": ProgressBarPage,
+  rating: RatingPage,
   "status-badge": StatusBadgePage,
   "status-dot": StatusDotPage,
   "date-picker": DatePickerPage,
