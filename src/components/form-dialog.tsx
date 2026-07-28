@@ -64,13 +64,21 @@ export interface FormDialogProps extends Omit<BaseDialogProps, "contentWrapper">
  * plain BaseDialog.
  */
 export function FormDialog({ onSubmit, ...rest }: FormDialogProps) {
+  // O conteúdo do dialog é portalado para o body, mas eventos React sobem pela
+  // árvore React, não pela do DOM: sem stopPropagation, o submit deste form
+  // chega ao <form> da página que renderiza o dialog e dispara o submit dela.
+  // Precisa ser síncrono — handlers de RHF são assíncronos (resolver).
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.stopPropagation()
+    onSubmit?.(e)
+  }
   return (
     <BaseDialog
       {...rest}
       contentWrapper={
         onSubmit
           ? (content) => (
-              <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
+              <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
                 {content}
               </form>
             )
