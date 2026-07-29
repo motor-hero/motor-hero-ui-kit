@@ -14,29 +14,42 @@ interface StatusBadgeProps {
   children: ReactNode
 }
 
+/**
+ * Cada variante lê os tokens semânticos `--status-*` do app, com fallback para
+ * a paleta Tailwind que o componente já usava. Um app que define os tokens
+ * (ex.: IMMA, de neutros quentes) ganha as cores do seu design system; um app
+ * que não define continua com a aparência de antes — a troca não quebra nenhum
+ * consumidor. Também dispensa `dark:`, já que os tokens de quem os define
+ * mudam sozinhos no escopo `.dark`.
+ */
 const variantClasses: Record<
   StatusBadgeVariant,
   { badge: string; dot: string }
 > = {
   neutral: {
-    badge: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-    dot: "bg-gray-400",
+    badge:
+      "bg-[var(--status-neutral-surface,#f3f4f6)] text-[var(--status-neutral-text,#374151)]",
+    dot: "bg-[var(--status-neutral,#9ca3af)]",
   },
   info: {
-    badge: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
-    dot: "bg-blue-500",
+    badge:
+      "bg-[var(--status-info-surface,#dbeafe)] text-[var(--status-info-text,#1d4ed8)]",
+    dot: "bg-[var(--status-info,#3b82f6)]",
   },
   success: {
-    badge: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400",
-    dot: "bg-green-500",
+    badge:
+      "bg-[var(--status-success-surface,#dcfce7)] text-[var(--status-success-text,#15803d)]",
+    dot: "bg-[var(--status-success,#22c55e)]",
   },
   danger: {
-    badge: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400",
-    dot: "bg-red-500",
+    badge:
+      "bg-[var(--status-danger-surface,#fee2e2)] text-[var(--status-danger-text,#b91c1c)]",
+    dot: "bg-[var(--status-danger,#ef4444)]",
   },
   warning: {
-    badge: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400",
-    dot: "bg-amber-500",
+    badge:
+      "bg-[var(--status-warning-surface,#fef3c7)] text-[var(--status-warning-text,#b45309)]",
+    dot: "bg-[var(--status-warning,#f59e0b)]",
   },
 }
 

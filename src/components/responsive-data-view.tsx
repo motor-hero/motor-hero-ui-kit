@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { EmptyState } from "./empty-state"
 
 interface ResponsiveDataViewProps {
   table: ReactNode
@@ -8,23 +9,44 @@ interface ResponsiveDataViewProps {
   emptyIcon?: ReactNode
   emptyTitle?: string
   emptyDescription?: string
+  /** CTA do estado vazio — normalmente o mesmo botão "Adicionar X" da página. */
+  emptyAction?: ReactNode
   pagination?: ReactNode
 }
 
 export function ResponsiveDataView({
-  table, cards, isEmpty, isLoading, emptyIcon, emptyTitle = "Nenhum registro encontrado", emptyDescription, pagination,
+  table,
+  cards,
+  isEmpty,
+  isLoading,
+  emptyIcon,
+  emptyTitle = "Nenhum registro encontrado",
+  emptyDescription,
+  emptyAction,
+  pagination,
 }: ResponsiveDataViewProps) {
+  // Lista vazia mostra só o EmptyState. Antes renderizava a caixa com o
+  // cabeçalho da tabela vazio, o bloco de texto por fora dela e a paginação
+  // desabilitada — três blocos empilhados para zero registro.
+  if (!isLoading && isEmpty) {
+    return (
+      <div className="rounded-md border">
+        <EmptyState
+          icon={emptyIcon}
+          title={emptyTitle}
+          description={emptyDescription}
+          action={emptyAction}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
-      <div className="hidden overflow-x-auto rounded-md border md:block">{table}</div>
+      <div className="hidden overflow-x-auto rounded-md border md:block">
+        {table}
+      </div>
       <div className="md:hidden">{cards}</div>
-      {!isLoading && isEmpty && (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          {emptyIcon && <div className="mb-4 text-muted-foreground">{emptyIcon}</div>}
-          <h3 className="text-lg font-semibold tracking-tight">{emptyTitle}</h3>
-          {emptyDescription && <p className="mt-1 max-w-sm text-sm text-muted-foreground">{emptyDescription}</p>}
-        </div>
-      )}
       {pagination}
     </div>
   )

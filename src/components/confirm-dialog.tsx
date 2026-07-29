@@ -63,7 +63,7 @@ export function ConfirmDialog({
             <AlertDialog.Action
               onClick={onConfirm}
               disabled={loading}
-              className={`inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer ${
+              className={`inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer ${
                 variant === "destructive"
                   ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   : "bg-primary text-primary-foreground hover:bg-primary/90"
