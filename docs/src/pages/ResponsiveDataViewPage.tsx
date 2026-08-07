@@ -26,6 +26,10 @@ export function ResponsiveDataViewPage() {
             <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono shrink-0">Vazio</span>
             <p className="text-sm text-muted-foreground">Exibe empty state quando <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">isEmpty</code> é true</p>
           </div>
+          <div className="flex items-start gap-3">
+            <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono shrink-0">Refetch</span>
+            <p className="text-sm text-muted-foreground">Com <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">isBusy</code> true (ex.: <code className="rounded bg-muted px-1 py-0.5 text-xs font-mono">isPlaceholderData</code> do TanStack Query), esmaece e bloqueia a interação com table/cards; a paginação continua clicável e o empty state é suprimido</p>
+          </div>
         </div>
       </div>
 
@@ -75,6 +79,7 @@ export function ResponsiveDataViewPage() {
             { name: "cards", type: "ReactNode", required: true, description: "Conteúdo dos cards (exibido no mobile)" },
             { name: "isEmpty", type: "boolean", required: true, description: "Se a lista está vazia" },
             { name: "isLoading", type: "boolean", required: true, description: "Se está carregando dados" },
+            { name: "isBusy", type: "boolean", default: "false", description: "Dados desatualizados na tela durante refetch: esmaece e bloqueia table/cards" },
             { name: "emptyIcon", type: "ReactNode", description: "Ícone do empty state" },
             { name: "emptyTitle", type: "string", default: '"Nenhum registro encontrado"', description: "Título do empty state" },
             { name: "emptyDescription", type: "string", description: "Descrição do empty state" },
