@@ -42,9 +42,10 @@ export function DatePickerPage() {
       <div>
         <h2 className="mb-4 text-xl font-semibold">DateTimePicker</h2>
         <p className="mb-4 text-sm text-muted-foreground">
-          <code>value</code> é ISO UTC completo (<code>...Z</code>). Escolher o dia e digitar o
-          horário ficam pendentes até clicar em <strong>Aplicar</strong> — só então vira{" "}
-          <code>value</code>.
+          <code>value</code> é hora de parede <code>"yyyy-MM-ddTHH:mm"</code> — os dígitos
+          digitados, sem conversão de fuso (o significado é decisão do consumidor). Escolher o
+          dia e digitar o horário ficam pendentes até clicar em <strong>Aplicar</strong> — só
+          então vira <code>value</code>.
         </p>
         <div className="rounded-lg border bg-card p-6">
           <div className="max-w-xs space-y-4">
@@ -120,7 +121,7 @@ export function DatePickerPage() {
 const [vencimento, setVencimento] = useState("")   // "yyyy-MM-dd"
 <DatePicker value={vencimento} onChange={setVencimento} />
 
-const [checkin, setCheckin] = useState("")         // ISO UTC "...Z"
+const [checkin, setCheckin] = useState("")         // hora de parede "yyyy-MM-ddTHH:mm"
 <DateTimePicker value={checkin} onChange={setCheckin} />
 
 // Com FormField (borda vermelha em erro via aria-invalid)
@@ -155,7 +156,7 @@ const [checkin, setCheckin] = useState("")         // ISO UTC "...Z"
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "value", type: "string", description: 'DatePicker: "yyyy-MM-dd". DateTimePicker: ISO UTC completo ("...Z"). "" = sem valor.' },
+            { name: "value", type: "string", description: 'DatePicker: "yyyy-MM-dd". DateTimePicker: hora de parede "yyyy-MM-ddTHH:mm", sem fuso. "" = sem valor.' },
             { name: "onChange", type: "(value: string) => void", required: true, description: "Chamado só quando o valor digitado/selecionado é completo e válido" },
             { name: "placeholder", type: "string", description: "Placeholder do campo" },
             { name: "disabled", type: "boolean", description: "Desabilita o campo" },

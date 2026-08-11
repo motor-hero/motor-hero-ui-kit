@@ -16,10 +16,13 @@ const MASK_REPLACEMENT = { _: /\d/ }
 const DATE_FORMAT = "dd/MM/yyyy"
 const TIME_FORMAT = "HH:mm"
 const DATE_VALUE_FORMAT = "yyyy-MM-dd"
+const DATETIME_VALUE_FORMAT = "yyyy-MM-dd'T'HH:mm"
 
 export interface DatePickerProps {
-  /** `DatePicker`: data pura `"yyyy-MM-dd"`, sem conversão de fuso. `DateTimePicker`:
-   *  ISO UTC completo (`...Z`). `""`/`undefined` = sem valor. */
+  /** `DatePicker`: data pura `"yyyy-MM-dd"`. `DateTimePicker`: hora de parede
+   *  `"yyyy-MM-ddTHH:mm"` — os dígitos digitados, tal qual. Nenhum dos dois
+   *  passa por conversão de fuso: o significado (Brasília, local, UTC) é
+   *  decisão do consumidor. `""`/`undefined` = sem valor. */
   value?: string
   onChange: (value: string) => void
   placeholder?: string
@@ -60,8 +63,8 @@ function dateOnlyToDate(value: string | undefined): Date | undefined {
 
 function dateTimeToDate(value: string | undefined): Date | undefined {
   if (!value) return undefined
-  const parsed = new Date(value)
-  return Number.isNaN(parsed.getTime()) ? undefined : parsed
+  const parsed = parse(value, DATETIME_VALUE_FORMAT, new Date())
+  return isValid(parsed) ? parsed : undefined
 }
 
 function displayFor(value: string | undefined, withTime: boolean): string {
@@ -196,7 +199,7 @@ function DatePickerImpl({
     if (!time) return
     const combined = new Date(date)
     combined.setHours(time.getHours(), time.getMinutes(), 0, 0)
-    onChange(combined.toISOString())
+    onChange(format(combined, DATETIME_VALUE_FORMAT))
     setOpen(false)
   }
 
