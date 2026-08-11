@@ -1,5 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import { MoreVertical } from "lucide-react"
+import { ChevronRight, MoreVertical } from "lucide-react"
 import { type ReactNode, useState } from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 import { useIsDesktop } from "../hooks/use-is-desktop"
@@ -14,6 +14,9 @@ export interface RowAction {
   href?: string
   destructive?: boolean
   disabled?: boolean
+  // Submenu de um nível: com `children`, `onClick`/`href` são ignorados.
+  // Desktop: Radix Sub; mobile: grupo inline no action sheet.
+  children?: RowAction[]
 }
 
 export interface RowActionsMenuProps {
@@ -72,6 +75,42 @@ export function RowActionsMenu({
                 action.destructive &&
                 "text-destructive focus:bg-destructive/10",
               )
+              if (action.children?.length) {
+                return (
+                  <DropdownMenu.Sub key={action.label}>
+                    <DropdownMenu.SubTrigger
+                      className={cls}
+                      disabled={action.disabled}
+                    >
+                      {action.icon}
+                      {action.label}
+                      <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground" />
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.Portal>
+                      <DropdownMenu.SubContent
+                        sideOffset={4}
+                        className="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95"
+                      >
+                        {action.children.map((child) => (
+                          <DropdownMenu.Item
+                            key={child.label}
+                            className={cn(
+                              itemClass,
+                              child.destructive &&
+                              "text-destructive focus:bg-destructive/10",
+                            )}
+                            disabled={child.disabled}
+                            onClick={child.onClick}
+                          >
+                            {child.icon}
+                            {child.label}
+                          </DropdownMenu.Item>
+                        ))}
+                      </DropdownMenu.SubContent>
+                    </DropdownMenu.Portal>
+                  </DropdownMenu.Sub>
+                )
+              }
               return action.href ? (
                 <DropdownMenu.Item
                   key={action.label}
@@ -129,6 +168,36 @@ export function RowActionsMenu({
                 {action.label}
               </>
             )
+            if (action.children?.length) {
+              return (
+                <div key={action.label}>
+                  <div className="mx-3 my-1 h-px bg-border" />
+                  <div className="flex items-center gap-3 px-3 pb-1 pt-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {action.icon}
+                    {action.label}
+                  </div>
+                  {action.children.map((child) => (
+                    <button
+                      key={child.label}
+                      type="button"
+                      disabled={child.disabled}
+                      className={cn(
+                        sheetItemClass,
+                        child.destructive && "text-destructive",
+                      )}
+                      onClick={() => {
+                        child.onClick?.()
+                        setOpen(false)
+                      }}
+                    >
+                      {child.icon}
+                      {child.label}
+                    </button>
+                  ))}
+                  <div className="mx-3 my-1 h-px bg-border" />
+                </div>
+              )
+            }
             return action.href ? (
               <span
                 key={action.label}
