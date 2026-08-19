@@ -21,11 +21,26 @@ const units = [
   { value: "R$", label: "R$" },
 ]
 
+const people = [
+  {
+    value: "1",
+    label: "Ana",
+    icon: <span className="h-3.5 w-3.5 shrink-0 rounded-full bg-blue-500" />,
+  },
+  {
+    value: "2",
+    label: "Bruno",
+    icon: <span className="h-3.5 w-3.5 shrink-0 rounded-full bg-green-500" />,
+  },
+  { value: "3", label: "Carla" },
+]
+
 export function ComboboxPage() {
   const [value, setValue] = useState("")
   const server = useFakeInfiniteOptions()
   const [serverValue, setServerValue] = useState("42")
   const [unit, setUnit] = useState("de estruturas físicas")
+  const [person, setPerson] = useState("")
 
   return (
     <div className="space-y-8">
@@ -112,6 +127,42 @@ const props = useInfiniteOptions({
   selectedOption={current}   // rótulo do valor salvo (form de edição)
   {...props}
 />`}
+          />
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-xl font-semibold">Ícone por opção</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Cada opção aceita um <code>icon</code> opcional — um nó React
+          renderizado antes do rótulo (ícone, dot de cor). Só afeta a linha do
+          dropdown; o gatilho fechado continua mostrando só o texto.
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="max-w-sm space-y-4">
+            <Combobox
+              options={people}
+              value={person}
+              onChange={setPerson}
+              placeholder="Selecione a pessoa"
+              searchPlaceholder="Buscar pessoa..."
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <CodeBlock
+            code={`const people = [
+  {
+    value: "1",
+    label: "Ana",
+    icon: (
+      <span className="h-3.5 w-3.5 shrink-0 rounded-full bg-blue-500" />
+    ),
+  },
+  { value: "2", label: "Bruno" }, // sem cor — nenhum dot
+]
+
+<Combobox options={people} value={person} onChange={setPerson} />`}
           />
         </div>
       </div>
@@ -211,7 +262,7 @@ const [area, setArea] = useState("")
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled? }" },
+            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled?, icon? } — icon é um nó opcional renderizado antes do rótulo na linha do dropdown" },
             { name: "value", type: "string", description: "Valor selecionado (controlado)" },
             { name: "onChange", type: "(value: string) => void", required: true, description: "Chamado ao selecionar uma opção" },
             { name: "placeholder", type: "string", default: '"Selecione..."', description: "Texto do gatilho quando vazio" },

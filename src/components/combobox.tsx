@@ -11,6 +11,9 @@ export interface ComboboxOption {
 	value: string;
 	label: string;
 	disabled?: boolean;
+	/** Optional leading decoration rendered before the label (icon, colored
+	 * dot) — purely visual, doesn't affect filtering/matching. */
+	icon?: React.ReactNode;
 }
 
 export interface ComboboxProps {
@@ -198,6 +201,7 @@ export function Combobox({
 								value === option.value ? "opacity-100" : "opacity-0",
 							)}
 						/>
+						{option.icon}
 						<span className="truncate">{option.label}</span>
 					</CommandPrimitive.Item>
 				))}
