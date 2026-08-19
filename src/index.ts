@@ -31,6 +31,8 @@ export {
 export type { FormDialogProps, FormDialogSize } from "./components/form-dialog";
 export { FormDialog, FormDialogLayout } from "./components/form-dialog";
 export { FormField } from "./components/form-field";
+export type { HighlightPillProps } from "./components/highlight-pill";
+export { HighlightPill } from "./components/highlight-pill";
 export { MobileCardList } from "./components/mobile-card-list";
 // Components
 export { ModeToggle } from "./components/mode-toggle";

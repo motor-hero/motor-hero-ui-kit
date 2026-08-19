@@ -12,6 +12,7 @@ import { EmptyStatePage } from "./pages/EmptyStatePage";
 import { FilterToolbarPage } from "./pages/FilterToolbarPage";
 import { FormDialogPage } from "./pages/FormDialogPage";
 import { FormFieldPage } from "./pages/FormFieldPage";
+import { HighlightPillPage } from "./pages/HighlightPillPage";
 import { HooksPage } from "./pages/HooksPage";
 import { Introduction } from "./pages/Introduction";
 import { MobileCardListPage } from "./pages/MobileCardListPage";
@@ -55,6 +56,7 @@ const pages: Record<string, () => JSX.Element> = {
 	"page-header": PageHeaderPage,
 	"progress-bar": ProgressBarPage,
 	rating: RatingPage,
+	"highlight-pill": HighlightPillPage,
 	"status-badge": StatusBadgePage,
 	"status-dot": StatusDotPage,
 	"date-picker": DatePickerPage,

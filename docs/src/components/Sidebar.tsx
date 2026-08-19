@@ -28,6 +28,7 @@ const navigation = [
 			{ id: "empty-state", label: "EmptyState" },
 			{ id: "form-dialog", label: "FormDialog" },
 			{ id: "form-field", label: "FormField" },
+			{ id: "highlight-pill", label: "HighlightPill" },
 			{ id: "mobile-card-list", label: "MobileCardList" },
 			{ id: "mode-toggle", label: "ModeToggle" },
 			{ id: "multi-step-form", label: "Multi-step Form" },
