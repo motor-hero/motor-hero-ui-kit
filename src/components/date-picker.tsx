@@ -1,6 +1,6 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 import { InputMask } from "@react-input/mask"
-import { endOfYear, format, isValid, parse, subYears } from "date-fns"
+import { addYears, endOfYear, format, isValid, parse, subYears } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Clock } from "lucide-react"
 import * as React from "react"
@@ -171,12 +171,15 @@ function DatePickerImpl({
   const committedDate = withTime ? dateTimeToDate(value) : dateOnlyToDate(value)
   const displayValue = displayFor(value, withTime)
   const matchers = toMatchers(minDate, maxDate, disabledDates)
-  // Alcance do dropdown de ano: minDate/maxDate quando informados, senão o mesmo
-  // padrão da lib (100 anos atrás -> fim do ano atual) — calculado explícito nos dois
-  // lados porque passar só um dos dois via prop faz a lib truncar o outro (visto na
-  // prática: só uma opção de ano no lado sem prop), em vez de cair no padrão dela.
+  // Alcance do dropdown de ano: minDate/maxDate quando informados; senão,
+  // calculado explícito nos dois lados porque passar só um dos dois via prop
+  // faz a lib truncar o outro em vez de cair no próprio padrão dela (visto na
+  // prática: só uma opção de ano no lado sem prop). Do lado do fim, não usamos
+  // o padrão da lib (fim do ano corrente) — vencimento de campanha, validade
+  // de premiação e agendamentos legitimamente caem anos à frente; +20 anos
+  // evita recriar esse teto sem abrir um intervalo sem sentido.
   const startMonth = dateOnlyToDate(minDate) ?? subYears(new Date(), 100)
-  const endMonth = dateOnlyToDate(maxDate) ?? endOfYear(new Date())
+  const endMonth = dateOnlyToDate(maxDate) ?? endOfYear(addYears(new Date(), 20))
 
   const setOpen = (next: boolean) => {
     setOpenRaw(next)
