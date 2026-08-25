@@ -73,14 +73,30 @@ export function MultiCombobox({
   const [open, setOpen] = React.useState(false)
   const isDesktop = useIsDesktop()
   const isServer = onSearchChange !== undefined
-  // Chips a partir de selectedOptions (rótulos salvos) + página atual, dedup
-  // por value (primeira ocorrência vence → o rótulo salvo prevalece).
-  const seen = new Set<string>()
-  const selected = [...(selectedOptions ?? []), ...options].filter((option) => {
-    if (!value.includes(option.value) || seen.has(option.value)) return false
-    seen.add(option.value)
-    return true
+  // Em modo servidor `options` é só a página carregada no momento, então um
+  // rótulo visto uma vez precisa sobreviver à troca de página: sem esse cache,
+  // buscar (ou paginar) fazia o chip de um valor ainda selecionado sumir do
+  // gatilho, como se nada estivesse escolhido. Prioridade de rótulo:
+  // `selectedOptions` (o salvo) → página atual → cache.
+  const labelCache = React.useRef(new Map<string, ComboboxOption>())
+  const byValue = new Map<string, ComboboxOption>()
+  for (const option of options) byValue.set(option.value, option)
+  for (const option of selectedOptions ?? []) byValue.set(option.value, option)
+
+  // Escrita no efeito, nunca no render — mutar a ref durante o render é impuro.
+  // Não pisca: no render em que a opção fica selecionável ela ainda está em
+  // `options`, e este efeito a grava antes de `options` mudar.
+  React.useEffect(() => {
+    for (const [key, option] of byValue) labelCache.current.set(key, option)
   })
+
+  // Ordem de seleção (`value`), que é estável — a antiga vinha da ordem da
+  // página carregada e mudava sozinha conforme as páginas chegavam. Um valor
+  // sem rótulo conhecido (edição sem `selectedOptions`) segue sem chip.
+  const selected = value
+    .map((v) => byValue.get(v) ?? labelCache.current.get(v))
+    .filter((option): option is ComboboxOption => option !== undefined)
+
   const { listRef, sentinelRef } = useInfiniteScrollSentinel({
     enabled: isServer && !!hasMore,
     loading,

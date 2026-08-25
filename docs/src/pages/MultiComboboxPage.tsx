@@ -62,9 +62,11 @@ export function MultiComboboxPage() {
         <h2 className="mb-4 text-xl font-semibold">Modo servidor (paginação)</h2>
         <p className="mb-4 text-sm text-muted-foreground">
           Igual ao Combobox: <code>onSearchChange</code> ativa o modo servidor.
-          Os chips dos valores já selecionados vêm de <code>selectedOptions</code>,
-          então aparecem mesmo antes da página deles carregar (aqui pré-selecionamos
-          os itens 42 e 108).
+          O componente guarda o rótulo de toda opção que já passou por{" "}
+          <code>options</code>, então um chip não some quando a busca ou a
+          paginação troca a página. <code>selectedOptions</code> cobre o caso que
+          o cache não alcança: valores salvos cuja página nunca foi carregada
+          (formulário de edição — aqui, os itens 42 e 108).
         </p>
         <div className="rounded-lg border bg-card p-6">
           <div className="max-w-sm space-y-4">

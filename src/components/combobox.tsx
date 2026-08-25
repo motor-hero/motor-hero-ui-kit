@@ -93,11 +93,26 @@ export function Combobox({
 	const [search, setSearch] = React.useState("");
 	const isDesktop = useIsDesktop();
 	const isServer = onSearchChange !== undefined;
-	const selected =
+	// Mesmo cache do multi-combobox: em modo servidor `options` é só a página
+	// carregada, então o rótulo do valor escolhido precisa sobreviver à troca de
+	// página — senão o gatilho volta ao placeholder com o valor ainda setado.
+	const labelCache = React.useRef(new Map<string, ComboboxOption>());
+	const fromPage =
 		selectedOption?.value === value
 			? selectedOption
-			: (options.find((option) => option.value === value) ??
-				(creatable && value ? { value, label: value } : undefined));
+			: options.find((option) => option.value === value);
+
+	// No efeito, nunca no render — mutar a ref durante o render é impuro.
+	React.useEffect(() => {
+		for (const option of options) labelCache.current.set(option.value, option);
+		if (selectedOption)
+			labelCache.current.set(selectedOption.value, selectedOption);
+	});
+
+	const selected =
+		fromPage ??
+		(value ? labelCache.current.get(value) : undefined) ??
+		(creatable && value ? { value, label: value } : undefined);
 
 	const handleOpenChange = (next: boolean) => {
 		setOpen(next);
