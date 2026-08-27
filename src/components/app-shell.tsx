@@ -20,6 +20,12 @@ export interface AppShellProps {
   headerActions?: ReactNode
   collapsible?: boolean
   defaultCollapsed?: boolean
+  /**
+   * Bottom of the desktop sidebar, above the collapse control — a product
+   * credit, a version, a support link. Receives the collapsed state so it
+   * can shrink with the sidebar.
+   */
+  sidebarFooter?: ReactNode | ((collapsed: boolean) => ReactNode)
   children: ReactNode
 }
 
@@ -37,6 +43,7 @@ export function AppShell({
   headerActions,
   collapsible = true,
   defaultCollapsed = false,
+  sidebarFooter,
   children,
 }: AppShellProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed)
@@ -67,6 +74,11 @@ export function AppShell({
           {collapsed ? (brandCollapsed ?? brand) : brand}
         </div>
         <div className="flex-1 overflow-y-auto px-2 py-4">{nav(collapsed)}</div>
+        {sidebarFooter && (
+          <div className="border-t px-3 py-2" data-slot="sidebar-footer">
+            {typeof sidebarFooter === "function" ? sidebarFooter(collapsed) : sidebarFooter}
+          </div>
+        )}
         {collapsible && (
           <div className="border-t p-2">
             <button
