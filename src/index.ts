@@ -64,6 +64,8 @@ export type {
 } from "./components/theme-provider";
 export { ThemeProvider, useTheme } from "./components/theme-provider";
 export { Toaster } from "./components/toaster";
+export type { UpdateBannerProps } from "./components/update-banner";
+export { UpdateBanner } from "./components/update-banner";
 export type { RenderLink, RenderLinkProps } from "./components/types";
 export { defaultRenderLink } from "./components/types";
 export type {
@@ -83,6 +85,8 @@ export {
 // Hooks
 export { useDisclosure } from "./hooks/use-disclosure";
 export { useIsDesktop } from "./hooks/use-is-desktop";
+export type { UseVersionCheckOptions, VersionCheckState } from "./hooks/use-version-check";
+export { useVersionCheck } from "./hooks/use-version-check";
 export { toast, useCustomToast } from "./hooks/use-toast";
 export { extractApiError } from "./lib/api-error";
 export type { CompanyTheme, CompanyThemeTokens } from "./lib/company-theme";

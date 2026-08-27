@@ -26,6 +26,8 @@ export interface AppShellProps {
    * can shrink with the sidebar.
    */
   sidebarFooter?: ReactNode | ((collapsed: boolean) => ReactNode)
+  /** Above the header, full width of the content column — `UpdateBanner` goes here. */
+  banner?: ReactNode
   children: ReactNode
 }
 
@@ -44,6 +46,7 @@ export function AppShell({
   collapsible = true,
   defaultCollapsed = false,
   sidebarFooter,
+  banner,
   children,
 }: AppShellProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed)
@@ -116,6 +119,7 @@ export function AppShell({
 
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
+        {banner}
         <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4">
           <button
             type="button"
