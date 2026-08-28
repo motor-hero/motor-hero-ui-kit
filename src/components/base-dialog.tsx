@@ -58,9 +58,15 @@ export interface BaseDialogProps {
 
 /**
  * Standardized, responsive dialog shell:
- * - mobile: bottom sheet (full width, up to 92vh tall)
- * - desktop: centered dialog (up to 90vh tall)
+ * - mobile: bottom sheet (full width, up to 92dvh tall)
+ * - desktop: centered dialog (up to 92dvh tall)
  * Header and footer stay fixed; only the body scrolls.
+ *
+ * Heights use `dvh`, not `vh`: on iOS `vh` is locked to the large viewport
+ * (toolbars collapsed), so `92vh` can exceed the visible area by 10-15%. With
+ * the sheet anchored to `bottom-0` the overflow leaves through the top, and
+ * since the body is the only scrollable child, what goes off-screen is the
+ * header - title and close button. Does not reproduce outside real iOS.
  *
  * Also fixes the known Radix bug where `body { pointer-events: none }`
  * can persist after closing a dialog that contained a Select/Popover,
@@ -153,9 +159,9 @@ export function BaseDialog({
             document.body.style.pointerEvents = ""
           }}
           className={cn(
-            "fixed z-50 flex max-h-[92vh] flex-col bg-background shadow-lg outline-none",
+            "fixed z-50 flex max-h-[92dvh] flex-col bg-background shadow-lg outline-none",
             "inset-x-0 bottom-0 rounded-t-2xl",
-            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92vh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92dvh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             sizeClasses[size],
             className,

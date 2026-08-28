@@ -147,7 +147,7 @@ export function FilterPopover({
 			<DrawerPrimitive.Trigger asChild>{trigger}</DrawerPrimitive.Trigger>
 			<DrawerPrimitive.Portal>
 				<DrawerPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80" />
-				<DrawerPrimitive.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85vh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none">
+				<DrawerPrimitive.Content className="fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85dvh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none">
 					<DrawerPrimitive.Title className="sr-only">
 						{title ?? label}
 					</DrawerPrimitive.Title>

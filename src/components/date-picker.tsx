@@ -351,7 +351,7 @@ function DatePickerImpl({
           onInteractOutside={(event) => {
             if (triggerRef.current?.contains(event.target as Node)) event.preventDefault()
           }}
-          className="fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85vh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none"
+          className="fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85dvh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none"
         >
           <DrawerPrimitive.Title className="sr-only">
             {withTime ? "Selecione a data e o horário" : "Selecione a data"}

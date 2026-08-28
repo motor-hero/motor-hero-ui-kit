@@ -64,7 +64,7 @@ export function BaseDialogPage() {
                 Conteúdo livre. Em telas pequenas o modal vira um bottom sheet;
                 com muito conteúdo, apenas esta área rola.
               </p>
-              {Array.from({ length: 8 }).map((_, i) => (
+              {Array.from({ length: 30 }).map((_, i) => (
                 <div
                   // biome-ignore lint/suspicious/noArrayIndexKey: demo
                   key={i}
