@@ -30,7 +30,10 @@ export function Pagination({
 }: PaginationProps) {
   return (
     <div
-      className={`flex items-center ${showPageSizeSelector ? "justify-between" : "justify-end"} gap-4 ${className ?? ""}`}
+      // Quebra em vez de empurrar: num celular de 360px os dois grupos não
+      // cabem na mesma linha e o "Próximo" saía da área visível, com a lista
+      // inteira rolando de lado atrás dele.
+      className={`flex flex-wrap items-center ${showPageSizeSelector ? "justify-between" : "justify-end"} gap-x-4 gap-y-2 ${className ?? ""}`}
     >
       {showPageSizeSelector && (
         <div className="flex items-center gap-2">
