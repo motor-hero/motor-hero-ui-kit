@@ -58,15 +58,26 @@ export interface BaseDialogProps {
 
 /**
  * Standardized, responsive dialog shell:
- * - mobile: bottom sheet (full width, up to 92dvh tall)
+ * - mobile: bottom sheet that can grow to nearly the whole screen
  * - desktop: centered dialog (up to 92dvh tall)
  * Header and footer stay fixed; only the body scrolls.
  *
+ * The mobile ceiling is the screen minus a slim top gap (safe area or
+ * 0.75rem, whichever is larger): a long form gets virtually the whole
+ * screen — the old 92dvh cap wasted ~70px on the one device where height is
+ * scarce — while the rounded top and the sliver of scrim above it keep the
+ * sheet language every other mobile surface in this kit speaks (combobox,
+ * pickers, menus are all `rounded-t-2xl` bottom sheets). An edge-to-edge
+ * square dialog here read as a foreign screen, not a layer of this app.
+ * Short dialogs still hug their content instead of stretching.
+ *
  * Heights use `dvh`, not `vh`: on iOS `vh` is locked to the large viewport
- * (toolbars collapsed), so `92vh` can exceed the visible area by 10-15%. With
- * the sheet anchored to `bottom-0` the overflow leaves through the top, and
- * since the body is the only scrollable child, what goes off-screen is the
- * header - title and close button. Does not reproduce outside real iOS.
+ * (toolbars collapsed), so a `vh` cap can exceed the visible area by
+ * 10-15%. With the sheet anchored to `bottom-0` the overflow leaves
+ * through the top, and since the body is the only scrollable child, what
+ * goes off-screen is the header - title and close button. Does not
+ * reproduce outside real iOS. The footer pads for the home indicator
+ * (`env(safe-area-inset-bottom)`); the top gap already clears the notch.
  *
  * Also fixes the known Radix bug where `body { pointer-events: none }`
  * can persist after closing a dialog that contained a Select/Popover,
@@ -119,7 +130,7 @@ export function BaseDialog({
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">{children}</div>
       {footer && (
-        <div className="flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-3 sm:flex-row sm:justify-end">
+        <div className="flex shrink-0 flex-col-reverse gap-2 border-t px-6 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:flex-row sm:justify-end">
           {footer}
         </div>
       )}
@@ -159,9 +170,13 @@ export function BaseDialog({
             document.body.style.pointerEvents = ""
           }}
           className={cn(
-            "fixed z-50 flex max-h-[92dvh] flex-col bg-background shadow-lg outline-none",
-            "inset-x-0 bottom-0 rounded-t-2xl",
-            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92dvh] sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
+            "fixed z-50 flex w-full flex-col bg-background shadow-lg outline-none",
+            "inset-x-0 bottom-0 rounded-t-2xl max-h-[calc(100dvh_-_max(0.75rem,env(safe-area-inset-top)))]",
+            // Entra deslizando de baixo, como os drawers (vaul) do restante do
+            // kit; no desktop os slides sairiam brigando com o translate de
+            // centralização, então ficam restritos ao mobile.
+            "max-sm:slide-in-from-bottom-8 max-sm:slide-out-to-bottom-8",
+            "sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:max-h-[92dvh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-lg",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             sizeClasses[size],
             className,
