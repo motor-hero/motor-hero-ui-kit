@@ -138,7 +138,10 @@ git commit --quiet -m "chore(release): $next"
 git tag -a "v$next" -m "$next"
 
 say "enviando commit e tag para $remote…"
-git push --quiet "$remote" main "v$next"
+# Commit e tag já existem aqui: se o push cair (rede, agente SSH), não rode o
+# script de novo — ele pararia em "main local difere"; é só reenviar.
+git push --quiet "$remote" main "v$next" \
+  || die "push falhou; commit e tag v$next ficaram locais — reenvie com: git push $remote main v$next"
 
 say "pronto: v$next. Acompanhe em:"
 echo "   $(git remote get-url "$remote" | sed -E 's#(git@github.com:|https://github.com/)##; s#\.git$##; s#^#https://github.com/#')/actions"
