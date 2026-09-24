@@ -32,7 +32,8 @@ jobs:
           TAG="${GITHUB_REF_NAME}"
           PREV=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)
           RANGE="${PREV:+$PREV..}${TAG}"
-          LOG=$(git log $RANGE --no-merges --pretty='%s (%h)')
+          # O próprio commit de versão (`chore(release): X.Y.Z`) não é novidade.
+          LOG=$(git log $RANGE --no-merges --pretty='%s (%h)' | grep -vE '^chore\(release\)' || true)
           emit() {
             local items
             items=$(printf '%s\n' "$LOG" | grep -E "$2" | sed -E 's/^[a-z]+(\(.+\))?!?: //' || true)

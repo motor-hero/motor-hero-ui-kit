@@ -1,8 +1,9 @@
 # Contribuindo com o @motor-hero/ui-kit
 
 Este guia explica como desenvolver, testar e publicar componentes. O publish no npm é
-disparado por **tags**: você trabalha na `main` e, quando quiser lançar, escolhe o bump com
-`npm version` e dá push da tag — o resto (build, publish e GitHub Release) é automático.
+disparado por **tags**: você trabalha na `main` e, quando quiser lançar, roda
+`npm run release` — ele escolhe o bump pelos commits, cria a tag e dá push; o resto (build,
+publish e GitHub Release) é automático.
 
 ## Sumário
 
@@ -17,11 +18,11 @@ disparado por **tags**: você trabalha na `main` e, quando quiser lançar, escol
 1. Desenvolva e teste localmente (veja [Desenvolvimento e teste local](#desenvolvimento-e-teste-local)).
 2. Commite na `main` usando o padrão de commit (ex.: `feat: adiciona Tooltip`) — a descrição vira a
    linha do changelog da release.
-3. Quando quiser publicar, escolha o bump e dê push da tag:
+3. Quando quiser publicar:
 
    ```bash
-   npm version minor      # bump no package.json + commit + cria a tag v0.7.0
-   git push --follow-tags # a tag dispara o publish no npm + GitHub Release
+   npm run release -- --dry-run   # mostra a versão e o que entra no changelog
+   npm run release                # build + type check, commit, tag vX.Y.Z e push
    ```
 
 Pushes na `main` sem tag apenas rodam o CI e atualizam a documentação — não publicam no npm.
@@ -56,8 +57,13 @@ BREAKING CHANGE: a prop `variant` foi removida; use `intent` no lugar.
 
 ## Como escolher a versão
 
-O bump é decisão sua, feita com `npm version`, que atualiza o `package.json`, cria o commit e a tag
-de uma vez. Use o critério dos Conventional Commits para escolher:
+`npm run release` (`scripts/release.sh`) lê os commits desde a última tag `vX.Y.Z` e escolhe o
+bump pelo critério abaixo: `feat` → minor, `fix`/`perf` → patch, e só `docs`/`chore`/`build`/
+`refactor`/`test` não publica nada. Breaking change em `0.x` vira minor — para ir a `1.0.0`, passe
+o salto: `npm run release -- major`. Também aceita `patch`/`minor` para forçar, `--force` para
+publicar um patch sem feat/fix e `--dry-run`. Ele recusa rodar fora da `main`, com alterações não
+commitadas ou com a `main` diferente de `origin/main`, e roda o build e o type check do CI antes
+de criar a tag. O critério, para referência (e para quem ainda usa `npm version` à mão):
 
 | Comando | Quando usar | A partir de `0.6.0` → |
 |---|---|---|
@@ -73,8 +79,8 @@ de uma vez. Use o critério dos Conventional Commits para escolher:
 Tudo é orquestrado por `.github/workflows/release.yml`, disparado ao receber uma tag `v*`:
 
 1. `npm ci` → `npm run build` → `npm publish --provenance` (com proveniência verificável no npm).
-2. Gera o changelog a partir dos commits desde a tag anterior, agrupado por tipo, e cria a GitHub
-   Release com essas notas.
+2. Gera o changelog a partir dos commits desde a tag anterior, agrupado por tipo (sem o próprio
+   `chore(release): X.Y.Z`), e cria a GitHub Release com essas notas.
 
 ## Desenvolvimento e teste local
 

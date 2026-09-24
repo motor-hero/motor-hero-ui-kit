@@ -124,7 +124,7 @@ export function AppShell({
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground md:hidden"
+            className="inline-flex h-9 w-9 max-sm:h-10 max-sm:w-10 items-center justify-center rounded-md border border-input bg-background shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground md:hidden"
             aria-label="Abrir menu"
           >
             <Menu className="h-4 w-4" />

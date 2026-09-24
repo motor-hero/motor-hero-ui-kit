@@ -49,6 +49,7 @@
     "lint": "tsc --noEmit",
     "docs:dev": "vite --config docs/vite.config.ts",
     "docs:build": "vite build --config docs/vite.config.ts",
+    "release": "scripts/release.sh",
     "prepublishOnly": "npm run build",
     "prepare": "husky"
   },

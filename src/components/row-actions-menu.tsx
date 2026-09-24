@@ -27,8 +27,9 @@ export interface RowActionsMenuProps {
   renderLink?: RenderLink
 }
 
+// 32px no desktop, 40px de alvo de toque no celular.
 const triggerClass =
-  "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+  "inline-flex h-8 w-8 max-sm:h-10 max-sm:w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 
 // Desktop: itens compactos do dropdown. Mobile: alvos de toque maiores.
 const itemClass =

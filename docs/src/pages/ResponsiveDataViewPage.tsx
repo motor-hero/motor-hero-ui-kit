@@ -84,6 +84,7 @@ export function ResponsiveDataViewPage() {
             { name: "emptyTitle", type: "string", default: '"Nenhum registro encontrado"', description: "Título do empty state" },
             { name: "emptyDescription", type: "string", description: "Descrição do empty state" },
             { name: "pagination", type: "ReactNode", description: "Componente de paginação" },
+            { name: "breakpoint", type: '"md" | "lg" | "xl"', default: '"md"', description: "Largura a partir da qual a tabela substitui os cards; lg/xl para tabelas largas ao lado da barra lateral" },
           ]}
         />
       </div>

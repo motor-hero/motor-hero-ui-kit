@@ -43,7 +43,7 @@ export type { PaginationProps } from "./components/pagination";
 export { Pagination } from "./components/pagination";
 export { PasswordInput } from "./components/password-input";
 export { ProgressBar } from "./components/progress-bar";
-export { ResponsiveDataView } from "./components/responsive-data-view";
+export { ResponsiveDataView, type ResponsiveDataViewBreakpoint } from "./components/responsive-data-view";
 export type {
 	RowAction,
 	RowActionsMenuProps,

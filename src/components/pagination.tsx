@@ -13,8 +13,9 @@ export interface PaginationProps {
   className?: string
 }
 
+// `max-sm:h-10`: alvo de toque de 40px no celular; o desktop segue em 32px.
 const navButtonClass =
-  "inline-flex h-8 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50"
+  "inline-flex h-8 max-sm:h-10 items-center justify-center rounded-md border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer disabled:pointer-events-none disabled:opacity-50"
 
 export function Pagination({
   page,
@@ -44,7 +45,7 @@ export function Pagination({
             id="pagination-page-size"
             value={pageSize}
             onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
-            className="h-8 rounded-md border border-input bg-background px-2 text-xs font-medium shadow-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer"
+            className="h-8 max-sm:h-10 rounded-md border border-input bg-background px-2 text-xs font-medium shadow-sm transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer"
           >
             {(pageSizeOptions ?? []).map((size) => (
               <option key={size} value={size}>
