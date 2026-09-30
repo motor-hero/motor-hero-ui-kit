@@ -161,9 +161,19 @@ renderLink={({ href, children, ...p }) => <Link href={href} {...p}>{children}</L
             { name: "headerActions", type: "ReactNode", description: "Ações à direita da topbar (ex.: ModeToggle)" },
             { name: "collapsible", type: "boolean", description: "Permite recolher a sidebar (default true)" },
             { name: "defaultCollapsed", type: "boolean", description: "Inicia recolhida (default false)" },
+            { name: "sidebarFooter", type: "ReactNode | (collapsed) => ReactNode", description: "Rodapé da sidebar, acima do botão de recolher" },
+            { name: "banner", type: "ReactNode", description: "Faixa acima da topbar (ex.: UpdateBanner)" },
+            { name: "sidebarClassName", type: "string", description: "Classes somadas à sidebar e ao drawer mobile (ex.: bg-sidebar text-sidebar-foreground border-sidebar-border). As divisórias internas seguem a cor da borda" },
+            { name: "headerClassName", type: "string", description: "Classes somadas à topbar" },
             { name: "children", type: "ReactNode", required: true, description: "Conteúdo da página (área que rola)" },
           ]}
         />
+        <p className="mt-4 text-sm text-muted-foreground">
+          Sem essas props o visual é o padrão. Para ajustes pontuais, cada parte tem um <code>data-slot</code>:{" "}
+          <code>sidebar</code>, <code>sidebar-drawer</code>, <code>sidebar-brand</code>, <code>sidebar-content</code>,{" "}
+          <code>sidebar-footer</code>, <code>sidebar-toggle</code> e <code>header</code>. Os itens do menu recebem o{" "}
+          <code>className</code> pelo <code>renderLink</code>, que pode trocá-lo inteiro.
+        </p>
       </div>
 
       <div>

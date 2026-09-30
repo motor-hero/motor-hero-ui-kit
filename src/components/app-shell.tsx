@@ -28,6 +28,14 @@ export interface AppShellProps {
   sidebarFooter?: ReactNode | ((collapsed: boolean) => ReactNode)
   /** Above the header, full width of the content column — `UpdateBanner` goes here. */
   banner?: ReactNode
+  /**
+   * Merged into the sidebar (desktop and mobile drawer), e.g.
+   * `bg-sidebar text-sidebar-foreground border-sidebar-border`. Inner dividers
+   * follow the sidebar's border color.
+   */
+  sidebarClassName?: string
+  /** Merged into the top header bar. */
+  headerClassName?: string
   children: ReactNode
 }
 
@@ -47,6 +55,8 @@ export function AppShell({
   defaultCollapsed = false,
   sidebarFooter,
   banner,
+  sidebarClassName,
+  headerClassName,
   children,
 }: AppShellProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed)
@@ -68,24 +78,29 @@ export function AppShell({
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop sidebar */}
       <aside
+        data-slot="sidebar"
         className={cn(
           "hidden shrink-0 flex-col border-r bg-card transition-all duration-300 md:flex",
           collapsed ? "w-16" : "w-60",
+          sidebarClassName,
         )}
       >
-        <div className="flex h-14 shrink-0 items-center border-b px-4">
+        <div className="flex h-14 shrink-0 items-center border-b border-inherit px-4" data-slot="sidebar-brand">
           {collapsed ? (brandCollapsed ?? brand) : brand}
         </div>
-        <div className="flex-1 overflow-y-auto px-2 py-4">{nav(collapsed)}</div>
+        <div className="flex-1 overflow-y-auto px-2 py-4" data-slot="sidebar-content">
+          {nav(collapsed)}
+        </div>
         {sidebarFooter && (
-          <div className="border-t px-3 py-2" data-slot="sidebar-footer">
+          <div className="border-t border-inherit px-3 py-2" data-slot="sidebar-footer">
             {typeof sidebarFooter === "function" ? sidebarFooter(collapsed) : sidebarFooter}
           </div>
         )}
         {collapsible && (
-          <div className="border-t p-2">
+          <div className="border-t border-inherit p-2">
             <button
               type="button"
+              data-slot="sidebar-toggle"
               onClick={() => setCollapsed((v) => !v)}
               className="flex w-full items-center justify-center rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
@@ -106,21 +121,30 @@ export function AppShell({
       >
         <div className="absolute inset-0 bg-black/50" />
         <div
+          data-slot="sidebar-drawer"
           className={cn(
             "absolute left-0 top-0 flex h-full w-64 flex-col border-r bg-card transition-transform duration-300",
             mobileOpen ? "translate-x-0" : "-translate-x-full",
+            sidebarClassName,
           )}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex h-14 shrink-0 items-center border-b px-4">{brand}</div>
-          <div className="flex-1 overflow-y-auto px-2 py-4">{nav(false, () => setMobileOpen(false))}</div>
+          <div className="flex h-14 shrink-0 items-center border-b border-inherit px-4" data-slot="sidebar-brand">
+            {brand}
+          </div>
+          <div className="flex-1 overflow-y-auto px-2 py-4" data-slot="sidebar-content">
+            {nav(false, () => setMobileOpen(false))}
+          </div>
         </div>
       </div>
 
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {banner}
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4">
+        <header
+          data-slot="header"
+          className={cn("flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4", headerClassName)}
+        >
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
