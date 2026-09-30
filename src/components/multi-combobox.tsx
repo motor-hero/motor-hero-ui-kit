@@ -73,6 +73,10 @@ export function MultiCombobox({
   const [open, setOpen] = React.useState(false)
   const isDesktop = useIsDesktop()
   const isServer = onSearchChange !== undefined
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next)
+    if (!next) onSearchChange?.("")
+  }
   // Em modo servidor `options` é só a página carregada no momento, então um
   // rótulo visto uma vez precisa sobreviver à troca de página: sem esse cache,
   // buscar (ou paginar) fazia o chip de um valor ainda selecionado sumir do
@@ -223,7 +227,7 @@ export function MultiCombobox({
 
   if (isDesktop) {
     return (
-      <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
+      <PopoverPrimitive.Root open={open} onOpenChange={handleOpenChange}>
         <PopoverPrimitive.Trigger asChild disabled={disabled}>
           {trigger}
         </PopoverPrimitive.Trigger>
@@ -242,7 +246,7 @@ export function MultiCombobox({
   }
 
   return (
-    <DrawerPrimitive.Root open={open} onOpenChange={setOpen}>
+    <DrawerPrimitive.Root open={open} onOpenChange={handleOpenChange}>
       <DrawerPrimitive.Trigger asChild disabled={disabled}>
         {trigger}
       </DrawerPrimitive.Trigger>

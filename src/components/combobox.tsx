@@ -116,7 +116,10 @@ export function Combobox({
 
 	const handleOpenChange = (next: boolean) => {
 		setOpen(next);
-		if (!next) setSearch("");
+		if (!next) {
+			setSearch("");
+			onSearchChange?.("");
+		}
 	};
 
 	const handleSelect = (next: string) => {
