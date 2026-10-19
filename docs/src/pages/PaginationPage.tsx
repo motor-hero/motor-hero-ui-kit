@@ -11,6 +11,9 @@ export function PaginationPage() {
 
   const [pageWithTotal, setPageWithTotal] = useState(1)
 
+  const [pageWithJump, setPageWithJump] = useState(1)
+  const jumpTotalPages = 48
+
   const [pageWithSize, setPageWithSize] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const sizeTotalPages = Math.ceil(SIZE_DEMO_TOTAL_ITEMS / pageSize)
@@ -50,6 +53,26 @@ export function PaginationPage() {
             hasNextPage={pageWithTotal < totalPages}
             hasPreviousPage={pageWithTotal > 1}
             totalPages={totalPages}
+          />
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-xl font-semibold">Com navegação direta para uma página</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          A flag <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">showPageJump</code> torna o
+          número da página editável. Digite e confirme com Enter (ou saindo do campo); Esc descarta. Valores
+          fora do intervalo são ajustados para a primeira ou a última página. Exige{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">totalPages</code>.
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <Pagination
+            page={pageWithJump}
+            onPageChange={setPageWithJump}
+            hasNextPage={pageWithJump < jumpTotalPages}
+            hasPreviousPage={pageWithJump > 1}
+            totalPages={jumpTotalPages}
+            showPageJump
           />
         </div>
       </div>
@@ -155,6 +178,7 @@ const setPageSizeAndReset = (size: number) => {
             { name: "hasNextPage", type: "boolean", required: true, description: "Habilita botão próximo" },
             { name: "hasPreviousPage", type: "boolean", required: true, description: "Habilita botão anterior" },
             { name: "totalPages", type: "number", description: "Total de páginas. Quando informado, mostra \"Página X de Y\"." },
+            { name: "showPageJump", type: "boolean", default: "false", description: "Torna o número da página editável para pular direto a uma página. Exige totalPages." },
             { name: "showPageSizeSelector", type: "boolean", default: "false", description: "Exibe o seletor de itens por página." },
             { name: "pageSize", type: "number", description: "Itens por página selecionado (usar com showPageSizeSelector)." },
             { name: "onPageSizeChange", type: "(size: number) => void", description: "Callback ao mudar itens por página." },
