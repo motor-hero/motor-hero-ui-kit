@@ -6,7 +6,7 @@ import { Drawer as DrawerPrimitive } from "vaul"
 import { useInfiniteScrollSentinel } from "../hooks/use-infinite-scroll-sentinel"
 import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
-import type { ComboboxOption } from "./combobox"
+import { type ComboboxOption, OptionText } from "./combobox"
 
 export interface MultiComboboxProps {
   options: ComboboxOption[]
@@ -101,6 +101,15 @@ export function MultiCombobox({
     .map((v) => byValue.get(v) ?? labelCache.current.get(v))
     .filter((option): option is ComboboxOption => option !== undefined)
 
+  // Chips homônimos não se distinguem só pelo rótulo: esses ganham a descrição.
+  const labelCounts = new Map<string, number>()
+  for (const option of selected)
+    labelCounts.set(option.label, (labelCounts.get(option.label) ?? 0) + 1)
+  const chipLabel = (option: ComboboxOption) =>
+    option.description && (labelCounts.get(option.label) ?? 0) > 1
+      ? `${option.label} · ${option.description}`
+      : option.label
+
   const { listRef, sentinelRef } = useInfiniteScrollSentinel({
     enabled: isServer && !!hasMore,
     loading,
@@ -146,9 +155,10 @@ export function MultiCombobox({
         selected.map((option) => (
           <span
             key={option.value}
+            title={option.description}
             className="inline-flex items-center gap-1 rounded bg-secondary px-1.5 py-0.5 text-xs text-secondary-foreground"
           >
-            {option.label}
+            {chipLabel(option)}
             <button
               type="button"
               tabIndex={-1}
@@ -195,6 +205,7 @@ export function MultiCombobox({
           <CommandPrimitive.Item
             key={option.value}
             value={isServer ? option.value : option.label}
+            keywords={option.description ? [option.description] : undefined}
             disabled={option.disabled}
             onSelect={() => toggleValue(option.value)}
             className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5"
@@ -205,7 +216,7 @@ export function MultiCombobox({
                 value.includes(option.value) ? "opacity-100" : "opacity-0",
               )}
             />
-            <span className="truncate">{option.label}</span>
+            <OptionText option={option} />
           </CommandPrimitive.Item>
         ))}
         {isServer && !loading && options.length === 0 && (

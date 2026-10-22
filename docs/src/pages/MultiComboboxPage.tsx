@@ -172,7 +172,7 @@ const [areasSelecionadas, setAreasSelecionadas] = useState<string[]>([])
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled? }" },
+            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled?, description? } — description é uma segunda linha abaixo do rótulo na lista, o title do chip, e aparece no chip quando dois selecionados têm o mesmo rótulo" },
             { name: "value", type: "string[]", required: true, description: "Valores selecionados (controlado)" },
             { name: "onChange", type: "(value: string[]) => void", required: true, description: "Chamado ao alternar/remover uma opção" },
             { name: "placeholder", type: "string", default: '"Selecione..."', description: "Texto do gatilho quando vazio" },

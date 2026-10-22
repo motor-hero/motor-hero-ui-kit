@@ -14,6 +14,10 @@ export interface ComboboxOption {
 	/** Optional leading decoration rendered before the label (icon, colored
 	 * dot) — purely visual, doesn't affect filtering/matching. */
 	icon?: React.ReactNode;
+	/** Linha secundária abaixo do rótulo na lista (ex.: e-mail de uma pessoa,
+	 * para separar homônimos). No gatilho vira o `title`. Entra na busca do
+	 * modo cliente. */
+	description?: string;
 }
 
 export interface ComboboxProps {
@@ -209,6 +213,7 @@ export function Combobox({
 						// cliente: cmdk filtra pelo `value`, então usamos o label; servidor:
 						// o servidor já filtrou, então usamos o id (único, evita colisão de labels).
 						value={isServer ? option.value : option.label}
+						keywords={option.description ? [option.description] : undefined}
 						disabled={option.disabled}
 						onSelect={() => handleSelect(option.value)}
 						className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5"
@@ -220,7 +225,7 @@ export function Combobox({
 							)}
 						/>
 						{option.icon}
-						<span className="truncate">{option.label}</span>
+						<OptionText option={option} />
 					</CommandPrimitive.Item>
 				))}
 				{isServer && !loading && options.length === 0 && (
@@ -272,5 +277,21 @@ export function Combobox({
 				</DrawerPrimitive.Content>
 			</DrawerPrimitive.Portal>
 		</DrawerPrimitive.Root>
+	);
+}
+
+export function OptionText({ option }: { option: ComboboxOption }) {
+	if (!option.description)
+		return <span className="truncate">{option.label}</span>;
+	return (
+		<span className="flex min-w-0 flex-col">
+			<span className="truncate">{option.label}</span>
+			<span
+				title={option.description}
+				className="truncate text-xs text-muted-foreground"
+			>
+				{option.description}
+			</span>
+		</span>
 	);
 }

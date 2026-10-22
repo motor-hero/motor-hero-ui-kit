@@ -35,12 +35,19 @@ const people = [
   { value: "3", label: "Carla" },
 ]
 
+const namesakes = [
+  { value: "a", label: "Ana Souza", description: "ana.souza@empresa.com.br" },
+  { value: "b", label: "Ana Souza", description: "asouza@cliente.com" },
+  { value: "c", label: "Bruno Lima", description: "bruno@empresa.com.br" },
+]
+
 export function ComboboxPage() {
   const [value, setValue] = useState("")
   const server = useFakeInfiniteOptions()
   const [serverValue, setServerValue] = useState("42")
   const [unit, setUnit] = useState("de estruturas físicas")
   const [person, setPerson] = useState("")
+  const [namesake, setNamesake] = useState("")
 
   return (
     <div className="space-y-8">
@@ -168,6 +175,36 @@ const props = useInfiniteOptions({
       </div>
 
       <div>
+        <h2 className="mb-4 text-xl font-semibold">Descrição por opção</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          A <code>description</code> opcional vira uma segunda linha discreta
+          abaixo do rótulo — separa homônimos (ex.: o e-mail de uma pessoa). O
+          gatilho fechado continua só com o rótulo e mostra a descrição no{" "}
+          <code>title</code>; no modo cliente ela também entra na busca.
+        </p>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="max-w-sm space-y-4">
+            <Combobox
+              options={namesakes}
+              value={namesake}
+              onChange={setNamesake}
+              placeholder="Selecione a pessoa"
+              searchPlaceholder="Buscar por nome ou e-mail..."
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <CodeBlock
+            code={`toOption: (u) => ({
+  value: u.id,
+  label: u.full_name || u.email,
+  description: u.full_name ? u.email : undefined, // sem repetir o rótulo
+})`}
+          />
+        </div>
+      </div>
+
+      <div>
         <h2 className="mb-4 text-xl font-semibold">Texto livre (creatable)</h2>
         <p className="mb-4 text-sm text-muted-foreground">
           Passe <code>creatable</code> para permitir confirmar o texto digitado
@@ -262,7 +299,7 @@ const [area, setArea] = useState("")
         <h2 className="mb-4 text-xl font-semibold">Props</h2>
         <PropsTable
           props={[
-            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled?, icon? } — icon é um nó opcional renderizado antes do rótulo na linha do dropdown" },
+            { name: "options", type: "ComboboxOption[]", required: true, description: "Lista de { value, label, disabled?, icon?, description? } — icon é um nó opcional renderizado antes do rótulo na linha do dropdown; description é uma segunda linha discreta abaixo dele" },
             { name: "value", type: "string", description: "Valor selecionado (controlado)" },
             { name: "onChange", type: "(value: string) => void", required: true, description: "Chamado ao selecionar uma opção" },
             { name: "placeholder", type: "string", default: '"Selecione..."', description: "Texto do gatilho quando vazio" },
