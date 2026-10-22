@@ -1,5 +1,5 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Command as CommandPrimitive } from "cmdk";
+import { Command as CommandPrimitive, defaultFilter } from "cmdk";
 import { Check, ChevronsUpDown, Loader2, Plus, Search } from "lucide-react";
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
@@ -163,7 +163,10 @@ export function Combobox({
 				className,
 			)}
 		>
-			<span className={cn("truncate", !selected && "text-muted-foreground")}>
+			<span
+				title={selected?.description}
+				className={cn("truncate", !selected && "text-muted-foreground")}
+			>
 				{selected ? selected.label : placeholder}
 			</span>
 			<ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
@@ -173,6 +176,7 @@ export function Combobox({
 	const command = (
 		<CommandPrimitive
 			shouldFilter={!isServer}
+			filter={filterByKeywords}
 			className="flex h-full w-full flex-col overflow-hidden"
 		>
 			<div className="flex items-center border-b px-3">
@@ -194,8 +198,10 @@ export function Combobox({
 				)}
 				{showCreate && (
 					<CommandPrimitive.Item
-						// cmdk pontua pelo `value`; igualar à busca mantém a linha sempre no topo.
+						// A busca como `value`, não uma chave fixa: o cmdk só relê as
+						// keywords quando o `value` muda. Keyword igual à busca = sempre no topo.
 						value={trimmedSearch}
+						keywords={[trimmedSearch]}
 						onSelect={() => handleSelect(trimmedSearch)}
 						className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground sm:py-1.5"
 					>
@@ -210,10 +216,8 @@ export function Combobox({
 				{options.map((option) => (
 					<CommandPrimitive.Item
 						key={option.value}
-						// cliente: cmdk filtra pelo `value`, então usamos o label; servidor:
-						// o servidor já filtrou, então usamos o id (único, evita colisão de labels).
-						value={isServer ? option.value : option.label}
-						keywords={option.description ? [option.description] : undefined}
+						value={option.value}
+						keywords={optionKeywords(option)}
 						disabled={option.disabled}
 						onSelect={() => handleSelect(option.value)}
 						className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5"
@@ -279,6 +283,18 @@ export function Combobox({
 		</DrawerPrimitive.Root>
 	);
 }
+
+// O `value` do item é o id, único mesmo entre homônimos — rótulo igual como
+// `value` fazia o cmdk tratar duas opções como uma (hover, teclado, seleção).
+// A busca pontua só pelas keywords (rótulo + descrição), nunca pelo id.
+export const filterByKeywords = (
+	_value: string,
+	search: string,
+	keywords: string[] = [],
+) => defaultFilter(keywords.join(" "), search);
+
+export const optionKeywords = (option: ComboboxOption) =>
+	option.description ? [option.label, option.description] : [option.label];
 
 export function OptionText({ option }: { option: ComboboxOption }) {
 	if (!option.description)

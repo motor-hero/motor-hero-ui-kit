@@ -6,7 +6,12 @@ import { Drawer as DrawerPrimitive } from "vaul"
 import { useInfiniteScrollSentinel } from "../hooks/use-infinite-scroll-sentinel"
 import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
-import { type ComboboxOption, OptionText } from "./combobox"
+import {
+  type ComboboxOption,
+  filterByKeywords,
+  OptionText,
+  optionKeywords,
+} from "./combobox"
 
 export interface MultiComboboxProps {
   options: ComboboxOption[]
@@ -182,6 +187,7 @@ export function MultiCombobox({
   const command = (
     <CommandPrimitive
       shouldFilter={!isServer}
+      filter={filterByKeywords}
       className="flex h-full w-full flex-col overflow-hidden"
     >
       <div className="flex items-center border-b px-3">
@@ -204,8 +210,8 @@ export function MultiCombobox({
         {options.map((option) => (
           <CommandPrimitive.Item
             key={option.value}
-            value={isServer ? option.value : option.label}
-            keywords={option.description ? [option.description] : undefined}
+            value={option.value}
+            keywords={optionKeywords(option)}
             disabled={option.disabled}
             onSelect={() => toggleValue(option.value)}
             className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 sm:py-1.5"
