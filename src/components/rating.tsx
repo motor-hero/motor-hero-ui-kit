@@ -19,9 +19,12 @@ export interface RatingProps {
   "aria-label"?: string
 }
 
+const formatNote = (value: number) =>
+  value.toLocaleString("pt-BR", { maximumFractionDigits: 1 })
+
 function defaultLabel(value: number) {
   return value > 0
-    ? `Avaliação: ${value} de ${MAX_STARS} estrelas`
+    ? `Nota ${formatNote(value)} de ${MAX_STARS}`
     : "Avaliação: sem nota"
 }
 
@@ -43,18 +46,32 @@ export function Rating({
         aria-label={label}
         className={cn("inline-flex items-center gap-0.5", className)}
       >
-        {Array.from({ length: MAX_STARS }, (_, index) => (
-          <Star
-            key={index}
-            aria-hidden
-            className={cn(
-              sizeClasses[size],
-              index < clamped
-                ? "fill-amber-400 text-amber-400"
-                : "text-muted-foreground",
-            )}
-          />
-        ))}
+        {Array.from({ length: MAX_STARS }, (_, index) => {
+          // Média 4,3 pinta 30% da quinta estrela: a fração é a nota, não um arredondamento.
+          const fill = Math.min(1, Math.max(0, clamped - index))
+          return (
+            <span key={index} className="relative inline-flex">
+              <Star
+                aria-hidden
+                className={cn(sizeClasses[size], "text-muted-foreground")}
+              />
+              {fill > 0 && (
+                <span
+                  className="absolute inset-y-0 left-0 overflow-hidden"
+                  style={{ width: `${fill * 100}%` }}
+                >
+                  <Star
+                    aria-hidden
+                    className={cn(
+                      sizeClasses[size],
+                      "max-w-none fill-amber-400 text-amber-400",
+                    )}
+                  />
+                </span>
+              )}
+            </span>
+          )
+        })}
       </div>
     )
   }

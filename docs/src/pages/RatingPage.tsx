@@ -31,6 +31,7 @@ export function RatingPage() {
         <div className="flex flex-wrap items-center gap-6 rounded-lg border bg-card p-6">
           <Rating value={2} readOnly />
           <Rating value={4} readOnly />
+          <Rating value={4.3} readOnly />
           <Rating value={0} readOnly />
         </div>
       </div>
@@ -66,7 +67,8 @@ const [value, setValue] = useState(0)
               name: "value",
               type: "number",
               default: "0",
-              description: "Nota atual, de 1 a 5. 0 ou undefined é \"sem nota\"",
+              description:
+                "Nota atual, de 1 a 5. 0 ou undefined é \"sem nota\". Em readOnly aceita média fracionária: 4,3 pinta 30% da quinta estrela",
             },
             {
               name: "onChange",
