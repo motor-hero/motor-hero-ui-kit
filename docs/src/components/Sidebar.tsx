@@ -25,6 +25,7 @@ const navigation = [
 			{ id: "filter-toolbar", label: "FilterToolbar" },
 			{ id: "confirm-dialog", label: "ConfirmDialog" },
 			{ id: "date-picker", label: "DatePicker / DateTimePicker" },
+			{ id: "time-picker", label: "TimePicker" },
 			{ id: "empty-state", label: "EmptyState" },
 			{ id: "form-dialog", label: "FormDialog" },
 			{ id: "form-field", label: "FormField" },

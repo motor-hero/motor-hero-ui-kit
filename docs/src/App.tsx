@@ -32,6 +32,7 @@ import { StatusBadgePage } from "./pages/StatusBadgePage";
 import { StatusDotPage } from "./pages/StatusDotPage";
 import { TableSkeletonPage } from "./pages/TableSkeletonPage";
 import { ThemeProviderPage } from "./pages/ThemeProviderPage";
+import { TimePickerPage } from "./pages/TimePickerPage";
 import { ToasterPage } from "./pages/ToasterPage";
 import { UtilitiesPage } from "./pages/UtilitiesPage";
 
@@ -60,6 +61,7 @@ const pages: Record<string, () => JSX.Element> = {
 	"status-badge": StatusBadgePage,
 	"status-dot": StatusDotPage,
 	"date-picker": DatePickerPage,
+	"time-picker": TimePickerPage,
 	"confirm-dialog": ConfirmDialogPage,
 	"mode-toggle": ModeTogglePage,
 	"responsive-data-view": ResponsiveDataViewPage,

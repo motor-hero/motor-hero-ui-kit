@@ -57,6 +57,8 @@ export type { StatusBadgeVariant } from "./components/status-badge";
 export { StatusBadge } from "./components/status-badge";
 export { StatusDot } from "./components/status-dot";
 export { TableSkeleton } from "./components/table-skeleton";
+export type { TimePickerProps } from "./components/time-picker";
+export { TimePicker } from "./components/time-picker";
 export type {
 	Theme,
 	ThemeProviderProps,

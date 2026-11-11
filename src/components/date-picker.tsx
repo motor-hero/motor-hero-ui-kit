@@ -8,10 +8,21 @@ import { DayPicker, type Matcher } from "react-day-picker"
 import { Drawer as DrawerPrimitive } from "vaul"
 import { useIsDesktop } from "../hooks/use-is-desktop"
 import { cn } from "../lib/utils"
+import {
+  drawerContentClass,
+  drawerHandleClass,
+  drawerOverlayClass,
+  ignoreTriggerInteraction,
+  MASK_REPLACEMENT,
+  pad,
+  popoverContentClass,
+  primaryButtonClass,
+  TIME_MASK,
+  triggerIconButtonClass,
+  triggerInputClass,
+} from "./picker-shared"
 
 const DATE_MASK = "__/__/____"
-const TIME_MASK = "__:__"
-const MASK_REPLACEMENT = { _: /\d/ }
 
 const DATE_FORMAT = "dd/MM/yyyy"
 const TIME_FORMAT = "HH:mm"
@@ -40,10 +51,6 @@ export interface DatePickerProps {
 
 interface DatePickerImplProps extends DatePickerProps {
   withTime?: boolean
-}
-
-function pad(n: number): string {
-  return String(n).padStart(2, "0")
 }
 
 /** Parseia `text` num formato estrito, rejeitando rollover (ex. 31/02 -> 03/03,
@@ -87,9 +94,6 @@ function toMatchers(
   if (disabledDates) matchers.push(disabledDates)
   return matchers
 }
-
-const triggerInputClass =
-  "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive"
 
 const fieldInputClass =
   "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -269,7 +273,7 @@ function DatePickerImpl({
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="absolute right-1 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+        className={triggerIconButtonClass}
       >
         {withTime ? <Clock className="h-4 w-4" /> : <CalendarIcon className="h-4 w-4" />}
       </button>
@@ -311,7 +315,7 @@ function DatePickerImpl({
             type="button"
             disabled={!canApply}
             onClick={() => pendingDate && commitDateTime(pendingDate, pendingTime)}
-            className="mt-3 flex h-9 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+            className={cn(primaryButtonClass, "mt-3 w-full")}
           >
             Aplicar
           </button>
@@ -329,10 +333,8 @@ function DatePickerImpl({
             align="start"
             sideOffset={4}
             onOpenAutoFocus={(event) => event.preventDefault()}
-            onInteractOutside={(event) => {
-              if (triggerRef.current?.contains(event.target as Node)) event.preventDefault()
-            }}
-            className="pointer-events-auto z-50 w-auto overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md"
+            onInteractOutside={ignoreTriggerInteraction(triggerRef)}
+            className={popoverContentClass}
           >
             {content}
           </PopoverPrimitive.Content>
@@ -345,18 +347,16 @@ function DatePickerImpl({
     <DrawerPrimitive.Root open={open} onOpenChange={setOpen}>
       {trigger}
       <DrawerPrimitive.Portal>
-        <DrawerPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80" />
+        <DrawerPrimitive.Overlay className={drawerOverlayClass} />
         <DrawerPrimitive.Content
           onOpenAutoFocus={(event) => event.preventDefault()}
-          onInteractOutside={(event) => {
-            if (triggerRef.current?.contains(event.target as Node)) event.preventDefault()
-          }}
-          className="fixed inset-x-0 bottom-0 z-50 mt-24 flex max-h-[85dvh] flex-col rounded-t-2xl border bg-popover text-popover-foreground outline-none"
+          onInteractOutside={ignoreTriggerInteraction(triggerRef)}
+          className={drawerContentClass}
         >
           <DrawerPrimitive.Title className="sr-only">
             {withTime ? "Selecione a data e o horário" : "Selecione a data"}
           </DrawerPrimitive.Title>
-          <div className="mx-auto my-3 h-1.5 w-12 shrink-0 rounded-full bg-muted" />
+          <div className={drawerHandleClass} />
           <div className="flex justify-center overflow-y-auto pb-4">{content}</div>
         </DrawerPrimitive.Content>
       </DrawerPrimitive.Portal>
